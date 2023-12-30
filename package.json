@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "server":"npx nodemon app.js",
+    "server": "npx nodemon app.js",
     "client": "npm run dev --prefix Client-side",
     "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
@@ -30,6 +30,7 @@
     "fakerator": "^0.3.6",
     "helmet": "^4.1.1",
     "https": "^1.0.0",
+    "is-url": "^1.2.4",
     "joi": "^17.2.1",
     "jquery-parallax.js": "^1.5.0",
     "method-override": "^3.0.0",

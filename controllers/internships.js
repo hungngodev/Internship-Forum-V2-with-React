@@ -1,6 +1,7 @@
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding.js";
 
 import Internship from '../models/internship.js';
+import Review from '../models/review.js';
 import { cloudinary } from "../cloudinary/index.js";
 import searchingForImageAI from '../BING/images.js';
 
@@ -17,7 +18,6 @@ const index = async (req, res) => {
 
 const search = async (req, res) => {
     const query = req.query.q;
-    console.log(req.protocol + '://' + req.get('host') + req.originalUrl)
     const internships = await Internship.find({ $text: { $search: query } })
         .sort({lastModified:1})
         .populate('popupText').populate('reviews');
@@ -41,6 +41,7 @@ const createInternship = async (req, res, next) => {
     internship.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     internship.author = req.user._id;
     internship.lastModified = new Date();
+    internship.link = isUrl(internship.link) ? internship.link : `https://google.com/search?q=${internship.company}+${internship.location}`;
     if (req.body.generate == "yes") {
         let AI = await searchingForImageAI(internship.company, internship.location);
         internship.imagesURL.push(...AI);
@@ -79,11 +80,11 @@ const renderEditForm = async (req, res) => {
 const updateInternship = async (req, res) => {
     const { id } = req.params;
     const internship = await Internship.findByIdAndUpdate(id, { ...req.body.internship });
+    internship.link = isUrl(internship.link) ? internship.link : `https://google.com/search?q=${internship.company}+${internship.location}`;
     internship.lastModified = new Date();
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     internship.images.push(...imgs);
     await internship.save();
-    console.log(req.body.deleteImages)
     if (req.body.deleteImages) {
         for (let filename of req.body.deleteImages) {
             await cloudinary.uploader.destroy(filename);
@@ -96,6 +97,7 @@ const updateInternship = async (req, res) => {
     req.flash('success', 'Successfully updated internship!');
     res.redirect(`/internships/${internship._id}`)
 }
+
 
 const deleteInternship = async (req, res) => {
     const { id } = req.params;
@@ -113,6 +115,9 @@ const deleteInternship = async (req, res) => {
     //     await Review.findByIdAndDelete(review._id);
     // }
     const internship = await Internship.findById(id);
+    for (let review of internship.reviews) {
+        await Review.findByIdAndDelete(review._id);
+    }
     const images = internship.images.map(i => i.filename);
     console.log(images)
     for (let filename of images) {  
