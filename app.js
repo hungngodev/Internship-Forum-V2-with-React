@@ -106,10 +106,10 @@ app.use((req, res, next) => {
 })
 
 
-app.use('/', userRoutes);
-app.use('/internships', internshipRoutes)
-app.use('/internships/:id/reviews', reviewRoutes)
-app.use('/statistics', statisticsRoutes)
+app.use('/api', userRoutes);
+app.use('/api/internships', internshipRoutes)
+app.use('/api/internships/:id/reviews', reviewRoutes)
+app.use('/api/statistics', statisticsRoutes)
 
 
 app.get('/', (req, res) => {
