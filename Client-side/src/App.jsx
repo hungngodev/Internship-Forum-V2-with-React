@@ -13,11 +13,13 @@ import {
   AddInternship,
   AllInternships,
   EditInternship,
+  Setting,
   Error,
 } from './pages';
 
+import {loader as HomeLayoutLoader} from './pages/HomeLayout';
 // import { action as registerAction } from './pages/Register';
-// import { action as loginAction } from './pages/Login';
+import { action as loginAction } from './pages/Login';
 // import { loader as internshipLoader } from './pages/IntershipLayout';
 // import { action as addInternshipAction } from './pages/AddInternship';
 // import { loader as allInternshipsLoader } from './pages/AllInternships';
@@ -38,60 +40,62 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <HomeLayout />,
+    path: '',
+    element: <HomeLayout queryClient={queryClient} />,
+    loader: HomeLayoutLoader(queryClient),
     errorElement: <Error />,
     children: [
       {
         index: true,
         element: <Landing />,
       },
-      // {
-      //   path: 'register',
-      //   element: <Register />,
-      //   action: registerAction,
-      // },
-      // {
-      //   path: 'login',
-      //   element: <Login />,
-      //   action: loginAction(queryClient),
-      // },
-      // {
-      //   path: 'profile/:id',
-      //   element: <Profile />,
-      //   action: profileAction(queryClient),
-      // },
-      // {
-      //   path: 'statistics',
-      //   element: <Stats />,
-      //   loader: statsLoader(queryClient),
-      //   errorElement: <ErrorElement />,
-      // },
-      // {
-      //   path: 'interships',
-      //   element: <InternshipLayout queryClient={queryClient} />,
-      //   loader: internshipLoader(queryClient),
-      //   children: [
-      //     {
-      //       index: true,
-      //       element: <AddInternship />,
-      //       action: addInternshipAction(queryClient),
-      //     },
-      //     {
-      //       path: 'internships',
-      //       element: <AllInternships />,
-      //       loader: allInternshipsLoader(queryClient),
-      //       errorElement: <ErrorElement />,
-      //     },
-      //     {
-      //       path: ':id/edit',
-      //       element: <EditInternship />,
-      //       loader: editInternshipLoader(queryClient),
-      //       action: editInternshipAction(queryClient),
-      //     },
-      //     // { path: 'delete-job/:id', action: deleteJobAction(queryClient) },
-      //   ],
-      // },
+      {
+        path: 'register',
+        element: <Register />,
+
+      },
+      {
+        path: 'login',
+        element: <Login />,
+        action: loginAction(queryClient),
+      },
+      {
+        path: 'profile/:id',
+        element: <Profile />,
+        
+      },
+      {
+        path: 'setting/:id',
+        element: <Setting/>,
+        
+      },
+      {
+        path: 'statistics',
+        element: <Stats />,
+    
+
+      },
+      {
+        path: 'internships',
+        element: <InternshipLayout/>,
+        children: [
+          {
+            index: true,
+            element: <AllInternships />,
+          },
+          {
+            path: 'new',
+            element: <AddInternship />,
+
+          },
+          {
+            path: ':id/edit',
+            element: <EditInternship />,
+
+          },
+          // { path: 'delete-job/:id', action: deleteJobAction(queryClient) },
+        ],
+      },
     ],
   },
 ]);
@@ -99,9 +103,9 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <RouterProvider router={router} />
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
   );
 };
 export default App;

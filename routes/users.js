@@ -4,7 +4,7 @@ import passport from 'passport';
 import catchAsync from '../utils/catchAsync.js';
 import User from '../models/user.js';
 import users from '../controllers/users.js';
-import { validateSearch } from '../middleware.js';
+import { validateSearch ,validateLogIn} from '../middleware.js';
 
 
 userRoutes.route('/register')
@@ -13,7 +13,7 @@ userRoutes.route('/register')
 
 userRoutes.route('/login')
     .get(users.renderLogin)
-    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login)
+    .post(validateLogIn,(req,res,next)=>{console.log("h2"); next()},passport.authenticate('local', { failureFlash: true, successFlash: true, failureRedirect: '/login' }),(req,res,next)=>{console.log("h3"); next()}, users.login)
 
 userRoutes.get('/logout', users.logout)
 

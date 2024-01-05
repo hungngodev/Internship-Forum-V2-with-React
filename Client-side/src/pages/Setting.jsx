@@ -1,7 +1,6 @@
-
 const AllInternship = ()=>{
     return (
-        <h1>jhahahahhahaha
+        <h1>setting
 
         </h1>
     )

@@ -10,6 +10,7 @@ const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 const index = async (req, res) => {
+    
     const internships = await Internship.find({}).sort({lastModified:-1}).populate('popupText').populate('reviews');
     res.render('internships/index', { data: { internships: internships, mapBoxToken:mapBoxToken} })
 

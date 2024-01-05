@@ -21,10 +21,14 @@ import { useEffect, useState } from "react";
 
 import customFetch from "../utils/customFetch";
 import { LogInSchema } from "../../../schemas.js";
-import { SubmitButton } from "../components";
-import { useHomeLayoutContext } from "./HomeLayout";
-
-import "./Login.css";
+import { useHomeLayoutContext } from "../pages/HomeLayout";
+import {
+  SubmitButton,
+  TextInput,
+  FormIcon,
+  FormNavLink,
+  FormHeader,
+} from "./FormComponents";
 
 export const action =
   (queryClient) =>
@@ -54,7 +58,7 @@ const LogInConfig = {
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+const CustomForm = () => {
   const { BodyConfig, changeBodyConfig } = useHomeLayoutContext();
   useEffect(() => {
     changeBodyConfig({ ...LogInConfig });
@@ -92,15 +96,19 @@ export default function Login() {
   };
 
   useEffect(() => {
-    console.log("hi");
     console.log(formData);
     const { error } = LogInSchema.validate(formData);
     let errorData = {};
     let first = false;
-    console.log(error.details);
-    error.details.forEach((err) => {
-        errorData[err.context.key] = err.message;
-    });
+    if (error) {
+      error.details.forEach((err) => {
+        if (!firstTime[err.context.key]) {
+          errorData[err.context.key] = err.message;
+        } else {
+          first = true;
+        }
+      });
+    }
     console.log(errorData);
     setErrors(errorData);
     if (Object.keys(errorData).length != 0 || first == true) {
@@ -122,83 +130,28 @@ export default function Login() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
+          <FormIcon Icon={<LockOutlinedIcon />} />
+          <FormHeader title="Sign in" />
           <Form method="post">
-            {errors.username ? (
-              <TextField
-                error
-                helperText={errors.username}
-                margin="normal"
-                required
-                fullWidth
-                id="Username"
-                label="Username"
-                name="username"
-                autoComplete="Username"
-                value={formData.username}
-                onChange={handleSave}
-                autoFocus
-              />
-            ) : (
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="Username"
-                label="Username"
-                name="username"
-                autoComplete="Username"
-                value={formData.username}
-                onChange={handleSave}
-                autoFocus
-              />
-            )}
-
-            {errors.password ? (
-              <TextField
-                error
-                helperText={errors.password}
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                value={formData.password}
-                onChange={handleSave}
-                autoComplete="current-password"
-              />
-            ) : (
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                value={formData.password}
-                onChange={handleSave}
-                autoComplete="current-password"
-              />
-            )}
+            <TextInput
+              errors={errors.username}
+              name="username"
+              data={formData.username}
+              handleSave={handleSave}
+            />
+            <TextInput
+              errors={errors.password}
+              name="password"
+              data={formData.password}
+              handleSave={handleSave}
+            />
             <SubmitButton handleSubmit={validateForm} />
-            <Grid container>
-              <Grid item>
-                <NavLink to="../register">
-                  Don't have an account? Sign Up
-                </NavLink>
-              </Grid>
-            </Grid>
+            <FormNavLink link={""} message={""} />
           </Form>
         </Box>
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default CustomForm;
