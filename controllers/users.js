@@ -18,6 +18,7 @@ const register = async (req, res, next) => {
         })
     } catch (e) {
         req.flash('error', e.message);
+        console.log('here')
         res.redirect('register');
     }
 }
@@ -29,17 +30,16 @@ const renderLogin = (req, res) => {
 }
 
 const login = (req, res) => {
-    req.flash('success', `Welcome back ${req.user.username}!!!`);
-    const redirectUrl = req.session.returnTo || '/internships';
-    delete req.session.returnTo;
+    const redirectUrl = req.session.returnTo ;
+    const username= req.user.username;
+    console.log('hi')
     res.redirect(redirectUrl);
 }
 
 const logout = (req, res) => {
-    req.logout();
-    // req.session.destroy();
-    req.flash('success', "Goodbye!");
-    res.redirect('/internships');
+
+        req.logout();
+        res.send("You are now logged out!");
 }
 
 const index = async (req, res) => {

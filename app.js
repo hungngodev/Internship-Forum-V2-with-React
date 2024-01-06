@@ -102,9 +102,23 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
-    next();
+    if (res.locals.error.length != 0 ){
+        throw new ExpressError(res.locals.error, 404);
+    }
+    else{
+        next();
+    }
 })
 
+app.use('/', userRoutes);
+app.use('/internships', internshipRoutes)
+app.use('/internships/:id/reviews', reviewRoutes)
+app.use('/statistics', statisticsRoutes)
+
+
+app.get('/', (req, res) => {
+    res.render('home');
+});
 
 app.use('/api', userRoutes);
 app.use('/api/internships', internshipRoutes)
@@ -112,10 +126,15 @@ app.use('/api/internships/:id/reviews', reviewRoutes)
 app.use('/api/statistics', statisticsRoutes)
 
 
-app.get('/', (req, res) => {
-    res.render('home')
+app.get('/api', (req, res) => {
+    const user = req.user;
+    res.send(user);
 });
 
+app.post('/testing', (req, res) => {
+    console.log(req.body)
+    res.json(req.body);
+})
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
@@ -123,8 +142,8 @@ app.all('*', (req, res, next) => {
 
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
-    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-    res.status(statusCode).render('error', { err })
+    const msg = err.message || 'something went wrong, try again later';
+    res.status(statusCode).json({messageError:msg})
 })
 
 const port = process.env.PORT || 3000;

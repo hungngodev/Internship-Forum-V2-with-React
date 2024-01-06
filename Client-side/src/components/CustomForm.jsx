@@ -21,17 +21,14 @@ import { useEffect, useState } from "react";
 
 import customFetch from "../utils/customFetch";
 import { LogInSchema } from "../../../schemas.js";
-import { useHomeLayoutContext } from "./HomeLayout";
+import { useHomeLayoutContext } from "../pages/HomeLayout";
 import {
   SubmitButton,
   TextInput,
   FormIcon,
   FormNavLink,
   FormHeader,
-  FormWrapper
-} from "../components/FormComponents";
-
-import "./Login.css";
+} from "./FormComponents";
 
 export const action =
   (queryClient) =>
@@ -61,7 +58,7 @@ const LogInConfig = {
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+const CustomForm = () => {
   const { BodyConfig, changeBodyConfig } = useHomeLayoutContext();
   useEffect(() => {
     changeBodyConfig({ ...LogInConfig });
@@ -99,17 +96,15 @@ export default function Login() {
   };
 
   useEffect(() => {
-    const { error } = LogInSchema.validate(formData, {abortEarly: false});
-
+    console.log(formData);
+    const { error } = LogInSchema.validate(formData);
     let errorData = {};
     let first = false;
     if (error) {
-      console.log(error.details);
       error.details.forEach((err) => {
         if (!firstTime[err.context.key]) {
           errorData[err.context.key] = err.message;
-        }
-        else {
+        } else {
           first = true;
         }
       });
@@ -124,23 +119,39 @@ export default function Login() {
   }, [formData]);
 
   return (
-     < FormWrapper form = {
-      <>
-      <FormIcon  Icon = {<LockOutlinedIcon/> }/>
-      <FormHeader title="Sign in" />
-      <Form method="post">
-        <TextInput name="username" errors={errors.username} data = {formData.username} handleSave={handleSave} />
-        <TextInput name="password" errors={errors.password} data = {formData.password} handleSave={handleSave} />
-        <SubmitButton handleSubmit={validateForm} />
-        <Grid container>
-          <Grid item>
-            <NavLink to="../register">
-              Don't have an account? Sign Up
-            </NavLink>
-          </Grid>
-        </Grid>
-      </Form>
-      </>
-     } theme ={defaultTheme}/>
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <FormIcon Icon={<LockOutlinedIcon />} />
+          <FormHeader title="Sign in" />
+          <Form method="post">
+            <TextInput
+              errors={errors.username}
+              name="username"
+              data={formData.username}
+              handleSave={handleSave}
+            />
+            <TextInput
+              errors={errors.password}
+              name="password"
+              data={formData.password}
+              handleSave={handleSave}
+            />
+            <SubmitButton handleSubmit={validateForm} />
+            <FormNavLink link={""} message={""} />
+          </Form>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
-}
+};
+
+export default CustomForm;

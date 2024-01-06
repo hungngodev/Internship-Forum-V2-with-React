@@ -48,4 +48,8 @@ let reviewSchema = Joi.object({
         body: Joi.string().required().escapeHTML()
     }).required()
 })
-export { searchSchema, internshipSchema, reviewSchema };
+let LogInSchema = Joi.object({
+    username: Joi.string().escapeHTML(),
+    password: Joi.string().min(10).required().escapeHTML(),
+})
+export { searchSchema, internshipSchema, reviewSchema,LogInSchema};
