@@ -1,5 +1,6 @@
 import User from '../models/user.js';
 import Internship from '../models/internship.js';
+import ExpressError from '../utils/ExpressError.js';
 
 
 const renderRegister = (req, res) => {
@@ -13,13 +14,10 @@ const register = async (req, res, next) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-            req.flash('success', 'Welcome to Internship Forum!');
-            res.redirect('/internships');
+            res.json({username: username})
         })
     } catch (e) {
-        req.flash('error', e.message);
-        console.log('here')
-        res.redirect('register');
+        throw new ExpressError(e.message, 400);
     }
 }
 
@@ -32,14 +30,12 @@ const renderLogin = (req, res) => {
 const login = (req, res) => {
     const redirectUrl = req.session.returnTo ;
     const username= req.user.username;
-    console.log('hi')
-    res.redirect(redirectUrl);
+    res.json({redirectUrl:redirectUrl,username:username});
 }
 
 const logout = (req, res) => {
-
-        req.logout();
-        res.send("You are now logged out!");
+    req.logout();
+    res.send("You are now logged out!");
 }
 
 const index = async (req, res) => {

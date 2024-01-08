@@ -1,31 +1,17 @@
 import { NavLink } from "react-router-dom";
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useHomeLayoutContext } from "./HomeLayout";
-import "./Landing.css";
 import { useEffect } from "react";
 
-const LandingBodyConfig={
-  height: '100%',
-  backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)), url("https://images.unsplash.com/photo-1476445704028-a36e0c798192?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  textShadow: '0 0.05rem 0.1rem rgba(0, 0, 0, 0.5)',
-  boxShadow: 'inset 0 0 5rem rgba(0, 0, 0, 0.5)',
-  overflowX: 'hidden',
-  overflowY: 'hidden',
-};
+import { useHomeLayoutContext } from "./HomeLayout";
+import resetBodyStyle from "../utils/resetBodyStyle.js";
+import Wrapper from "../css/Landing.js";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const Landing = () => {
-  const {BodyConfig, changeBodyConfig} = useHomeLayoutContext();
-  useEffect(() => {
-    changeBodyConfig({...LandingBodyConfig});
-  }, []);
-  for (let e in BodyConfig){
-    document.body.style[e]=BodyConfig[e];
-  }
+
   return (
-    <>
+    <Wrapper>
       <div className="d-flex text-center text-white flex-column align-items-center justify-content-end">
         <div className="my-5 title">
           <h1 className="Title">Internship Forum</h1>
@@ -70,9 +56,8 @@ const Landing = () => {
             </div>
           </NavLink>
         </main>
-
       </div>
-    </>
+    </Wrapper>
   );
 };
 

@@ -19,7 +19,7 @@ const HorizontalMenu = ({
   mobileMoreAnchorEl,
   setMobileMoreAnchorEl,
 }) => {
-  const { user, logOutUser } = useHomeLayoutContext();
+  const {datauser, user, logOutUser } = useHomeLayoutContext();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -58,10 +58,10 @@ const HorizontalMenu = ({
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <NavLink to= {`profile/${user._id}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
+      <NavLink to= {`profile/${datauser? datauser._id : ''}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       </NavLink>
-      <NavLink  to= {`setting/${user._id}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
+      <NavLink  to= {`setting/${datauser? datauser._id: ''}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </NavLink>
     </Menu>
@@ -139,7 +139,7 @@ const HorizontalMenu = ({
   );
   return (
     <>
-      <Box sx={{ display: { xs: "none", md: "flex" } }}>{MenuComponent}</Box>
+      <Box sx= {{display:'flex', justifyContent: 'end'}} >{MenuComponent}</Box>
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <IconButton
           size="large"

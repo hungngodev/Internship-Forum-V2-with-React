@@ -49,7 +49,25 @@ let reviewSchema = Joi.object({
     }).required()
 })
 let LogInSchema = Joi.object({
-    username: Joi.string().escapeHTML(),
-    password: Joi.string().min(10).required().escapeHTML(),
+    username: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .required().escapeHTML(),
+    password: Joi.string().min(3).max(20).required().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).message({"string.pattern.base": ' \"password\"doesn\'t allow special characters, spaces, or symbols other than letters and numbers',
+    "string.min":"minimum 10 character required",
+    "string.max":"maximum 20 characters allowed"}).escapeHTML(),
 })
-export { searchSchema, internshipSchema, reviewSchema,LogInSchema};
+let RegisterSchema =Joi.object({
+    username: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .required().escapeHTML(),
+    email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required().escapeHTML(),
+    password: Joi.string().min(5).max(20).required().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).message({"string.pattern.base": ' \"password\"doesn\'t allow special characters, spaces, or symbols other than letters and numbers',
+    "string.min":"minimum 10 character required",
+    "string.max":"maximum 20 characters allowed"}).escapeHTML(),
+})
+export { searchSchema, internshipSchema, reviewSchema, LogInSchema, RegisterSchema };
+ 

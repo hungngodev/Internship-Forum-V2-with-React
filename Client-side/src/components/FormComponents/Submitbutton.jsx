@@ -1,7 +1,7 @@
 import { useNavigation } from "react-router-dom";
 import Button from "@mui/material/Button";
 
-const SubmitBtn = ({ formBtn,handleSubmit }) => {
+const SubmitBtn = ({ handleSubmit,text}) => {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   return (
@@ -13,7 +13,7 @@ const SubmitBtn = ({ formBtn,handleSubmit }) => {
       sx={{ mt: 3, mb: 2 }}
       disabled={isSubmitting}
     >
-      {isSubmitting ? "Signing In" : "Sign In"}
+      {isSubmitting ? "Loading" : text}
     </Button>
   );
 };

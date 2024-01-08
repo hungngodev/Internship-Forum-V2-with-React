@@ -18,11 +18,11 @@ import {
 } from './pages';
 
 import {loader as HomeLayoutLoader} from './pages/HomeLayout';
-// import { action as registerAction } from './pages/Register';
+import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
 // import { loader as internshipLoader } from './pages/IntershipLayout';
 // import { action as addInternshipAction } from './pages/AddInternship';
-// import { loader as allInternshipsLoader } from './pages/AllInternships';
+import { loader as allInternshipsLoader } from './pages/AllInternships';
 // import { loader as editInternshipLoader } from './pages/EditInternship';
 // import { action as editInternshipAction } from './pages/EditInternship';
 // import { action as deleteInternshipAction } from './pages/DeleteInternship';
@@ -42,7 +42,6 @@ const router = createBrowserRouter([
   {
     path: '',
     element: <HomeLayout queryClient={queryClient} />,
-    loader: HomeLayoutLoader(queryClient),
     errorElement: <Error />,
     children: [
       {
@@ -52,6 +51,7 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />,
+        action: registerAction(queryClient),
 
       },
       {
@@ -80,8 +80,9 @@ const router = createBrowserRouter([
         element: <InternshipLayout/>,
         children: [
           {
-            index: true,
+            path:'',
             element: <AllInternships />,
+            loader: allInternshipsLoader(queryClient),
           },
           {
             path: 'new',

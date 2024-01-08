@@ -98,18 +98,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    if (res.locals.error.length != 0 ){
-        throw new ExpressError(res.locals.error, 404);
-    }
-    else{
-        next();
-    }
-})
-
 app.use('/', userRoutes);
 app.use('/internships', internshipRoutes)
 app.use('/internships/:id/reviews', reviewRoutes)
@@ -128,7 +116,7 @@ app.use('/api/statistics', statisticsRoutes)
 
 app.get('/api', (req, res) => {
     const user = req.user;
-    res.send(user);
+    res.json(user);
 });
 
 app.post('/testing', (req, res) => {
@@ -141,9 +129,12 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    const { statusCode = 500 } = err;
+    const statusCode = err.statusCode || 500;
     const msg = err.message || 'something went wrong, try again later';
-    res.status(statusCode).json({messageError:msg})
+    console.log("LogOutRoute")
+    console.log(err)
+    console.log(msg)
+    res.status(statusCode).json({ messageError: msg });
 })
 
 const port = process.env.PORT || 3000;

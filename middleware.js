@@ -1,4 +1,4 @@
-import { internshipSchema, reviewSchema, searchSchema,LogInSchema } from './schemas.js';
+import { internshipSchema, reviewSchema, searchSchema,LogInSchema, RegisterSchema } from './schemas.js';
 import  ExpressError from './utils/ExpressError.js';
 import Internship from './models/internship.js';
 import Review from './models/review.js';
@@ -13,6 +13,16 @@ const validateLogIn = (req, res, next) => {
     }
 
 }
+ 
+const validateRegister = (req, res, next) => {
+    const { error } = RegisterSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}   
 const isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl
@@ -70,4 +80,4 @@ const validateReview = (req, res, next) => {
         next();
     }
 }
-export { isLoggedIn, validateInternship, isAuthor, validateReview, isReviewAuthor, validateSearch ,validateLogIn};
+export { isLoggedIn, validateInternship, isAuthor, validateReview, isReviewAuthor, validateSearch ,validateLogIn,validateRegister};

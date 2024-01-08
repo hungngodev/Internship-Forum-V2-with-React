@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const FormNavLink = ({ link, message }) => {
-  return <NavLink to={link}>{message}</NavLink>;
+const FormNavLink = ({ link, text }) => {
+  return <NavLink to={link}>{text}</NavLink>;
 };
 export default FormNavLink;

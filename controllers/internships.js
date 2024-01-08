@@ -6,13 +6,42 @@ import { cloudinary } from "../cloudinary/index.js";
 import searchingForImageAI from '../BING/images.js';
 
 
+
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 const index = async (req, res) => {
-    
-    const internships = await Internship.find({}).sort({lastModified:-1}).populate('popupText').populate('reviews');
-    res.render('internships/index', { data: { internships: internships, mapBoxToken:mapBoxToken} })
+    console.log(req.query)
+    let { search, sort, option ,order} = req.query;
+    search = search ? search : "";
+    const queryObject = {}
+    if (search) {
+        // queryObject.$text = {$search: search}
+        if (option==="true") {
+            queryObject.$text = { $search: search }
+        }
+        else {
+            queryObject.$or = [
+                { company: { $regex: search, $options: 'i' } },
+                { location: { $regex: search, $options: 'i' } },
+                { area: { $regex: search, $options: 'i' } },
+                { title: { $regex: search, $options: 'i' } }
+            ]
+        }
+    }
+    const sortObject= {}
+    if (option==='true') {sortObject.score = { $meta: "textScore" }}
+    if (sort) {
+        if (sort == "lastModified") {sortObject.lastModified = order}
+        else if (sort == "salary") {sortObject.salary = order}
+        else if (sort == "rating") {sortObject.rating = order}
+    }
+
+    const internships = await Internship.find(queryObject)
+        .sort(sortObject)
+        .populate('popupText').populate('reviews');
+    let message = internships.length > 0 ? `Search results for "${search}"` : `No results for "${search}"`;
+    res.json({ internships: internships, mapBoxToken: mapBoxToken })
 
 }
 
@@ -20,10 +49,10 @@ const index = async (req, res) => {
 const search = async (req, res) => {
     const query = req.query.q;
     const internships = await Internship.find({ $text: { $search: query } })
-        .sort({lastModified:1})
+        .sort({ lastModified: 1 })
         .populate('popupText').populate('reviews');
-    let message = internships.length>0?`Search results for "${query}"`:`No results for "${query}"`;
-    res.render('internships/index', { data: { internships: internships ,message:message,mapBoxToken:mapBoxToken} })
+    let message = internships.length > 0 ? `Search results for "${query}"` : `No results for "${query}"`;
+    res.render('internships/index', { data: { internships: internships, message: message, mapBoxToken: mapBoxToken } })
 
 }
 
@@ -121,7 +150,7 @@ const deleteInternship = async (req, res) => {
     }
     const images = internship.images.map(i => i.filename);
     console.log(images)
-    for (let filename of images) {  
+    for (let filename of images) {
         await cloudinary.uploader.destroy(filename);
     }
     await Internship.findByIdAndDelete(id);
@@ -136,5 +165,6 @@ const internships = {
     showInternship,
     renderEditForm,
     updateInternship,
-    deleteInternship}
+    deleteInternship
+}
 export default internships;
