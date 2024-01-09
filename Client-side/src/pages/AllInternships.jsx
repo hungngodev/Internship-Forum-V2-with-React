@@ -4,10 +4,11 @@ import { useLoaderData } from "react-router-dom";
 import { useContext, createContext, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { InternshipContainer } from "../components";
+import { InternshipContainer,ClusterMap } from "../components";
 import { resetBodyStyle } from "../utils";
 import { useHomeLayoutContext } from "./HomeLayout";
 import { SearchBox } from "../components/FormComponents";
+import Wrapper from "../css/AllInternships.js";
 
 const allInternshipsQuery = (params) => {
   let search = "";
@@ -53,6 +54,9 @@ const AllInternships = () => {
   return (
     <AllInternshipsContext.Provider value={{ internshipData, searchValues }}>
       <h1>{datauser ? datauser.username : "not defined"}</h1>
+        <Wrapper>
+            <ClusterMap internship={internshipData? internshipData.internships :[]}token = {internshipData? internshipData.token: ''}/>
+        </Wrapper>
       <SearchBox />
       <InternshipContainer />
     </AllInternshipsContext.Provider>
@@ -60,5 +64,4 @@ const AllInternships = () => {
 };
 
 export const useAllInternshipsContext = () => useContext(AllInternshipsContext);
-
-export default AllInternships;
+export default AllInternships

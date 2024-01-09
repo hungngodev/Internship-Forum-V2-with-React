@@ -14,6 +14,7 @@ const FormSelect = ({label,name,options, defaultValue,onChange,submit}) => {
       <InputLabel htmlFor={`selectLabelFor${name}`}>{label}</InputLabel>
       <Select
         native
+        fullWidth
         defaultValue={defaultValue}
         id={`selectLabelFor${name}`}
         label="option"

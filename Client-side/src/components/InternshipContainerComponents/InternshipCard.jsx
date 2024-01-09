@@ -92,7 +92,7 @@ const InternshipCard = ({
             <InternshipInfo
               icon={<AttachMoneySharpIcon />}
               variant="overline"
-              text={salaryDisplay}
+              text={salaryDisplay + "/h"}
             />
             <InternshipInfo
               icon={<ScheduleSharpIcon />}

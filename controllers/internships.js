@@ -5,8 +5,6 @@ import Review from '../models/review.js';
 import { cloudinary } from "../cloudinary/index.js";
 import searchingForImageAI from '../BING/images.js';
 
-
-
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
@@ -29,19 +27,10 @@ const index = async (req, res) => {
             ]
         }
     }
-    const sortObject= {}
-    if (option==='true') {sortObject.score = { $meta: "textScore" }}
-    if (sort) {
-        if (sort == "lastModified") {sortObject.lastModified = order}
-        else if (sort == "salary") {sortObject.salary = order}
-        else if (sort == "rating") {sortObject.rating = order}
-    }
-
-    const internships = await Internship.find(queryObject)
-        .sort(sortObject)
-        .populate('popupText').populate('reviews');
+    const internships = await Internship.find(queryObject).populate('popupText').populate('reviews');
+    sortFunction(internships,sort,order);
     let message = internships.length > 0 ? `Search results for "${search}"` : `No results for "${search}"`;
-    res.json({ internships: internships, mapBoxToken: mapBoxToken })
+    res.json({ internships: internships,token: mapBoxToken })
 
 }
 
@@ -168,3 +157,63 @@ const internships = {
     deleteInternship
 }
 export default internships;
+
+function sortFunction(object,sort,order){
+    function calculateDistance(geo1, geo2) {
+        const R = 6371; // Radius of the Earth in kilometers
+        const [lat1, lon1] = geo1;
+        const [lat2, lon2] = geo2;
+      
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * (Math.PI / 180)) *
+            Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c; // Distance in kilometers
+        return distance;
+      }
+      
+      // Function to sort locations by distance from a given geolocation (ascending or descending)
+      function sortLocationsByDistance(locations, givenGeolocation, order = 'asc') {
+        locations.sort((a, b) => {
+          const distanceA = calculateDistance(givenGeolocation, a.geolocation);
+          const distanceB = calculateDistance(givenGeolocation, b.geolocation);
+          if (order === 'asc') {
+            return distanceA - distanceB;
+          } else if (order === 'desc') {
+            return distanceB - distanceA;
+          } else {
+            throw new Error('Invalid order. Please use "asc" or "desc".');
+          }
+        });
+      }
+
+      function calculateAverageRating(reviews) {
+        const totalRatings = reviews.reduce((sum, review) => sum + review.rating, 0);
+        return totalRatings / reviews.length;
+      }
+      
+      // Function to sort the array of objects based on the average rating (ascending or descending)
+      function sortDataByAverageRating(data, order = 'asc') {
+        data.sort((a, b) => {
+          const averageRatingA = calculateAverageRating(a.reviews);
+          const averageRatingB = calculateAverageRating(b.reviews);
+          if (order === 'asc') {
+            return averageRatingA - averageRatingB;
+          } else if (order === 'desc') {
+            return averageRatingB - averageRatingA;
+          } else {
+            throw new Error('Invalid order. Please use "asc" or "desc".');
+          }
+        });
+      }
+      let order2= order==="asc"?1:-1;
+      if (sort==="lastModified") {object.sort((a,b)=>order2*(a.lastModified-b.lastModified))}
+      if (sort==="salary") {object.sort((a,b)=>order2*(a.salary-b.salary))}
+      if (sort ==="location") {sortLocationsByDistance(object, [39.8333, -98.5855],order)}
+      if (sort==="rating") {sortDataByAverageRating(object,order)}
+}

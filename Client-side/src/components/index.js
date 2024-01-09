@@ -3,3 +3,4 @@ export {default as Footer} from './Footer';
 export {default as CustomForm} from './CustomForm';
 export {default as Theme} from './Palette';
 export {default as InternshipContainer} from './InternshipContainer';
+export {default as ClusterMap} from './ClusterMap';

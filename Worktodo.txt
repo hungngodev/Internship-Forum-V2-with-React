@@ -2,3 +2,9 @@ create account route
 parallax image effect,
 hover effect
 pagination
+title for search result
+THE MAPBOX TOKEKEKENENNE
+loading effect
+https://mui.com/material-ui/react-progress/
+adding spidifier 
+current location sorting
