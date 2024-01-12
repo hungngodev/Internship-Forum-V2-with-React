@@ -4,6 +4,11 @@ const Wrapper = styled.section`
 html {
 	font-size: 20px;
 }
+.body2{
+  height: 100vh;
+  width: 100vw;
+  backgroudn-color: #000;
+}
 
 .Title {
   font-family: "Permanent Marker", cursive;

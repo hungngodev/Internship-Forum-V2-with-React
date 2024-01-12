@@ -1,12 +1,17 @@
-import e from 'connect-flash';
 
 import Internship from '../models/internship.js';
 import Review from '../models/review.js';
-
+import {
+    ReasonPhrases,
+    StatusCodes,
+    getReasonPhrase,
+    getStatusCode,
+} from 'http-status-codes';
+import user from '../models/user.js';
 
 const createReview = async (req, res) => {
     const internship = await Internship.findById(req.params.id);
-    const review = new Review(req.body.review);
+    const review = new Review(req.body);
     // const user = User.findById(req.user._id);
     review.author = req.user._id;
     // user.reviews.push(review);
@@ -14,21 +19,20 @@ const createReview = async (req, res) => {
     // await user.save();
     await review.save();
     await internship.save();
-    req.flash('success', 'Created new review!');
-    res.redirect(`/internships/${internship._id}`);
+    // req.flash('success', 'Created new review!');
+    // res.redirect(`/internships/${internship._id}`);
+    res.status(StatusCodes.OK).json({ internship: internship });
 }
 
 const deleteReview = async (req, res) => {
     const { id, reviewId } = req.params;
-    // const review= Review.findById(reviewId);
-    // const author = User.findById(review.author._id);
+    console.log(id, reviewId)
     await Internship.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    // await author.updateOne({ $pull: { reviews: review._id } });
     await Review.findByIdAndDelete(reviewId);
-    req.flash('success', 'Successfully deleted review')
-    res.redirect(`/internships/${id}`);
+    res.status(StatusCodes.OK).json({ msg: "Deleted" });
 }
 const reviews = {
     createReview,
-    deleteReview}
+    deleteReview
+}
 export default reviews;

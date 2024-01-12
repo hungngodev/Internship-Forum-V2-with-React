@@ -8,3 +8,7 @@ loading effect
 https://mui.com/material-ui/react-progress/
 adding spidifier 
 current location sorting
+fixing the env 
+create Hovereffect for image
+queryClient
+toast customization

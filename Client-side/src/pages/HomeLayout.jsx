@@ -1,32 +1,27 @@
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   Outlet,
   redirect,
-  useNavigate,
-  useNavigation,
   useLocation,
+  useNavigate
 } from "react-router-dom";
-import { createContext, useContext, useEffect, useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { useQuery } from "@tanstack/react-query";
-import Button from "@mui/material/Button";
+import "react-toastify/dist/ReactToastify.css";
 
 import NavBar from "../components/NavBar.jsx";
 
-import customFetch from "../utils/customFetch";
 import { resetBodyStyle, titleObject } from "../utils";
+import customFetch from "../utils/customFetch";
 
 import "./HomeLayout.css";
-import { set } from "mongoose";
 
-const userQuery = (user) => {
-  return {
-    queryKey: [user],
+const userQuery = {
+    queryKey: ["user"],
     queryFn: async () => {
       const { data } = await customFetch.get("/");
       return data;
     },
-  };
 };
 
 export const loader = (queryClient) => async () => {
@@ -41,36 +36,25 @@ const HomeLayoutContext = createContext();
 
 const HomeLayout = ({ queryClient }) => {
 
+  const datauser = useQuery(userQuery).data;
   const navigate = useNavigate();
   const location = useLocation();
   const [Title, changeTitle] = useState("Home Page");
-  const [datauser, setDatauser] = useState(useQuery(userQuery('user')).data);
-
   const [isAuthError, setIsAuthError] = useState(false);
-  const [user, setUser] = useState(datauser ? true : false);
-
-  const gettingUserData = async () => {
-    const { data } = await customFetch.get('/');
-    if (data?.hasOwnProperty('username')) {
-      setDatauser(data);
-      setUser(true);
-    }
-    else{
-      setDatauser(null);
-    }
-  }
+  
+  const user = datauser? true : false;
 
   useEffect(() => {
-    gettingUserData();
-    resetBodyStyle(location.pathname);
-    changeTitle(titleObject[location.pathname]);
+    let path = location.pathname.includes("profile")? '/profile': location.pathname;
+    path = path.includes("internships/")? '/internships/': path;
+    resetBodyStyle(path);
+    changeTitle(titleObject[path]);
   }, [location]);
 
   const logOutUser = async () => {
     try {
       await customFetch.get("/logout");
-      setUser(false);
-      gettingUserData();
+      queryClient.invalidateQueries();
       navigate("/internships");
       toast.success("Logged out successfully");
     } catch (error) {
@@ -92,7 +76,7 @@ const HomeLayout = ({ queryClient }) => {
 
   useEffect(() => {
     if (!isAuthError) return;
-    logoutUser();
+    logOutUser();
   }, [isAuthError]);
 
   return (
@@ -100,7 +84,6 @@ const HomeLayout = ({ queryClient }) => {
       value={{
         datauser,
         user,
-        setUser,
         logOutUser,
         Title,
         changeTitle,

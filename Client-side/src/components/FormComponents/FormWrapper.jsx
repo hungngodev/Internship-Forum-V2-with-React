@@ -4,22 +4,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 
-const FormWrapper = ({form, theme}) => {
+const FormWrapper = ({form, theme, width}) => {
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            width:"100%",
+            backgroundColor:"black"
           }}
         >
           {form}
         </Box>
-      </Container>
     </ThemeProvider>
   );
 };

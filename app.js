@@ -131,7 +131,6 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const msg = err.message || 'something went wrong, try again later';
-    console.log("LogOutRoute")
     console.log(err)
     console.log(msg)
     res.status(statusCode).json({ messageError: msg });

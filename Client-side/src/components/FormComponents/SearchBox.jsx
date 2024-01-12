@@ -1,14 +1,10 @@
 import SearchIcon from "@mui/icons-material/Search";
-import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 import InputBase from "@mui/material/InputBase";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
 import { alpha, styled } from "@mui/material/styles";
 import * as React from "react";
 import { Form, useSubmit } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 
-import { useAllInternshipsContext } from "../../pages/AllInternships";
 import { FormSelect } from "../FormComponents";
 
 const Search = styled("div")(({ theme }) => ({
@@ -51,8 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const SearchBox = () => {
-  const { searchValues } = useAllInternshipsContext();
+const SearchBox = ({searchValues}) => {
   const { search, sort, option ,order} = searchValues;
   const submit = useSubmit();
 
@@ -63,7 +58,7 @@ const SearchBox = () => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         onChange(form);
-      }, 0);
+      }, 1000);
     };
   };
 
@@ -79,8 +74,8 @@ const SearchBox = () => {
   ];
   
   const Options = [
+    ["Relevant", false],
     ["Exactly", true],
-    ["Relevant", false]
   ];
   const Order=[
     ["Ascending", "asc"],
@@ -89,7 +84,7 @@ const SearchBox = () => {
   
   return (
     <Form>
-      <Grid container alignItems="center">
+      <Grid container alignItems="center" sx={{width : "100vw"}}>
         <Grid item md={6}>
           <Search>
             <SearchIconWrapper>
@@ -104,21 +99,19 @@ const SearchBox = () => {
                 id: "search",
                 type: "text",
               }}
-              // onChange= {debounce((form) => {
-              //   submit(form);
-              // })}
-              onChange={(e) => {
-              }}
+              onChange= {debounce((form) => {
+                submit(form);
+              })}
             />
           </Search>
         </Grid>
-        <Grid item md={2}>
+        <Grid item md={2} sx ={{width: "100%"}}>
           <FormSelect  label="Sort by" name= "sort" options= {Sort} defaultValue={sort} onChange={OnChangeSelect} submit={submit} />
         </Grid>
-        <Grid item md={2}>
+        <Grid item md={2} sx ={{width: "100%"}}>
             <FormSelect  label="Search Accuracy" name= "option" options= {Options} defaultValue={option} onChange={OnChangeSelect} submit={submit} />
         </Grid>
-        <Grid item md={2}>
+        <Grid item md={2} sx ={{width: "100%"}}>
             <FormSelect  label="Order" name= "order" options= {Order} defaultValue={order} onChange={OnChangeSelect} submit={submit} />
         </Grid>
       </Grid>

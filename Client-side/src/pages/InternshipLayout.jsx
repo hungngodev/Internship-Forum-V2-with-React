@@ -1,13 +1,7 @@
-import { Outlet } from 'react-router-dom';
-
+import { Outlet } from "react-router-dom";
 
 const InternshipLayout = () => {
-    return (
-      <div>
-      <Outlet/>
-      </div>
-    );
-  };
-  
-  export default InternshipLayout;
-  
+  return <Outlet />;
+};
+
+export default InternshipLayout;

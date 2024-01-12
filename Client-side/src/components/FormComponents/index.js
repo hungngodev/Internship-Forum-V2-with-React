@@ -6,6 +6,7 @@ export {default as FormHeader} from './FormHeader';
 export {default as FormWrapper} from './FormWrapper';
 export {default as SearchBox} from './SearchBox';
 export {default as FormSelect} from './FormSelect';
+export {default as FormRating} from './FormRating';
 // export {default as FormError} from './FormError';
 // export {default as FormError} from './FormError';
 // export {default as FormError} from './FormError';

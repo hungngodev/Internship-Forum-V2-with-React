@@ -1,115 +1,74 @@
-import { Link as LinkDom, Form, redirect, useNavigate } from "react-router-dom";
+import { Box, Grid, Stack } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { toast } from "react-toastify";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useForm, Controller } from "react-hook-form";
-import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Form } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import customFetch from "../utils/customFetch";
-import { LogInSchema } from "../../../schemas.js";
-import { useHomeLayoutContext } from "../pages/HomeLayout";
 import {
-  SubmitButton,
-  TextInput,
+  FormHeader,
   FormIcon,
   FormNavLink,
-  FormHeader,
+  SubmitButton,
+  TextInput,
 } from "./FormComponents";
 
-export const action =
-  (queryClient) =>
-  async ({ request }) => {
-    const formData = await request.formData();
-    const data = Object.fromEntries(formData);
-    console.log(data);
-    try {
-      toast.success("Login successful");
-      await customFetch.post("/login", data, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
-      queryClient.invalidateQueries();
-      return redirect("/internships");
-    } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.messageError);
-      return redirect("");
-    }
-  };
+const defaultTheme = createTheme({});
 
-const LogInConfig = {
-  backgroundImage: "none",
-};
-
-const defaultTheme = createTheme();
-
-const CustomForm = () => {
-  const { BodyConfig, changeBodyConfig } = useHomeLayoutContext();
-  useEffect(() => {
-    changeBodyConfig({ ...LogInConfig });
-  }, []);
-  for (let e in document.body.style) {
-    e = "";
-  }
-  for (let e in BodyConfig) {
-    document.body.style[e] = BodyConfig[e];
-  }
-
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+export default function CustonForm({
+  initialState,
+  Schema,
+  navInfo,
+  title,
+  Icon,
+  action,
+  width,
+  align,
+  encrypt,
+  method,
+}) {
   const [errors, setErrors] = useState({});
-  const [firstTime, setFirsTime] = useState({ username: true, password: true });
+  const [formData, setFormData] = useState(
+    Object.keys(initialState).reduce((acc, key) => {
+      acc[key] = initialState[key].type == "number" ? 0 : "";
+      return acc;
+    }, {})
+  );
+  const [firstTime, setFirsTime] = useState(
+    Object.keys(initialState).reduce((acc, key) => {
+      acc[key] = initialState[key].notRequired ? false : true;
+      return acc;
+    }, {})
+  );
   const [ableToSubmit, setAbleToSubmit] = useState(false);
 
   const validateForm = (event) => {
-    event.preventDefault();
-    console.log(ableToSubmit);
+    console.log(errors)
     if (!ableToSubmit) {
+      event.preventDefault();
       toast.error("Please fill in the form correctly");
     }
   };
 
   const handleSave = (event) => {
-    const { name, value } = event.target;
+    let { name, value } = event.target;
     if (firstTime[name]) {
       setFirsTime({ ...firstTime, [name]: false });
-      return;
     }
     setFormData({ ...formData, [name]: value });
   };
 
   useEffect(() => {
-    console.log(formData);
-    const { error } = LogInSchema.validate(formData);
+    const { error } = Schema.validate(formData, { abortEarly: false });
     let errorData = {};
-    let first = false;
     if (error) {
       error.details.forEach((err) => {
         if (!firstTime[err.context.key]) {
           errorData[err.context.key] = err.message;
-        } else {
-          first = true;
         }
       });
     }
-    console.log(errorData);
+    const first = Object.values(firstTime).every((value) => value);
     setErrors(errorData);
     if (Object.keys(errorData).length != 0 || first == true) {
       setAbleToSubmit(false);
@@ -118,40 +77,42 @@ const CustomForm = () => {
     }
   }, [formData]);
 
+  let textInput = [];
+  for (let key in initialState) {
+    textInput.push(
+      <TextInput
+        key={key}
+        name={key.name ? key.name : String(key)}
+        errors={errors[key]}
+        data={formData[key]}
+        firstTime={firstTime[key]}
+        handleSave={handleSave}
+        autoComplete={initialState[key].autoComplete}
+        type={initialState[key].type}
+        width={width ? width : "100%"}
+        specialType={initialState[key].specialType || ""}
+      />
+    );
+  }
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <FormIcon Icon={<LockOutlinedIcon />} />
-          <FormHeader title="Sign in" />
-          <Form method="post">
-            <TextInput
-              errors={errors.username}
-              name="username"
-              data={formData.username}
-              handleSave={handleSave}
-            />
-            <TextInput
-              errors={errors.password}
-              name="password"
-              data={formData.password}
-              handleSave={handleSave}
-            />
-            <SubmitButton handleSubmit={validateForm} />
-            <FormNavLink link={""} message={""} />
-          </Form>
-        </Box>
-      </Container>
-    </ThemeProvider>
-  );
-};
+    <Stack
+      spacing={2}
+      direction="column"
+      alignItems={align ? align : "center"}
+      justifyContent="center"
+    >
+      <FormIcon Icon={Icon} />
+      <FormHeader title={title} />
+      <Form
+        method={method ? method : "POST"}
+        action={action ? action : ""}
+        encType={encrypt ? "multipart/form-data" : ""}
+      >
+        {textInput}
 
-export default CustomForm;
+        <SubmitButton handleSubmit={validateForm} text={title} />
+        <FormNavLink text={navInfo.text} link={navInfo.link} />
+      </Form>
+    </Stack>
+  );
+}

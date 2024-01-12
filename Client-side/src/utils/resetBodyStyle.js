@@ -9,6 +9,7 @@ export default function resetBodyStyle(path) {
     height: "100vh",
   };
   const RegisterConfig = {
+    all: "unset",
     backgroundImage: `url()`,
     backgroundPosition: "center",
     backgroundSize: "cover",
@@ -29,18 +30,24 @@ export default function resetBodyStyle(path) {
     overflowY: "hidden",
   };
   const InternshipBodyConfig = {
+    all:"unset"
+  }
+  const profileConfig= {
+    all:"unset"
   }
   const mappingBody = {
     "/": LandingBodyConfig,
     "/register": RegisterConfig,
     "/login": LogInConfig,
     "/internships": InternshipBodyConfig,
+    "/profile": profileConfig
 
   }
   let BodyConfig = mappingBody[path];
-  for (let e in document.body.style) {
-    e = "";
+  for (let e in BodyConfig) {
+    document.body.style[e] = "";
   }
+  document.body.style.all="unset";
   for (let e in BodyConfig) {
     document.body.style[e] = BodyConfig[e];
   }

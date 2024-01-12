@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 
 const FormSelect = ({label,name,options, defaultValue,onChange,submit}) => {
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <FormControl sx={{ width: "100%"}}>
       <InputLabel htmlFor={`selectLabelFor${name}`}>{label}</InputLabel>
       <Select
         native

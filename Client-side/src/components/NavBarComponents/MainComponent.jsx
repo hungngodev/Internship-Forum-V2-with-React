@@ -7,7 +7,7 @@ const MainComponent = ({open, main,drawerWidth,theme, Main}) => {
 
     return <Main open= {open}>
         {main}
-        <footer className="fixed-bottom ">
+        <footer className="mt-5 ">
             <Footer />
         </footer>
         </Main>

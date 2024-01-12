@@ -58,10 +58,10 @@ const HorizontalMenu = ({
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <NavLink to= {`profile/${datauser? datauser._id : ''}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <NavLink to= {`/profile/${datauser? datauser._id : ""}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
+        <MenuItem onClick={handleMenuClose}>Your Posts</MenuItem>
       </NavLink>
-      <NavLink  to= {`setting/${datauser? datauser._id: ''}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
+      <NavLink  to= {`/setting`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       </NavLink>
     </Menu>

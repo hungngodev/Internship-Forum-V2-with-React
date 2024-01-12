@@ -3,8 +3,10 @@ import customFetch from "../utils/customFetch";
 import { useLoaderData } from "react-router-dom";
 import { useContext, createContext, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
 
-import { InternshipContainer,ClusterMap } from "../components";
+import { InternshipContainer, ClusterMap } from "../components";
 import { resetBodyStyle } from "../utils";
 import { useHomeLayoutContext } from "./HomeLayout";
 import { SearchBox } from "../components/FormComponents";
@@ -22,7 +24,7 @@ const allInternshipsQuery = (params) => {
     order = params.order;
   }
   return {
-    queryKey: [search, sort, option, order],
+    queryKey: ["AllInternship",search, sort, option, order],
     queryFn: params
       ? async () => {
           let requestData = await customFetch.get("/internships", { params });
@@ -50,18 +52,25 @@ const AllInternships = () => {
   const { searchValues } = useLoaderData();
   console.log(searchValues);
   let internshipData = useQuery(allInternshipsQuery(searchValues)).data;
-
   return (
     <AllInternshipsContext.Provider value={{ internshipData, searchValues }}>
-      <h1>{datauser ? datauser.username : "not defined"}</h1>
-        <Wrapper>
-            <ClusterMap internship={internshipData? internshipData.internships :[]}token = {internshipData? internshipData.token: ''}/>
-        </Wrapper>
-      <SearchBox />
-      <InternshipContainer />
+      <Box display="flex" alignItems="center" flexDirection="column">
+      {/* <Wrapper>
+        <ClusterMap
+          internship={internshipData ? internshipData.internships : []}
+          token={internshipData ? internshipData.token : ""}
+        />
+      </Wrapper> */}
+      <Typography variant="h2" color="initial">All Internships of this Forum</Typography>
+      <SearchBox searchValues={searchValues} />
+      {internshipData && <Typography variant="h3" color="initial">
+        Found {internshipData ? internshipData.internships.length : 0} results
+      </Typography>}
+      <InternshipContainer internshipData={internshipData}/>
+      </Box>
     </AllInternshipsContext.Provider>
   );
 };
 
 export const useAllInternshipsContext = () => useContext(AllInternshipsContext);
-export default AllInternships
+export default AllInternships;

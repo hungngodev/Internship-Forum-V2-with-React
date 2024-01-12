@@ -1,7 +1,15 @@
-import { internshipSchema, reviewSchema, searchSchema,LogInSchema, RegisterSchema } from './schemas.js';
-import  ExpressError from './utils/ExpressError.js';
+import { internshipSchema, reviewSchema, searchSchema, LogInSchema, RegisterSchema } from './schemas.js';
+import ExpressError from './utils/ExpressError.js';
 import Internship from './models/internship.js';
 import Review from './models/review.js';
+import isUrl from "is-url";
+import dotenv from 'dotenv';
+import { cloudinary } from "./cloudinary/index.js";
+dotenv.config();
+
+import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding.js";
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 const validateLogIn = (req, res, next) => {
     const { error } = LogInSchema.validate(req.body);
@@ -13,7 +21,6 @@ const validateLogIn = (req, res, next) => {
     }
 
 }
- 
 const validateRegister = (req, res, next) => {
     const { error } = RegisterSchema.validate(req.body);
     if (error) {
@@ -22,27 +29,56 @@ const validateRegister = (req, res, next) => {
     } else {
         next();
     }
-}   
-const isLoggedIn = (req, res, next) => {
-    if (!req.isAuthenticated()) {
-        req.session.returnTo = req.originalUrl
-        req.flash('error', 'You must be signed in first!');
-        return res.redirect('/login');
-    }
-    next();
 }
-const validateSearch= (req, res, next) => {
+const validateSearch = (req, res, next) => {
     const { error } = searchSchema.validate(req.query);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
-       res.send(msg);
+        res.send(msg);
     } else {
         next();
     }
 }
-const validateInternship = (req, res, next) => {
-    const { error } = internshipSchema.validate(req.body);
-    console.log(req.body);
+const deletingImages = async (files) => {
+    files.map(async (f) => {
+        await cloudinary.uploader.destroy(f.filename);
+    })
+}
+const validateInternship = async (req, res, next) => {
+    console.log(req.files)
+    const { error } = internshipSchema.validate(req.body, { abortEarly: false });
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        deletingImages(req.files);
+        next(new ExpressError(msg, 400));
+    } else {
+        const { link } = req.body;
+        if (!isUrl(link)) {
+            deletingImages(req.files);
+            next(new ExpressError('Invalid URL', 400));
+            return;
+        }
+
+        const geoData = await geocoder.forwardGeocode({
+            query: req.body.location,
+            limit: 1
+        }).send()
+        try {
+            const geometry = geoData.body.features[0].geometry;
+            req.body.geometry = geometry;
+            console.log(req.body)
+        }
+        catch (e) {
+            deletingImages(req.files);
+            next(new ExpressError('Invalid Location', 400));
+            return;
+        }
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
@@ -65,19 +101,15 @@ const isReviewAuthor = async (req, res, next) => {
     const { id, reviewId } = req.params;
     const review = await Review.findById(reviewId);
     if (!review.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/internships/${id}`);
+        throw new ExpressError('You do not have permission to do that!', 401);
+    }
+    next();
+}
+const isLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        throw new ExpressError("You must be signed in first!", 401);
     }
     next();
 }
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
-    }
-}
-export { isLoggedIn, validateInternship, isAuthor, validateReview, isReviewAuthor, validateSearch ,validateLogIn,validateRegister};
+export { isLoggedIn, validateInternship, isAuthor, validateReview, isReviewAuthor, validateSearch, validateLogIn, validateRegister };

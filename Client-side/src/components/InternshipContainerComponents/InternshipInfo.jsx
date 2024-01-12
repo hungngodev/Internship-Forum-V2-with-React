@@ -4,7 +4,7 @@ const JobInfo = ({ icon, text,variant }) => {
   return (
     <Stack direction="row" alignItems="start" gap={1}>
       {icon}
-      <Typography variant={variant} sx ={{}}>{text}</Typography>
+      <Typography variant={variant} sx ={{color: "#000"}}>{text}</Typography>
     </Stack>
   );
 };

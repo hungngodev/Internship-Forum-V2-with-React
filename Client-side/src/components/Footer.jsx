@@ -28,11 +28,11 @@ export default function StickyFooter() {
       <Box
         component="footer"
         sx={{
-          py: 3,
-          px: 2,
-          mt: "auto",
+          marginTop: "auto",
           display: "flex",
           justifyContent: "center",
+          backgroundColor:"transparent",
+          opacity:1
         }}
       >
         <Container

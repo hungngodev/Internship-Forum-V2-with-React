@@ -50,29 +50,29 @@ const InternshipCard = ({
     }
   }
 
-  let salaryDisplay = salary ? salary : "Unspecified Pay";
+  let salaryDisplay = salary ? salary +'/h' : "Unspecified Pay";
   let dateDisplay = day(lastModified).format("MMM Do, YYYY");
   return (
     <Box display="flex" alignItems="center" justifyContent="center" sx={{
         '&:hover': {
-            border: '1px solid', 
+            border: '3px solid', 
         }
     }}>
       <Grid container >
-        <Grid item md={6}>
-          <Image src={imageDisplay} alt={title} height="100%" width="100%" />
+        <Grid item md={5} lg={6}>
+          <Image src={imageDisplay} alt={title} height="30rem" width="auto" />
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={7} lg={6}>
           <Box
             display="flex"
             flexDirection="column"
             justifyContent="space-evenly"
           >
-            <InternshipInfo icon={<TitleIcon />} variant="h5" text={title} />
+            <InternshipInfo icon={<TitleIcon />} variant="h6" text={title.slice(0,50)+"..."} />
             <InternshipInfo
               icon={<DescriptionIcon />}
               variant="body2"
-              text={description}
+              text={description.slice(0,100) + "..."}
             />
             <InternshipInfo
               icon={<LocationOnSharpIcon />}
@@ -92,7 +92,7 @@ const InternshipCard = ({
             <InternshipInfo
               icon={<AttachMoneySharpIcon />}
               variant="overline"
-              text={salaryDisplay + "/h"}
+              text={salaryDisplay}
             />
             <InternshipInfo
               icon={<ScheduleSharpIcon />}

@@ -8,6 +8,7 @@ import { storage } from '../cloudinary/index.js';
 
 
 const internshipRoutes = express.Router();
+
 const upload = multer({ storage });
 
 internshipRoutes.route('/')

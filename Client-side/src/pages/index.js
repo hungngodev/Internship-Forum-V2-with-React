@@ -10,3 +10,5 @@ export { default as AddInternship } from './AddInternship.jsx';
 export { default as EditInternship } from './EditInternship.jsx';
 export { default as Profile } from './Profile.jsx';
 export { default as Setting } from './Setting.jsx';
+export {default as Post} from './Post.jsx';
+export {default as ShowInternship} from './ShowInternship.jsx';
