@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Box, Grid, Typography,Button } from "@mui/material";
+import { Box, Grid, Typography, Button, Stack } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
@@ -15,9 +15,13 @@ import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import WorkIcon from "@mui/icons-material/Work";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import AttachMoneySharpIcon from "@mui/icons-material/AttachMoneySharp";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import TerrainIcon from '@mui/icons-material/Terrain';
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ScheduleSharpIcon from "@mui/icons-material/ScheduleSharp";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import { NavLink,Form } from "react-router-dom";
+import { NavLink, Form } from "react-router-dom";
+import Link from "@mui/material/Link";
 day.extend(advancedFormat);
 
 import { ShowSingleMap, ReviewContainer, CreateReview } from "../components";
@@ -48,7 +52,7 @@ export const loader =
   };
 const ShowInternship = () => {
   const id = useLoaderData();
-  const { user,datauser} = useHomeLayoutContext();
+  const { user, datauser } = useHomeLayoutContext();
   const SingleInternship = useQuery(SingleInternshipQuery(id)).data.internship;
   const imageArray = [
     ...SingleInternship.images.map((item) => item.url),
@@ -65,6 +69,8 @@ const ShowInternship = () => {
     lastModified,
     author,
     reviews,
+    link,
+    state
   } = SingleInternship;
   const reviews2 = reviews.slice().reverse();
   let salaryDisplay = salary ? salary + "/h" : "Unspecified Pay";
@@ -110,6 +116,11 @@ const ShowInternship = () => {
               text={location}
             />
             <InternshipInfo
+              icon={<TerrainIcon/>}
+              variant="overline"
+              text={state}
+            />
+            <InternshipInfo
               icon={<WorkIcon />}
               variant="overline"
               text={area}
@@ -130,6 +141,15 @@ const ShowInternship = () => {
               text={dateDisplay}
             />
             <InternshipInfo
+              icon={<OpenInNewIcon />}
+              variant="overline"
+              text={
+                <Link href={link} color="inherit">
+                  Link To the Internship
+                </Link>
+              }
+            />
+            <InternshipInfo
               icon={<AccountBoxIcon />}
               variant="overline"
               text={
@@ -141,21 +161,39 @@ const ShowInternship = () => {
                     textDecoration: "none",
                   }}
                 >
-                  {author.username}
+                  Author: {author.username}
                 </NavLink>
               }
             />
           </Box>
           {user && datauser._id == author._id && (
-            <Form method="post" action={`./delete`}>
-              <Button
-                variant="outlined"
-                type="submit"
-                startIcon={<DeleteIcon />}
+            <Stack direction="row" spacing={2}>
+              <Form method="post" action={`./delete`}>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+              </Form>
+              <NavLink
+                to={`./edit`}
+                style={{
+                  backgroundColor: "transparent",
+                  color: "fff",
+                  textDecoration: "none",
+                }}
               >
-                Delete
-              </Button>
-            </Form>
+                <Button
+                  variant="outlined"
+                  type="submit"
+                  startIcon={<BorderColorIcon />}
+                >
+                  Edit
+                </Button>
+              </NavLink>
+            </Stack>
           )}
           {user ? (
             <CreateReview internship={SingleInternship} action="./review" />

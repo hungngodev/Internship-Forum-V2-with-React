@@ -12,3 +12,4 @@ fixing the env
 create Hovereffect for image
 queryClient
 toast customization
+change the mapbox key

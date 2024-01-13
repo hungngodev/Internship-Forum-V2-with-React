@@ -1,16 +1,13 @@
-import { toast } from "react-toastify";
-import customFetch from "../utils/customFetch";
-import { useLoaderData } from "react-router-dom";
-import { useContext, createContext, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useContext } from "react";
+import { useLoaderData } from "react-router-dom";
+import customFetch from "../utils/customFetch";
 
-import { InternshipContainer, ClusterMap } from "../components";
-import { resetBodyStyle } from "../utils";
-import { useHomeLayoutContext } from "./HomeLayout";
+import { InternshipContainer } from "../components";
 import { SearchBox } from "../components/FormComponents";
-import Wrapper from "../css/AllInternships.js";
+import { useHomeLayoutContext } from "./HomeLayout";
 
 const allInternshipsQuery = (params) => {
   let search = "";

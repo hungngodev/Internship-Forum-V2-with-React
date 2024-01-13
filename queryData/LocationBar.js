@@ -1,27 +1,27 @@
 async function bar(internships) {
     return new Promise((resolve, reject) => {
         try {
-            const statesAbbreviations = [
-                'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL',
-                'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT',
-                'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
-                'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
-            ];
+            // const statesAbbreviations = [
+            //     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL',
+            //     'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT',
+            //     'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
+            //     'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+            // ];
 
-            function containsStateAbbreviation(str) {
-                for (let i = 0; i < statesAbbreviations.length; i++) {
-                    const abbreviation = statesAbbreviations[i];
-                    if (str.includes(abbreviation)) {
-                        return statesAbbreviations[i];
-                    }
-                }
-                return "";
-            }
+            // function containsStateAbbreviation(str) {
+            //     for (let i = 0; i < statesAbbreviations.length; i++) {
+            //         const abbreviation = statesAbbreviations[i];
+            //         if (str.includes(abbreviation)) {
+            //             return statesAbbreviations[i];
+            //         }
+            //     }
+            //     return "";
+            // }
 
             let locations = {};
 
             for (let internship of internships.reverse()) {
-                let states = containsStateAbbreviation(internship.location);
+                let states = internship.state;
                 let salary = internship.salary !== 0 ? internship.salary : 35;
 
                 function calculateAverageRatings(data) {

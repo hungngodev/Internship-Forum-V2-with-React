@@ -37,6 +37,7 @@ const InternshipSchema = new Schema({
     link: String,
     area:String,
     location: String,
+    state: String,
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

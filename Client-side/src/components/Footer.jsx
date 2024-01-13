@@ -10,10 +10,7 @@ function Copyright() {
   return (
     <Typography>
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Hung Ngo
-      </Link>{" "}
-      {new Date().getFullYear()}
+        Hung Ngo  {new Date().getFullYear()}
       {"."}
     </Typography>
   );

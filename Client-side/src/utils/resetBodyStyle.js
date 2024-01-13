@@ -35,12 +35,17 @@ export default function resetBodyStyle(path) {
   const profileConfig= {
     all:"unset"
   }
+  const statisticsConfig= {
+    all:"unset",
+
+  }
   const mappingBody = {
     "/": LandingBodyConfig,
     "/register": RegisterConfig,
     "/login": LogInConfig,
     "/internships": InternshipBodyConfig,
-    "/profile": profileConfig
+    "/profile": profileConfig,
+    "/statistics": statisticsConfig,
 
   }
   let BodyConfig = mappingBody[path];

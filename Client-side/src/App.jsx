@@ -14,6 +14,7 @@ import {
   AllInternships,
   ShowInternship,
   EditInternship,
+  DeleteInternship,
   Setting,
   Error,
 } from './pages';
@@ -25,13 +26,14 @@ import { action as loginAction } from './pages/Login';
 import { action as addInternshipAction } from './pages/AddInternship';
 import { action as deleteInternshipAction } from './pages/DeleteInternship';
 import { loader as allInternshipsLoader } from './pages/AllInternships';
+import { loader as deleteInternshipLoader } from './pages/DeleteInternship';
 import { loader as profileLoader } from './pages/Profile';
 import { loader as showInternshipLoader } from './pages/ShowInternship';
-// import { loader as editInternshipLoader } from './pages/EditInternship';
-// import { action as editInternshipAction } from './pages/EditInternship';
+import { loader as editInternshipLoader } from './pages/EditInternship';
+import { action as editInternshipAction } from './pages/EditInternship';
 // import { action as deleteInternshipAction } from './pages/DeleteInternship';
 // import { action as profileAction } from './pages/Profile';
-// import { loader as statsLoader } from './pages/Stats';
+import { loader as statsLoader } from './pages/Stats';
 // import ErrorElement from './components/ErrorElement';
 import {action as CreateReviewAction} from './pages/CreateReview';
 import {action as DeleteReviewAction} from './pages/DeleteReview';
@@ -78,7 +80,7 @@ const router = createBrowserRouter([
       {
         path: 'statistics',
         element: <Stats />,
-    
+        loader: statsLoader(queryClient),
 
       },
       {
@@ -104,10 +106,14 @@ const router = createBrowserRouter([
               {
                 path: 'edit',
                 element: <EditInternship/>,
+                loader: editInternshipLoader(queryClient),
+                action: editInternshipAction(queryClient),
               },
               {
                 path: 'delete',
                 action: deleteInternshipAction(queryClient),
+                loader: deleteInternshipLoader(queryClient),
+                element: <DeleteInternship/>,
               },
               {
                 path: 'review',
@@ -123,9 +129,7 @@ const router = createBrowserRouter([
             path: 'new',
             element: <AddInternship />,
             action : addInternshipAction(queryClient),
-
           },
-          // { path: 'delete-job/:id', action: deleteJobAction(queryClient) },
         ],
       },
     ],

@@ -11,9 +11,10 @@ import * as React from "react";
 import { MuiFileInput } from "mui-file-input";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { FormRating, FormSelect } from "../FormComponents";
+import { FormRating, FormSelect, FormCheckBox } from "../FormComponents";
 
 const statesArray = [
+  ["", ""],
   ["Alabama", "AL"],
   ["Alaska", "AK"],
   ["Arizona", "AZ"],
@@ -75,6 +76,7 @@ const FormRow = ({
   type,
   width,
   specialType,
+  defaultValue,
 }) => {
   const textInputModified = (
     <TextField
@@ -119,71 +121,62 @@ const FormRow = ({
     <FormSelect
       label={name}
       name={name}
+      errors={errors}
       onChange={handleSave}
       options={statesArray}
-      defaultValue={"AL"}
+      defaultValue={defaultValue}
+      required={true}
     />
   );
   const starRatingModified = <FormRating data={data} handleSave={handleSave} />;
   const checkBoxModified = (
-    <Stack
-      direction="row"
-      spacing={1}
-      alignItems="center"
-      sx={{ color: "#000" }}
-    >
-      <Checkbox
-        defaultChecked
-        size="medium"
-        icon={<ImageSearchIcon />}
-        checkedIcon={<PhotoIcon />}
-        name={name}
-      />
-      <Typography variant="subtitle1" color="inherit">
-        Generate AI Images
-      </Typography>
-    </Stack>
+    <FormCheckBox
+      LabelComponent={
+        <Typography variant="subtitle1" color="inherit">
+          Do you want to generate AI Images? Check the box
+        </Typography>
+      }
+      icon={<ImageSearchIcon />}
+      checkedIcon={<PhotoIcon />}
+      name={name}
+      value="on"
+    />
   );
 
   const [file, setFile] = React.useState(null);
 
   const handleChange = (newFile) => {
-    console.log(newFile);
-    console.log(file);
     setFile(newFile);
   };
 
   const fileUpload = (
-      <MuiFileInput
-        placeholder="Upload Your Image: PNG, JPG and JPEG only"
-        value={file}
-        fullWidth={true}
-        onChange={(newFile) => {
-          console.log(newFile);
-          console.log(file);
-          setFile(newFile);
-        }}
-        label={name.charAt(0).toUpperCase() + name.slice(1)}
-        getInputText={(value) => {
-          return value ? value.name + "   Thanks!" : "";
-        }}
-        name="image"
-        InputProps={{
-          inputProps: {
-            accept: ".png,.jpg,.jpeg",
-          },
-          startAdornment: (
-            <InputAdornment position="start">
-              <AddPhotoAlternateIcon />
-            </InputAdornment>
-          ),
-        }}
-        clearIconButtonProps={{
-          title: "Remove",
-          children: <CloseIcon fontSize="small" />,
-        }}
-      />
-
+    <MuiFileInput
+      placeholder="Upload Your Image: PNG, JPG and JPEG only"
+      value={file}
+      fullWidth={true}
+      onChange={(newFile) => {
+        setFile(newFile);
+      }}
+      label={name.charAt(0).toUpperCase() + name.slice(1)}
+      getInputText={(value) => {
+        return value ? value.name + "   Thanks!" : "";
+      }}
+      name="image"
+      InputProps={{
+        inputProps: {
+          accept: ".png,.jpg,.jpeg",
+        },
+        startAdornment: (
+          <InputAdornment position="start">
+            <AddPhotoAlternateIcon />
+          </InputAdornment>
+        ),
+      }}
+      clearIconButtonProps={{
+        title: "Remove",
+        children: <CloseIcon fontSize="small" />,
+      }}
+    />
   );
 
   return (

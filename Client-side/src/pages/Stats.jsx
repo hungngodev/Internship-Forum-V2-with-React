@@ -1,30 +1,49 @@
-import { MouseParallax, ScrollParallax } from "react-just-parallax";
-import { Parallax } from "react-scroll-parallax";
-import { Image } from "mui-image";
-import simpleParallax from "simple-parallax-js";
-import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
+import customFetch from "../utils/customFetch";
+import { useLoaderData } from "react-router-dom";
+import { useContext, createContext, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Box, Stack } from "@mui/system";
+import { Typography } from "@mui/material";
 
-const Landing = () => {
-  const test = [];
-  for (let i = 0; i < 1000; i++) {
-    test.push(<div key={i}>statess</div>);
-  }
+import { InternshipContainer, ClusterMap } from "../components";
+import { resetBodyStyle } from "../utils";
+import { useHomeLayoutContext } from "./HomeLayout";
+import { SearchBox } from "../components/FormComponents";
+import Wrapper from "../css/AllInternships.js";
+import {
+  Bar,
+  Doughnut,
+  LineStacked,
+  Radar,
+} from "../components/ChartComponents";
 
-  return (
-    <>
-      {test.map((e) => {
-        return (
-          <>
-            <img
-              src="https://picsum.photos/id/674/2000"
-              alt=""
-              style={{ width: "200px", height: "200px" }}
-            />
-          </>
-        );
-      })}
-    </>
-  );
+const statisticQuery = (params) => {
+  return {
+    queryKey: ["AllInternship"],
+    queryFn: async () => {
+      let requestData = await customFetch.get("statistics");
+      return requestData.data;
+    },
+  };
 };
 
-export default Landing;
+export const loader =
+  (queryClient) =>
+  async ({ request }) => {
+    await queryClient.ensureQueryData(statisticQuery());
+    return null;
+  };
+
+export default function Stats() {
+  const data = useQuery(statisticQuery()).data;
+  console.log(data);
+  return (
+    <Stack direction="column" alignItems="center">
+      <Radar data={data.radar} />
+      <Bar data={data.bar} />
+      <Doughnut data={data.doughnut} />
+      <LineStacked data={data.line} />
+    </Stack>
+  );
+}

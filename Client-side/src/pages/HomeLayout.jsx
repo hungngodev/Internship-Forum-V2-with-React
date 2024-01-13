@@ -40,15 +40,17 @@ const HomeLayout = ({ queryClient }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [Title, changeTitle] = useState("Home Page");
-  const [isAuthError, setIsAuthError] = useState(false);
+  // const [isAuthError, setIsAuthError] = useState(false);
   
   const user = datauser? true : false;
 
   useEffect(() => {
     let path = location.pathname.includes("profile")? '/profile': location.pathname;
     path = path.includes("internships/")? '/internships/': path;
+    queryClient.invalidateQueries(["user"]);
     resetBodyStyle(path);
     changeTitle(titleObject[path]);
+    console.log(datauser)
   }, [location]);
 
   const logOutUser = async () => {
@@ -62,22 +64,22 @@ const HomeLayout = ({ queryClient }) => {
     }
   };
 
-  customFetch.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      if (error?.response?.status === 401) {
-        setIsAuthError(true);
-      }
-      return Promise.reject(error);
-    }
-  );
+  // customFetch.interceptors.response.use(
+  //   (response) => {
+  //     return response;
+  //   },
+  //   (error) => {
+  //     if (error?.response?.status === 401) {
+  //       setIsAuthError(true);
+  //     }
+  //     return Promise.reject(error);
+  //   }
+  // );
 
-  useEffect(() => {
-    if (!isAuthError) return;
-    logOutUser();
-  }, [isAuthError]);
+  // useEffect(() => {
+  //   if (!isAuthError) return;
+  //   logOutUser();
+  // }, [isAuthError]);
 
   return (
     <HomeLayoutContext.Provider

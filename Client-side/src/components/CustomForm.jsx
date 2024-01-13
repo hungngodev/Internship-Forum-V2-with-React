@@ -26,11 +26,16 @@ export default function CustonForm({
   align,
   encrypt,
   method,
+  OptionalFormComponent,
 }) {
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState(
     Object.keys(initialState).reduce((acc, key) => {
-      acc[key] = initialState[key].type == "number" ? 0 : "";
+      acc[key] = initialState[key].defaultValue
+        ? initialState[key].defaultValue
+        : initialState[key].type == "number"
+        ? 0
+        : "";
       return acc;
     }, {})
   );
@@ -43,7 +48,6 @@ export default function CustonForm({
   const [ableToSubmit, setAbleToSubmit] = useState(false);
 
   const validateForm = (event) => {
-    console.log(errors)
     if (!ableToSubmit) {
       event.preventDefault();
       toast.error("Please fill in the form correctly");
@@ -90,7 +94,8 @@ export default function CustonForm({
         autoComplete={initialState[key].autoComplete}
         type={initialState[key].type}
         width={width ? width : "100%"}
-        specialType={initialState[key].specialType || ""}
+        specialType={initialState[key].specialType}
+        defaultValue={initialState[key].defaultValue}
       />
     );
   }
@@ -109,8 +114,8 @@ export default function CustonForm({
         encType={encrypt ? "multipart/form-data" : ""}
       >
         {textInput}
-
-        <SubmitButton handleSubmit={validateForm} text={title} />
+        {OptionalFormComponent ? OptionalFormComponent : null}
+        <SubmitButton handleSubmit={validateForm} text={title}   />
         <FormNavLink text={navInfo.text} link={navInfo.link} />
       </Form>
     </Stack>

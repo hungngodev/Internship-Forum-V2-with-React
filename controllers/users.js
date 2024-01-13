@@ -55,6 +55,12 @@ const search = async (req, res) => {
     res.render('users/profile', { data: { internships: internships ,message:message} })
 
 }
+
+const setting = async (req, res) => {
+    const {id} = req.params;
+    const author = await User.findById(id);
+    res.json({user:author})
+}
 const users = {
     renderRegister,
     register,
@@ -62,6 +68,7 @@ const users = {
     login,
     logout,
     index,
-    search
+    search,
+    setting
 }
 export default users;

@@ -64,8 +64,8 @@ const renderNewForm = (req, res) => {
 }
 
 const createInternship = async (req, res, next) => {
-    const {title,description,area,location,company,link,salary,geometry} = req.body;
-    const internshipData= {title:title, description:description, area:area, location:location, company:company, link:link, salary:salary,geometry:geometry}
+    const { title, description, area, location, state, company, link, salary, geometry } = req.body;
+    const internshipData = { title: title, description: description, area: area, location: location, state: state, company: company, link: link, salary: salary, geometry: geometry }
     const internship = new Internship(internshipData);
     internship.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     internship.author = req.user._id;
@@ -103,8 +103,9 @@ const renderEditForm = async (req, res) => {
 
 const updateInternship = async (req, res) => {
     const { id } = req.params;
-    const internship = await Internship.findByIdAndUpdate(id, { ...req.body.internship });
-    internship.link = isUrl(internship.link) ? internship.link : `https://google.com/search?q=${internship.company}+${internship.location}`;
+    const { title, description, area, location, company, link, salary, geometry, state } = req.body;
+    const internshipData = { title: title, description: description, area: area, location: location, state: state, company: company, link: link, salary: salary, geometry: geometry }
+    const internship = await Internship.findByIdAndUpdate(id, { ...internshipData });
     internship.lastModified = new Date();
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     internship.images.push(...imgs);
@@ -118,8 +119,7 @@ const updateInternship = async (req, res) => {
     if (req.body.deleteImagesURL) {
         await internship.updateOne({ $pull: { imagesURL: { $in: req.body.deleteImagesURL } } })
     }
-    req.flash('success', 'Successfully updated internship!');
-    res.redirect(`/internships/${internship._id}`)
+    res.status(StatusCodes.OK).json({ id: internship._id });
 }
 
 

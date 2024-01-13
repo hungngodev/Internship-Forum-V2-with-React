@@ -3,18 +3,20 @@ import FormControl from "@mui/material/FormControl";
 import InputBase from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
+import FormHelperText from "@mui/material/FormHelperText";
 import { alpha, styled } from "@mui/material/styles";
 import * as React from "react";
 import { Form, useSubmit } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 
-const FormSelect = ({label,name,options, defaultValue,onChange,submit}) => {
+const FormSelect = ({label,name,options, defaultValue,errors,onChange,submit,require}) => {
   return (
-    <FormControl sx={{ width: "100%"}}>
+    <FormControl sx={{ width: "100%"}} error= {errors ? true : false}>
       <InputLabel htmlFor={`selectLabelFor${name}`}>{label}</InputLabel>
       <Select
         native
         fullWidth
+        required={require}
         defaultValue={defaultValue}
         id={`selectLabelFor${name}`}
         label="option"
@@ -31,6 +33,7 @@ const FormSelect = ({label,name,options, defaultValue,onChange,submit}) => {
         <option key={option[0]} value={option[1]}>{option[0]}</option>
          ))}
       </Select>
+      {errors && <FormHelperText>{errors}</FormHelperText>}
     </FormControl>
   );
 };

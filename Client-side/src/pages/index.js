@@ -12,3 +12,4 @@ export { default as Profile } from './Profile.jsx';
 export { default as Setting } from './Setting.jsx';
 export {default as Post} from './Post.jsx';
 export {default as ShowInternship} from './ShowInternship.jsx';
+export {default as DeleteInternship} from './DeleteInternship.jsx';

@@ -10,6 +10,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import AttachMoneySharpIcon from "@mui/icons-material/AttachMoneySharp";
 import ScheduleSharpIcon from "@mui/icons-material/ScheduleSharp";
+import TerrainIcon from '@mui/icons-material/Terrain';
 
 import InternshipInfo from "./InternshipInfo";
 import day from "dayjs";
@@ -37,6 +38,7 @@ const InternshipCard = ({
   images,
   imagesUrl,
   lastModified,
+  state,
 }) => {
   let imageDisplay = "";
   if (images.length > 0) {
@@ -50,15 +52,20 @@ const InternshipCard = ({
     }
   }
 
-  let salaryDisplay = salary ? salary +'/h' : "Unspecified Pay";
+  let salaryDisplay = salary ? salary + "/h" : "Unspecified Pay";
   let dateDisplay = day(lastModified).format("MMM Do, YYYY");
   return (
-    <Box display="flex" alignItems="center" justifyContent="center" sx={{
-        '&:hover': {
-            border: '3px solid', 
-        }
-    }}>
-      <Grid container >
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      sx={{
+        "&:hover": {
+          border: "3px solid",
+        },
+      }}
+    >
+      <Grid container>
         <Grid item md={5} lg={6}>
           <Image src={imageDisplay} alt={title} height="30rem" width="auto" />
         </Grid>
@@ -68,16 +75,25 @@ const InternshipCard = ({
             flexDirection="column"
             justifyContent="space-evenly"
           >
-            <InternshipInfo icon={<TitleIcon />} variant="h6" text={title.slice(0,50)+"..."} />
+            <InternshipInfo
+              icon={<TitleIcon />}
+              variant="h6"
+              text={title.slice(0, 50) + "..."}
+            />
             <InternshipInfo
               icon={<DescriptionIcon />}
               variant="body2"
-              text={description.slice(0,100) + "..."}
+              text={description.slice(0, 100) + "..."}
             />
             <InternshipInfo
               icon={<LocationOnSharpIcon />}
               variant="overline"
               text={location}
+            />
+            <InternshipInfo
+              icon={<TerrainIcon/>}
+              variant="overline"
+              text={state}
             />
             <InternshipInfo
               icon={<WorkIcon />}

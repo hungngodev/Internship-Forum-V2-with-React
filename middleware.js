@@ -15,7 +15,7 @@ const validateLogIn = (req, res, next) => {
     const { error } = LogInSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400);
+        next(new ExpressError(msg, 400));
     } else {
         next();
     }
@@ -25,7 +25,7 @@ const validateRegister = (req, res, next) => {
     const { error } = RegisterSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400);
+        next(new ExpressError(msg, 400));
     } else {
         next();
     }
@@ -34,7 +34,7 @@ const validateSearch = (req, res, next) => {
     const { error } = searchSchema.validate(req.query);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
-        res.send(msg);
+        next(new ExpressError(msg, 400))
     } else {
         next();
     }
@@ -45,7 +45,6 @@ const deletingImages = async (files) => {
     })
 }
 const validateInternship = async (req, res, next) => {
-    console.log(req.files)
     const { error } = internshipSchema.validate(req.body, { abortEarly: false });
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
@@ -66,7 +65,6 @@ const validateInternship = async (req, res, next) => {
         try {
             const geometry = geoData.body.features[0].geometry;
             req.body.geometry = geometry;
-            console.log(req.body)
         }
         catch (e) {
             deletingImages(req.files);
@@ -81,7 +79,7 @@ const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
+        next(new ExpressError(msg, 400));
     } else {
         next();
     }
@@ -91,8 +89,8 @@ const isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const internship = await Internship.findById(id);
     if (!internship.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/internships/${id}`);
+        next(new ExpressError('You do not have permission to do that!', 401));
+        return; 
     }
     next();
 }
@@ -101,13 +99,15 @@ const isReviewAuthor = async (req, res, next) => {
     const { id, reviewId } = req.params;
     const review = await Review.findById(reviewId);
     if (!review.author.equals(req.user._id)) {
-        throw new ExpressError('You do not have permission to do that!', 401);
+        next( new ExpressError('You do not have permission to do that!', 401));
+        return;
     }
     next();
 }
 const isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
-        throw new ExpressError("You must be signed in first!", 401);
+        next(new ExpressError("You must be signed in first!", 401));
+        return
     }
     next();
 }

@@ -58,6 +58,7 @@ const InternshipContainer = ({ internshipData }) => {
                   area={internship.area}
                   description={internship.description}
                   location={internship.location}
+                  state={internship.state}
                   company={internship.company}
                   link={internship.link}
                   images={internship.images}
