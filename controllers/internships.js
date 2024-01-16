@@ -47,17 +47,6 @@ const index = async (req, res) => {
 
 }
 
-
-const search = async (req, res) => {
-    const query = req.query.q;
-    const internships = await Internship.find({ $text: { $search: query } })
-        .sort({ lastModified: 1 })
-        .populate('popupText').populate('reviews');
-    let message = internships.length > 0 ? `Search results for "${query}"` : `No results for "${query}"`;
-    res.render('internships/index', { data: { internships: internships, message: message, mapBoxToken: mapBoxToken } })
-
-}
-
 const renderNewForm = (req, res) => {
     res.status(StatusCodes.OK).json({ message: "Render the new form React side" });
 }
@@ -137,7 +126,6 @@ const deleteInternship = async (req, res) => {
 }
 const internships = {
     index,
-    search,
     renderNewForm,
     createInternship,
     showInternship,

@@ -15,9 +15,6 @@ internshipRoutes.route('/')
     .get(validateSearch,catchAsync(internships.index))
     .post(isLoggedIn, upload.array('image'), validateInternship, catchAsync(internships.createInternship))
 
-internshipRoutes.route('/search')
-    .get(validateSearch, catchAsync(internships.search))
-
 internshipRoutes.get('/new', isLoggedIn, internships.renderNewForm)
 
 internshipRoutes.route('/:id')
