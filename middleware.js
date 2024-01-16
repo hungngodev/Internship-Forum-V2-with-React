@@ -1,15 +1,26 @@
-import { internshipSchema, reviewSchema, searchSchema, LogInSchema, RegisterSchema } from './schemas.js';
+import mongoose from 'mongoose';
+import isUrl from "is-url";
+import dotenv from 'dotenv';
+import { validateImage } from "image-validator";
+
+import { internshipSchema, reviewSchema, searchSchema, LogInSchema, RegisterSchema,SettingSchema } from './schemas.js';
 import ExpressError from './utils/ExpressError.js';
 import Internship from './models/internship.js';
 import Review from './models/review.js';
-import isUrl from "is-url";
-import dotenv from 'dotenv';
 import { cloudinary } from "./cloudinary/index.js";
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config();
+}
 
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding.js";
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+
+const deletingImages = async (files) => {
+    files.map(async (f) => {
+        await cloudinary.uploader.destroy(f.filename);
+    })
+}
 
 const validateLogIn = (req, res, next) => {
     const { error } = LogInSchema.validate(req.body);
@@ -30,8 +41,20 @@ const validateRegister = (req, res, next) => {
         next();
     }
 }
+const validateSetting = async (req, res, next) => {
+    const { error } = SettingSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        await deletingImages(req.files);
+        next(new ExpressError(msg, 400));
+    } else {
+        next();
+    }
+}
 const validateSearch = (req, res, next) => {
-    const { error } = searchSchema.validate(req.query);
+    let { search, sort, option, order, id } = req.query;
+    const QueryObject = { search, sort, option, order, id };
+    const { error } = searchSchema.validate(QueryObject);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         next(new ExpressError(msg, 400))
@@ -39,21 +62,16 @@ const validateSearch = (req, res, next) => {
         next();
     }
 }
-const deletingImages = async (files) => {
-    files.map(async (f) => {
-        await cloudinary.uploader.destroy(f.filename);
-    })
-}
 const validateInternship = async (req, res, next) => {
     const { error } = internshipSchema.validate(req.body, { abortEarly: false });
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
-        deletingImages(req.files);
+        await deletingImages(req.files);
         next(new ExpressError(msg, 400));
     } else {
         const { link } = req.body;
         if (!isUrl(link)) {
-            deletingImages(req.files);
+            await deletingImages(req.files);
             next(new ExpressError('Invalid URL', 400));
             return;
         }
@@ -67,7 +85,7 @@ const validateInternship = async (req, res, next) => {
             req.body.geometry = geometry;
         }
         catch (e) {
-            deletingImages(req.files);
+            await deletingImages(req.files);
             next(new ExpressError('Invalid Location', 400));
             return;
         }
@@ -89,8 +107,8 @@ const isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const internship = await Internship.findById(id);
     if (!internship.author.equals(req.user._id)) {
-        next(new ExpressError('You do not have permission to do that!', 401));
-        return; 
+        next(new ExpressError('You are not the author of that post!', 401));
+        return;
     }
     next();
 }
@@ -99,7 +117,7 @@ const isReviewAuthor = async (req, res, next) => {
     const { id, reviewId } = req.params;
     const review = await Review.findById(reviewId);
     if (!review.author.equals(req.user._id)) {
-        next( new ExpressError('You do not have permission to do that!', 401));
+        next(new ExpressError('You are not the author of that review!', 401));
         return;
     }
     next();
@@ -111,5 +129,23 @@ const isLoggedIn = (req, res, next) => {
     }
     next();
 }
-
-export { isLoggedIn, validateInternship, isAuthor, validateReview, isReviewAuthor, validateSearch, validateLogIn, validateRegister };
+const alreadyLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        next(new ExpressError("You have already logged in!", 401));
+        return
+    }
+    next();
+}
+const validateId = (req, res, next) => {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+        next(new ExpressError('Invalid ID', 400));
+        return;
+    }
+    next();
+}
+export {
+    isLoggedIn, validateInternship, isAuthor, validateReview, isReviewAuthor, validateSearch,
+    validateLogIn, alreadyLoggedIn, validateRegister,
+    validateId,validateSetting
+};

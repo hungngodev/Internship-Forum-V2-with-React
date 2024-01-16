@@ -27,6 +27,7 @@ export default function CustonForm({
   encrypt,
   method,
   OptionalFormComponent,
+  color,
 }) {
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState(
@@ -58,16 +59,19 @@ export default function CustonForm({
     let { name, value } = event.target;
     if (firstTime[name]) {
       setFirsTime({ ...firstTime, [name]: false });
+      if (initialState[name].toast) {
+        toast.warn(initialState[name].toast);
+      }
     }
     setFormData({ ...formData, [name]: value });
   };
 
   useEffect(() => {
-    const { error } = Schema.validate(formData, { abortEarly: false });
+    const { error } = Schema.validate(formData, { abortEarly: false});
     let errorData = {};
     if (error) {
       error.details.forEach((err) => {
-        if (!firstTime[err.context.key]) {
+        if (!firstTime[err.context.key] ) {
           errorData[err.context.key] = err.message;
         }
       });
@@ -96,6 +100,7 @@ export default function CustonForm({
         width={width ? width : "100%"}
         specialType={initialState[key].specialType}
         defaultValue={initialState[key].defaultValue}
+        notRequired={initialState[key].notRequired}
       />
     );
   }

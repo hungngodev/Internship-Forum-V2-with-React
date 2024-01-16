@@ -18,10 +18,9 @@ export const action =
         progress: undefined,
         theme: "colored",
         });
-      queryClient.invalidateQueries(["SingleInternship"]);
+      queryClient.invalidateQueries(["SingleInternship", id]);
       return redirect("..");
     } catch (error) {
-      console.log(error);
       return redirect("..");
     }
   };

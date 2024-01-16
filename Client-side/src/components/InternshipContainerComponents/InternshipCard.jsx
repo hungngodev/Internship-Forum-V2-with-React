@@ -10,7 +10,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import AttachMoneySharpIcon from "@mui/icons-material/AttachMoneySharp";
 import ScheduleSharpIcon from "@mui/icons-material/ScheduleSharp";
-import TerrainIcon from '@mui/icons-material/Terrain';
+import TerrainIcon from "@mui/icons-material/Terrain";
 
 import InternshipInfo from "./InternshipInfo";
 import day from "dayjs";
@@ -54,68 +54,93 @@ const InternshipCard = ({
 
   let salaryDisplay = salary ? salary + "/h" : "Unspecified Pay";
   let dateDisplay = day(lastModified).format("MMM Do, YYYY");
+  const borderRadius = "30px";
   return (
     <Box
       display="flex"
       alignItems="center"
       justifyContent="center"
       sx={{
+        border: "2px solid",
+        borderColor: "info.main",
+        borderRadius: borderRadius,
         "&:hover": {
-          border: "3px solid",
+          border: "7px solid",
+          borderColor: "info.main",
         },
       }}
     >
-      <Grid container>
+      <Grid container columnSpacing={1}>
         <Grid item md={5} lg={6}>
-          <Image src={imageDisplay} alt={title} height="30rem" width="auto" />
+          <Image
+            src={imageDisplay}
+            alt={title}
+            height="30rem"
+            width="auto"
+            sx={{ borderRadius: `${"28px"} 0 0 ${"28px"}` }}
+          />
         </Grid>
         <Grid item md={7} lg={6}>
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-evenly"
-          >
-            <InternshipInfo
-              icon={<TitleIcon />}
-              variant="h6"
-              text={title.slice(0, 50) + "..."}
-            />
-            <InternshipInfo
-              icon={<DescriptionIcon />}
-              variant="body2"
-              text={description.slice(0, 100) + "..."}
-            />
-            <InternshipInfo
-              icon={<LocationOnSharpIcon />}
-              variant="overline"
-              text={location}
-            />
-            <InternshipInfo
-              icon={<TerrainIcon/>}
-              variant="overline"
-              text={state}
-            />
-            <InternshipInfo
-              icon={<WorkIcon />}
-              variant="overline"
-              text={area}
-            />
-            <InternshipInfo
-              icon={<ApartmentIcon />}
-              variant="overline"
-              text={company}
-            />
-            <InternshipInfo
-              icon={<AttachMoneySharpIcon />}
-              variant="overline"
-              text={salaryDisplay}
-            />
-            <InternshipInfo
-              icon={<ScheduleSharpIcon />}
-              variant="overline"
-              text={dateDisplay}
-            />
-          </Box>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<TitleIcon color="primary" />}
+                variant="h6"
+                type = "title"
+                text={title.slice(0, 50) + "..."}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<DescriptionIcon color="info" />}
+                variant="body2"
+                type="description"
+                text={description.slice(0, 100) + "..."}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<LocationOnSharpIcon color="error" />}
+                variant="overline"
+                text={location}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<TerrainIcon color="error" />}
+                variant="overline"
+                text={state}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<WorkIcon color="error" />}
+                variant="overline"
+                text={area}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<ApartmentIcon color="error" />}
+                variant="overline"
+                text={company}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<AttachMoneySharpIcon color="error" />}
+                variant="overline"
+                text={salaryDisplay}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<ScheduleSharpIcon color="error" />}
+                variant="overline"
+                text={dateDisplay}
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Box>

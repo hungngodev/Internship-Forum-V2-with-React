@@ -26,10 +26,18 @@ export const action =
       return redirect(`/internships/${data.id}`);
     } catch (error) {
       toast.error(error?.response?.data?.messageError);
-      return error;
+      return redirect(".");
     }
   };
-
+export const loader = (queryClient) => async ({ params }) => {
+  try {
+    await customFetch.get("/internships/new");
+    return null;
+  } catch (error) {
+    toast.error(error?.response?.data?.messageError);
+    return redirect("..");
+  }
+}
 const AddInternshipState = {
   title: {
     type: "text",
@@ -80,14 +88,6 @@ const AddInternshipState = {
   },
 };
 const AddInternship = () => {
-  const {user} = useHomeLayoutContext();
-  const navigate = useNavigate();
-  useEffect (() => {
-    if (!user){
-      navigate("/login");
-      toast.warning("Please login to add a new internship");
-    }
-  },[])
   return (
     <CustomForm
       initialState={AddInternshipState}

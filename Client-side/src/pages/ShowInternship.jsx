@@ -1,33 +1,37 @@
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Box, Grid, Typography, Button, Stack } from "@mui/material";
+import AttachMoneySharpIcon from "@mui/icons-material/AttachMoneySharp";
+import DescriptionIcon from "@mui/icons-material/Description";
+import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import ScheduleSharpIcon from "@mui/icons-material/ScheduleSharp";
+import TerrainIcon from "@mui/icons-material/Terrain";
+import TitleIcon from "@mui/icons-material/Title";
+import WorkIcon from "@mui/icons-material/Work";
+import { Box, Grid, Stack, Typography } from "@mui/material";
+import Link from "@mui/material/Link";
 import { useQuery } from "@tanstack/react-query";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { Image } from "mui-image";
 import Carousel from "react-material-ui-carousel";
-import { redirect, useLoaderData } from "react-router-dom";
+import { Form, NavLink, redirect, useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
-import TitleIcon from "@mui/icons-material/Title";
-import DescriptionIcon from "@mui/icons-material/Description";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
-import WorkIcon from "@mui/icons-material/Work";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import AttachMoneySharpIcon from "@mui/icons-material/AttachMoneySharp";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import TerrainIcon from '@mui/icons-material/Terrain';
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import ScheduleSharpIcon from "@mui/icons-material/ScheduleSharp";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import { NavLink, Form } from "react-router-dom";
-import Link from "@mui/material/Link";
 day.extend(advancedFormat);
 
-import { ShowSingleMap, ReviewContainer, CreateReview } from "../components";
+import {
+  CreateReview,
+  DeleteButton,
+  EditButton,
+  ReviewContainer,
+  ShowSingleMap,
+} from "../components";
 import InternshipInfo from "../components/InternshipContainerComponents/InternshipInfo";
 import { customFetch } from "../utils";
 import { useHomeLayoutContext } from "./HomeLayout";
+import Font from "../utils/FontConfiguration";
 
 const SingleInternshipQuery = (id) => {
   return {
@@ -43,15 +47,18 @@ export const loader =
   (queryClient) =>
   async ({ params }) => {
     try {
+      const {data}= await customFetch.get("/e0dca1652c5245168699e24a57e3a8d8");
+      const {b3c44b59965a12148f4e3a12757d4e2bc}=data;
       await queryClient.ensureQueryData(SingleInternshipQuery(params.id));
-      return params.id;
+      return {id:params.id, d715c73521a31edead4500a14d5e391b: b3c44b59965a12148f4e3a12757d4e2bc };
     } catch (error) {
-      toast.error(error?.response?.data?.msg);
+      toast.error(error?.response?.data?.messageError);
       return redirect("/internships");
     }
   };
 const ShowInternship = () => {
-  const id = useLoaderData();
+  const data = useLoaderData();
+  const {id}=data;
   const { user, datauser } = useHomeLayoutContext();
   const SingleInternship = useQuery(SingleInternshipQuery(id)).data.internship;
   const imageArray = [
@@ -70,148 +77,183 @@ const ShowInternship = () => {
     author,
     reviews,
     link,
-    state
+    state,
   } = SingleInternship;
   const reviews2 = reviews.slice().reverse();
   let salaryDisplay = salary ? salary + "/h" : "Unspecified Pay";
   let dateDisplay = day(lastModified).format("MMM Do, YYYY");
   return (
     <Box display="flex" alignItems="center" flexDirection="column">
-      <Grid container alignItems="start" justifyContent="center">
-        <Grid item xs={12} md={6}>
-          <Carousel
-            NextIcon={<ArrowForwardIosIcon />}
-            PrevIcon={<ArrowBackIosNewIcon />}
-            interval={10000}
-            animation="slide"
-            duration={1000}
-            navButtonsAlwaysVisible={true}
-            cycleNavigation={true}
-            // IndicatorIcon={<AdjustIcon/>}
-          >
-            {imageArray.map((item, i) => (
-              <Image
-                src={item}
-                key={i}
-                alt={SingleInternship.title}
-                height="30rem"
-                width="100%"
+      <Grid container alignItems="start" justifyContent="center" spacing={1}>
+        <Grid item container xs={12} md={6} rowSpacing={2}>
+          <Grid item xs={12}>
+            <Carousel
+              NextIcon={<ArrowForwardIosIcon />}
+              PrevIcon={<ArrowBackIosNewIcon />}
+              interval={10000}
+              animation="slide"
+              duration={1000}
+              navButtonsAlwaysVisible={true}
+              cycleNavigation={true}
+              indicators={false}
+              // IndicatorIcon={<AdjustIcon/>}
+            >
+              {imageArray.map((item, i) => (
+                <Image
+                  src={item}
+                  key={i}
+                  alt={SingleInternship.title}
+                  height="30rem"
+                  width="100%"
+                />
+              ))}
+            </Carousel>
+          </Grid>
+
+          <Grid item xs={12} container spacing={1}>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<TitleIcon color="primary" />}
+                variant="h4"
+                type="title"
+                text={title}
               />
-            ))}
-          </Carousel>
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-evenly"
-          >
-            <InternshipInfo icon={<TitleIcon />} variant="h6" text={title} />
-            <InternshipInfo
-              icon={<DescriptionIcon />}
-              variant="subtitle1"
-              text={description}
-            />
-            <InternshipInfo
-              icon={<LocationOnSharpIcon />}
-              variant="overline"
-              text={location}
-            />
-            <InternshipInfo
-              icon={<TerrainIcon/>}
-              variant="overline"
-              text={state}
-            />
-            <InternshipInfo
-              icon={<WorkIcon />}
-              variant="overline"
-              text={area}
-            />
-            <InternshipInfo
-              icon={<ApartmentIcon />}
-              variant="overline"
-              text={company}
-            />
-            <InternshipInfo
-              icon={<AttachMoneySharpIcon />}
-              variant="overline"
-              text={salaryDisplay}
-            />
-            <InternshipInfo
-              icon={<ScheduleSharpIcon />}
-              variant="overline"
-              text={dateDisplay}
-            />
-            <InternshipInfo
-              icon={<OpenInNewIcon />}
-              variant="overline"
-              text={
-                <Link href={link} color="inherit">
-                  Link To the Internship
-                </Link>
-              }
-            />
-            <InternshipInfo
-              icon={<AccountBoxIcon />}
-              variant="overline"
-              text={
-                <NavLink
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<LocationOnSharpIcon color="error" />}
+                variant="h6"
+                text={location}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<TerrainIcon color="error" />}
+                variant="h6"
+                text={state}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<WorkIcon color="error" />}
+                variant="h6"
+                text={area}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<ApartmentIcon color="error" />}
+                variant="h6"
+                text={company}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<AttachMoneySharpIcon color="error" />}
+                variant="h6"
+                text={salaryDisplay}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<ScheduleSharpIcon color="error" />}
+                variant="h6"
+                text={dateDisplay}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<AccountBoxIcon color="error" />}
+                variant="h6"
+                type="link"
+                text={
+                  <NavLink
                   to={`/profile/${author._id}`}
-                  style={{
-                    backgroundColor: "transparent",
-                    color: "fff",
-                    textDecoration: "none",
-                  }}
+                    style={{
+                      backgroundColor: "transparent",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {author.username}
+                  </NavLink>
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InternshipInfo
+                icon={<OpenInNewIcon color="error" />}
+                variant="h6"
+                text={
+                  <Link href={link} sx={{color:"info.main"}}>
+                      Link to apply
+                  </Link>
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InternshipInfo
+                icon={<DescriptionIcon color="secondary" />}
+                variant="h6"
+                type="description"
+                text={description}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              {user && datauser._id == author._id && (
+                <Stack direction="row" spacing={2}>
+                  <Form method="post" action={`./delete`}>
+                    <DeleteButton type="submit" />
+                  </Form>
+                  <NavLink
+                    to={`./edit`}
+                    style={{
+                      backgroundColor: "transparent",
+                      color: "fff",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <EditButton />
+                  </NavLink>
+                </Stack>
+              )}
+            </Grid>
+            <Grid item xs={12} justifyContent="center" display="flex">
+              {user ? (
+                <CreateReview internship={SingleInternship} action="./review" />
+              ) : (
+                <Typography
+                  variant="h4"
+                  color="secondary.main"
+                  fontFamily={Font.subtitle}
                 >
-                  Author: {author.username}
-                </NavLink>
-              }
-            />
-          </Box>
-          {user && datauser._id == author._id && (
-            <Stack direction="row" spacing={2}>
-              <Form method="post" action={`./delete`}>
-                <Button
-                  variant="outlined"
-                  type="submit"
-                  startIcon={<DeleteIcon />}
-                >
-                  Delete
-                </Button>
-              </Form>
-              <NavLink
-                to={`./edit`}
-                style={{
-                  backgroundColor: "transparent",
-                  color: "fff",
-                  textDecoration: "none",
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  type="submit"
-                  startIcon={<BorderColorIcon />}
-                >
-                  Edit
-                </Button>
-              </NavLink>
-            </Stack>
-          )}
-          {user ? (
-            <CreateReview internship={SingleInternship} action="./review" />
-          ) : (
-            <Typography variant="h4" color="initial">
-              Login to leave a review!
-            </Typography>
-          )}
+                  Login to leave a review!
+                </Typography>
+              )}
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <ShowSingleMap internship={SingleInternship} />
-          {SingleInternship.reviews.length > 0 ? (
-            <ReviewContainer reviews={reviews2} />
-          ) : (
-            <Typography variant="h4">
-              No Reviews Yet! Be the first one!
+        <Grid
+          item
+          xs={12}
+          md={6}
+          container
+          justifyContent="center"
+          display="flex"
+          rowSpacing={2}
+        >
+          <Grid item xs={12}>
+            <ShowSingleMap internship={SingleInternship} d8ba971ee917cbe15a969fb624b5b207={data.d715c73521a31edead4500a14d5e391b} />
+          </Grid>
+          <Grid item xs={12} justifyContent="center" display="flex">
+            <Typography variant="h4" color="third.main" fontFamily={Font.title}>
+              {SingleInternship.reviews.length == 0
+                ? "No Reviews Yet! Be the first one!"
+                : "Reviews of this Post"}
             </Typography>
-          )}
+          </Grid>
+          <Grid item xs={12}>
+            <ReviewContainer reviews={reviews2} />
+          </Grid>
         </Grid>
       </Grid>
     </Box>

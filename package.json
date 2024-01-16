@@ -17,6 +17,7 @@
   "dependencies": {
     "@azure/cognitiveservices-imagesearch": "^3.0.1",
     "@mapbox/mapbox-sdk": "^0.11.0",
+    "axios": "^1.6.5",
     "cloudinary": "^1.23.0",
     "concurrently": "^8.2.2",
     "connect-flash": "^0.1.1",
@@ -31,6 +32,7 @@
     "helmet": "^4.1.1",
     "http-status-codes": "^2.3.0",
     "https": "^1.0.0",
+    "image-validator": "^1.2.1",
     "is-url": "^1.2.4",
     "joi": "^17.11.0",
     "jquery-parallax.js": "^1.5.0",

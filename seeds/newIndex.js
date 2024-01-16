@@ -1,8 +1,7 @@
 import dotenv from 'dotenv';
-dotenv.config();
 
 if (process.env.NODE_ENV !== "production") {
-    dotenv.config();
+    dotenv.config();//remember if it does not work 
 }
 import mongoose from 'mongoose';
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding.js";
@@ -62,14 +61,14 @@ const seedDBInternship = async () => {
     await Review.deleteMany({});
     await db.dropCollection('sessions');
     for (let i = 0; i < userData.length; i++) {//
-        const { email, username, password } = userData[i];
-        const user = new User({ email, username });
+        const { email, username, password,description, location,phoneNumber,proNoun,image } = userData[i];
+        const user = new User({ email, username,description,location,phoneNumber,proNoun,image });
         const registeredUser = await User.register(user, password);
         userData[i].id = registeredUser._id;
     }
     for (let i = 0; i < internshipData.length; i++) {
-        const random = Math.floor(Math.random() * numberOfUsers);
         for (let j = 0; j < internshipData[i].location.length; j++) {
+            const random = Math.floor(Math.random() * numberOfUsers);
             try {
                 const reviews = internshipData[i].reviews;
                 const internshipReview = [];

@@ -18,6 +18,7 @@ import Chip from "@mui/material/Chip";
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
 import { toast } from "react-toastify";
+import Font from "../../utils/FontConfiguration";
 
 ChartJS.register(
   RadialLinearScale,
@@ -28,7 +29,7 @@ ChartJS.register(
   Legend
 );
 
-export default function RadarChart({ data }) {
+export default function RadarChart({ data,theme }) {
   const companies = data.keys;
   const fixedoptions = [];
   const [value, setValue] = React.useState([companies[0], companies[1]]);
@@ -91,9 +92,9 @@ export default function RadarChart({ data }) {
       backgroundColor: rainbowColors[index].backgroundColor,
       borderColor: rainbowColors[index].borderColor,
       pointBackgroundColor: rainbowColors[index].borderColor,
-      pointHoverBorderColor: "#000",
-      pointBorderColor: "#fff",
-      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: theme.palette.text.primary,
+      pointBorderColor: theme.palette.text.primary,
+      pointHoverBackgroundColor: theme.palette.text.primary,
       pointRadius: 10,
     })),
   };
@@ -106,49 +107,57 @@ export default function RadarChart({ data }) {
     scales: {
       r: {
         pointLabels: {
-          color: "#8BE9FD",
+          color: theme.palette.error.main,
           font: function (context) {
             var width = context.chart.width;
             var size = Math.round(width / 32);
             return {
               size: 0.8 * size,
-              family: "Georgia, serif",
+              family: Font.subtitle,
             };
           },
         },
         angleLines: {
-          color: "#50FA7B",
+          color: theme.palette.primary.main,
         },
         ticks: {
-
-          color: "#f9da42",
-          backdropColor: "#000",
+          color: theme.palette.text.primary,
+          backdropColor: "rgba(0, 0, 0, 0)",
+          font: function (context) {
+            var width = context.chart.width;
+            var size = Math.round(width / 32);
+            return {
+              size: 0.7* size,
+              family: Font.text,
+            };
+          },
         },
       },
     },
-    aspectRatio: 1.2,
+    aspectRatio: 1,
     responsive: true,
     plugins: {
       legend: {
         position: "top",
         align: " end",
-        padding: 100,
+        padding: 0,
         labels: {
-          color: "#F8F8F2",
+          color: theme.palette.third.main,
           font: function (context) {
             var width = context.chart.width;
             var size = Math.round(width / 32);
             return {
-              size: 0.8 * size,
-              family: "Georgia, serif",
+              size: 0.7 * size,
+              family: Font.text,
             };
           },
         },
       },
       title: {
         display: true,
-        text: "Comparison of two Companies",
-        color: "#00ff9f",
+        text: "Comparison of Companies",
+        color: theme.palette.primary.main,
+        family: "Playfair Display",
         font: function (context) {
           var width = context.chart.width;
           var size = Math.round(width / 32);
@@ -164,6 +173,11 @@ export default function RadarChart({ data }) {
         delay: 2000, // delay of 500 ms after the canvas is considered inside the viewport
       },
       tooltip: {
+        titleColor: theme.palette.error.main,
+        bodyColor: theme.palette.text.primary,
+        borderColor: theme.palette.success.main,
+        borderWidth:1,
+        backgroundColor: "rgba(0,0,0,0)",
         callbacks: {
           label: (tooltipItem, data) => {
             if (tooltipItem.dataIndex === 1) {

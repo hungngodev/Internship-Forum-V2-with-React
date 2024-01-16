@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-export default function LineChart({ data }) {
+export default function LineChart({ data,theme }) {
   const options = {
     aspectRatio: function (context) {
       var width = context.chart.width;
@@ -39,7 +39,7 @@ export default function LineChart({ data }) {
       legend: {
         position: "top",
         labels: {
-          color: "#F8F8F2",
+          color:theme.palette.third.main,
           font: {
             family: "Georgia, serif",
           },
@@ -48,7 +48,7 @@ export default function LineChart({ data }) {
       title: {
         display: true,
         text: (ctx) => "Line Chart based on Months of this Forum",
-        color: "#00ff9f",
+        color: theme.palette.primary.main,
         font: function (context) {
           var width = context.chart.width;
           var size = Math.round(width / 32);
@@ -59,10 +59,14 @@ export default function LineChart({ data }) {
         },
       },
       tooltip: {
+        titleColor: theme.palette.primary.main,
+        bodyColor: theme.palette.text.primary,
+        borderColor: theme.palette.success.main,
+        borderWidth:1,
+        backgroundColor: "rgba(0,0,0,0)",
         mode: "index",
         callbacks: {
           label: (tooltipItem, data) => {
-            console.log(tooltipItem);
             if (tooltipItem.datsetaIndex === 0) {
               return (
                 tooltipItem.dataset.label +
@@ -102,17 +106,17 @@ export default function LineChart({ data }) {
     scales: {
       x: {
         grid: {
-          tickColor: "#FF79C6",
+          tickColor: theme.palette.info.main,
         },
         ticks: {
-          color: "#8BE9FD",
+          color: theme.palette.error.main,
           font: {
             family: "Georgia, serif",
           },
         },
         title: {
           display: true,
-          color: "#00ff9f",
+          color: theme.palette.secondary.main,
           font: function (context) {
             var width = context.chart.width;
             var size = Math.round(width / 32);
@@ -169,14 +173,14 @@ export default function LineChart({ data }) {
       {
         label: "Number of Internships",
         data: number,
-        borderColor: "#fff",
+        borderColor: theme.palette.text.primary,
         backgroundColor: "#36a2eb",
         fill: true,
       },
       {
         label: "Average Salary",
         data: linesalary,
-        borderColor: "#fff",
+        borderColor: theme.palette.text.primary,
         backgroundColor: "#ff6484",
 
         fill: true,
@@ -184,14 +188,14 @@ export default function LineChart({ data }) {
       {
         label: "Average Rating",
         data: linerating,
-        borderColor: "#fff",
+        borderColor: theme.palette.text.primary,
         backgroundColor: "#4bc0c0 ",
         fill: true,
       },
       {
         label: "Best Month to Apply ranking",
         data: monthsrating,
-        borderColor: "#fff",
+        borderColor: theme.palette.text.primary,
         backgroundColor: "#ffcd56",
         fill: true,
       },

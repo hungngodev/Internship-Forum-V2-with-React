@@ -8,11 +8,11 @@ export const clusterLayer = {
     'circle-color': [
       'step',
       ['get', 'point_count'],
-      '#00BCD4',
+      '#ffa000',
       10,
-      '#2196F3',
+      '#7986cb',
       30,
-      '#3F51B5'
+      '#f44336'
     ],
     'circle-radius': [
       'step',
@@ -34,7 +34,7 @@ export const clusterCountLayer = {
   layout: {
     'text-field': '{point_count_abbreviated}',
     'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-    'text-size': 12
+    'text-size': 20
   }
 };
 
@@ -44,8 +44,8 @@ export const unclusteredPointLayer = {
   source: 'internships',
   filter: ['!', ['has', 'point_count']],
   paint: {
-    'circle-color': '#11b4da',
-    'circle-radius': 20,
+    'circle-color': '#ec407a',
+    'circle-radius': 10,
     'circle-stroke-width': 1,
     'circle-stroke-color': '#fff'
   }

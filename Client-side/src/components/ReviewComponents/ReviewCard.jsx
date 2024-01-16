@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import * as React from "react";
 
+import Font from "../../utils/FontConfiguration";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
@@ -27,7 +28,7 @@ const customIcons = {
     label: "Very Dissatisfied",
   },
   2: {
-    icon: <SentimentDissatisfiedIcon color="error" />,
+    icon: <SentimentDissatisfiedIcon color="third" />,
     label: "Dissatisfied",
   },
   3: {
@@ -39,7 +40,7 @@ const customIcons = {
     label: "Satisfied",
   },
   5: {
-    icon: <SentimentVerySatisfiedIcon color="success" />,
+    icon: <SentimentVerySatisfiedIcon color="primary" />,
     label: "Very Satisfied",
   },
 };
@@ -56,17 +57,16 @@ IconContainer.propTypes = {
 export default function ReviewCard({ review }) {
   const {rating, author, body} = review
   return (
-    <Card sx={{ width: "100%" }}>
+    <Card sx={{ width: "100%", background: "transparent"}}>
       <CardActions>
         <NavLink
           to={`/profile/${author._id}`}
           style={{
             backgroundColor: "transparent",
-            color: "fff",
             textDecoration: "none",
           }}
         >
-          <Typography variant="h6" >User: {review.author.username}
+          <Typography variant="h5" color="primary" fontFamily={Font.subtitle} >User: {review.author.username}
           </Typography>
         </NavLink>
       </CardActions>
@@ -80,7 +80,7 @@ export default function ReviewCard({ review }) {
           highlightSelectedOnly
           size="large"
         />
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" color="text.secondary" fontFamily={Font.text}>
           Review: {body}
         </Typography>
       </CardContent>

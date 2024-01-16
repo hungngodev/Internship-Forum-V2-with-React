@@ -9,6 +9,7 @@ import { useEffect, useRef } from "react";
 import Image from "mui-image";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import { useTheme } from "@mui/material/styles";
 
 import customFetch from "../utils/customFetch";
 import { CustomForm } from "../components";
@@ -17,25 +18,16 @@ import { internshipSchema } from "../../../schemas";
 import { Box, Typography } from "@mui/material";
 import { useHomeLayoutContext } from "./HomeLayout";
 
-export const SingleInternshipQuery = (id) => {
-  return {
-    queryKey: ["SingleInternship", id],
-    queryFn: async () => {
-      let requestData = await customFetch.get(`/internships/${id}`);
-      return requestData.data;
-    },
-  };
-};
 
 export const loader =
   (queryClient) =>
   async ({ params }) => {
     try {
-      await queryClient.ensureQueryData(SingleInternshipQuery(params.id));
-      return params.id;
+      const {data} = await customFetch.get(`/internships/${params.id}/edit`);
+      return data.internship
     } catch (error) {
-      toast.error(error?.response?.data?.msg);
-      return redirect("/internships");
+      toast.error(error?.response?.data?.messageError);
+      return redirect("..");
     }
   };
 
@@ -73,8 +65,8 @@ export const action =
   };
 
 const EditInternship = () => {
-  const id = useLoaderData();
-  const SingleInternship = useQuery(SingleInternshipQuery(id)).data.internship;
+  const theme = useTheme();
+  const SingleInternship = useLoaderData();
   const {
     title,
     description,
@@ -84,21 +76,10 @@ const EditInternship = () => {
     salary,
     link,
     lastModified,
-    author,
-    reviews,
     state,
     imagesURL,
     images,
   } = SingleInternship;
-  const { datauser,user } = useHomeLayoutContext();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!(user && datauser._id == author._id)) {
-      navigate("..");
-      toast.warn("You do not have permission to edit this internship");
-    }
-    console.log(datauser, author);
-  });
   const EditInternshipState = {
     title: {
       type: "text",
@@ -178,7 +159,8 @@ const EditInternship = () => {
                   if (imagesRef.current[i].style.border != "")
                     imagesRef.current[i].style.border = "";
                   else {
-                    imagesRef.current[i].style.border = "10px solid black";
+                    imagesRef.current[i].style.border = "20px solid";
+                    imagesRef.current[i].style.borderColor = theme.palette.primary.main;
                   }
                 }}
               >
@@ -211,7 +193,8 @@ const EditInternship = () => {
                   if (imagesURLRef.current[i].style.border != "")
                     imagesURLRef.current[i].style.border = "";
                   else {
-                    imagesURLRef.current[i].style.border = "10px solid black";
+                    imagesURLRef.current[i].style.border = "20px solid black";
+                    imagesURLRef.current[i].style.borderColor = theme.palette.text.primary;
                   }
                 }}
               >

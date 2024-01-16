@@ -18,21 +18,20 @@ const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 const index = async (req, res) => {
-    console.dir(req.query)
     let { search, sort, option, order, id } = req.query;
     search = search ? search : "";
     const queryObject = {}
     if (search) {
         // queryObject.$text = {$search: search}
-        if (option === "true") {
+        if (option === "true" || (option == "false" && search.length ==0)) {
             queryObject.$text = { $search: search }
         }
         else {
             queryObject.$or = [
-                { company: { $regex: search, $options: 'i' } },
-                { location: { $regex: search, $options: 'i' } },
-                { area: { $regex: search, $options: 'i' } },
-                { title: { $regex: search, $options: 'i' } }
+                { company: { $regex: /search/, $options: 'i' } },
+                { location: { $regex: /search/, $options: 'i' } },
+                { area: { $regex: /search/, $options: 'i' } },
+                { title: { $regex: /search/, $options: 'i' } }
             ]
         }
     }
@@ -60,7 +59,7 @@ const search = async (req, res) => {
 }
 
 const renderNewForm = (req, res) => {
-    res.json({ hihih })
+    res.status(StatusCodes.OK).json({ message: "Render the new form React side" });
 }
 
 const createInternship = async (req, res, next) => {
@@ -95,10 +94,9 @@ const renderEditForm = async (req, res) => {
     const { id } = req.params;
     const internship = await Internship.findById(id)
     if (!internship) {
-        req.flash('error', 'Cannot find that internship!');
-        return res.redirect('/internships');
-    }
-    res.render('internships/edit', { internship });
+        next(new ExpressError('Internship not found', 404))
+    };
+    res.status(StatusCodes.OK).json({ internship: internship });
 }
 
 const updateInternship = async (req, res) => {

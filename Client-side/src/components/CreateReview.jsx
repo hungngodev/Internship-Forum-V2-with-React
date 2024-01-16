@@ -22,7 +22,7 @@ export default function CreateReview({action}) {
       title="Create Review"
       Icon={<ReviewsIcon />}
       navInfo={{ text: "Back to internships", link: "/internships" }}
-      width= "30rem"
+      width= "35vw"
       action= {action}
     />
   );

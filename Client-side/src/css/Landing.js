@@ -4,11 +4,6 @@ const Wrapper = styled.section`
 html {
 	font-size: 20px;
 }
-.body2{
-  height: 100vh;
-  width: 100vw;
-  backgroudn-color: #000;
-}
 
 .Title {
   font-family: "Permanent Marker", cursive;
@@ -39,11 +34,11 @@ html {
 }
 
 .big-card {
-  -moz-transform: translate(0%,300%);
-  -webkit-transform: translate(0%,300%);
-  -o-transform: translate(0%,300%);
-  -ms-transform: translate(0%,300%);
-  transform: translate(0%,300%);
+  -moz-transform: translate(0%,500%);
+  -webkit-transform: translate(0%,500%);
+  -o-transform: translate(0%,500%);
+  -ms-transform: translate(0%,500%);
+  transform: translate(0%,500%);
   -webkit-transition: transform 1s cubic-bezier(.05, .43, .25, .95);
   -moz-transition: transform 1s cubic-bezier(.05, .43, .25, .95);
   -ms-transition: transform 1s cubic-bezier(.05, .43, .25, .95);
@@ -240,11 +235,11 @@ font-size: 10px;
 
 @media screen and (max-aspect-ratio: 1.3) {
   .big-card {
-    -moz-transform: translate(0%,600%);
-    -webkit-transform: translate(0%,600%);
-    -o-transform: translate(0%,600%);
-    -ms-transform: translate(0%,600%);
-    transform: translate(0%,600%);
+    -moz-transform: translate(0%,750%);
+    -webkit-transform: translate(0%,750%);
+    -o-transform: translate(0%,750%);
+    -ms-transform: translate(0%,750%);
+    transform: translate(0%,750%);
 
   }
 }

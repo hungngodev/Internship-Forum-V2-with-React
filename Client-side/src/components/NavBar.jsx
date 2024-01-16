@@ -13,22 +13,14 @@ import {
   useTheme,
 } from "@mui/material/styles";
 import * as React from "react";
-import { useState } from "react";
+import { useState,useEffect} from "react";
+import { useLocation } from "react-router-dom";
 
 import { useHomeLayoutContext } from "../pages/HomeLayout";
+import SwitchButton from "./SwitchButton";
 import "./NavBar.css";
-import {
-  HorizontalMenu,
-  MainComponent,
-  SideBar
-} from "./NavBarComponents";
-
-const theme2 = createTheme({
-  palette: {
-    primary: indigo,
-    secondary: purple,
-  },
-});
+import { HorizontalMenu, MainComponent, SideBar } from "./NavBarComponents";
+import { resetBodyStyle,titleObject, Palette} from "../utils";
 
 const drawerWidth = 240;
 
@@ -68,8 +60,8 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const NavBar = ({ main }) => {
-  let { Title } = useHomeLayoutContext();
+const NavBar = ({ main}) => {
+  let { setTheme, Theme } = useHomeLayoutContext();
 
   const [anchorEl1, setAnchorEl1] = useState(null);
   const [mobileMoreAnchorEl1, setMobileMoreAnchorEl1] = useState(null);
@@ -81,46 +73,75 @@ const NavBar = ({ main }) => {
     setOpen(true);
   };
 
+  const [mode, setMode] = React.useState("dark");
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+      },
+    }),
+    []
+  );
+
+  const ModeTheme = React.useMemo(
+    () =>
+      createTheme({
+        palette: Palette(mode),
+      }),
+    [mode]
+  );
+  const [Title, changeTitle] = useState("Home Page");
+  const location = useLocation();
+  useEffect(() => {
+    resetBodyStyle(location.pathname, Palette(mode).CustomBackGround);
+  }, [mode]);
+  useEffect(() => {
+    resetBodyStyle(location.pathname,  Palette(mode).CustomBackGround);
+    changeTitle(titleObject(location.pathname));
+  }, [location]);
+
   return (
-    <ThemeProvider theme={theme2}>
+    <ThemeProvider theme={ModeTheme}>
       <Box
         sx={{ flexGrow: 1, marginTop: 0, marginBottom: 0 }}
         position="static"
       >
-        <AppBar position="sticky" open={open}>
+        <AppBar
+          position="sticky"
+          open={open}
+          sx={{ width: "100%s" }}
+          color="navBar"
+          enableColorOnDark={false}
+        >
           <Toolbar>
-            <Grid container alignItems="center" >
-              <Grid item md={3}>
+            <Grid container alignItems="center">
+              <Grid item md={2}>
                 <IconButton
-                  color="inherit"
                   aria-label="open drawer"
                   onClick={handleDrawerOpen}
                   edge="start"
                   sx={{ mr: 2, ...(open && { display: "none" }) }}
                 >
-                  <MenuIcon />
+                  <MenuIcon sx={{color:"text.primary"}} />
                 </IconButton>
               </Grid>
-              {/* <Grid item md={3} >
-              <Typography
-                  variant="h6"
-                  noWrap
-                  component="div"
-                  sx={{ display: { xs: "none", sm: "block" } }}
-                >
-                  Internship Forum
-                </Typography>
-              </Grid> */}
-              <Grid item md={6} sx={{textAlign:'center'}}>
-              <Typography variant="h5">{Title}</Typography>
+              <Grid item md={1} sx={{ display: "flex", justifyContent: "end" }}>
+                <SwitchButton
+                  onChange={() => {
+                    colorMode.toggleColorMode();
+                  }}
+                />
               </Grid>
-              <Grid item md={3}sx= {{display:'flex', justifyContent: 'end'}}>
-              <HorizontalMenu
-              anchorEl={anchorEl1}
-              setAnchorEl={setAnchorEl1}
-              mobileMoreAnchorEl={mobileMoreAnchorEl1}
-              setMobileMoreAnchorEl={setMobileMoreAnchorEl1}
-            />
+              <Grid item md={6} sx={{ textAlign: "center" }}>
+                <Typography variant="h5" color="text.primary">{Title}</Typography>
+              </Grid>
+              <Grid item md={3} sx={{ display: "flex", justifyContent: "end" }}>
+                <HorizontalMenu
+                  anchorEl={anchorEl1}
+                  setAnchorEl={setAnchorEl1}
+                  mobileMoreAnchorEl={mobileMoreAnchorEl1}
+                  setMobileMoreAnchorEl={setMobileMoreAnchorEl1}
+                />
               </Grid>
             </Grid>
           </Toolbar>

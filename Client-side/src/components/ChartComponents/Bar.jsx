@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-export default function BarChart({ data, }) {
+export default function BarChart({ data ,theme }) {
   const chartRef = useRef();
   const [width, setWidth] = React.useState(0);
   const onClick = (event) => {
@@ -48,17 +48,17 @@ export default function BarChart({ data, }) {
     scales: {
       x: {
         grid: {
-          tickColor: "#FF79C6",
+          tickColor: theme.palette.info.main,
         },
         ticks: {
-          color: "#8BE9FD",
+          color: theme.palette.error.main,
           font: {
             family: "Georgia, serif",
           },
         },
         title: {
           display: true,
-          color: "#00ff9f",
+          color: theme.palette.secondary.main,
           font: function (context) {
             var width = context.chart.width;
             var size = Math.round(width / 32);
@@ -72,10 +72,10 @@ export default function BarChart({ data, }) {
       },
       y: {
         grid: {
-          tickColor: "#FF79C6",
+          tickColor: theme.palette.info.main,
         },
         ticks: {
-          color: "#8BE9FD",
+          color: theme.palette.error.main,
           font: {
             family: "Georgia, serif",
           },
@@ -86,7 +86,7 @@ export default function BarChart({ data, }) {
       legend: {
         position: "top",
         labels: {
-          color: "#F8F8F2",
+          color: theme.palette.third.main,
           font: {
             family: "Georgia, serif",
           },
@@ -94,7 +94,7 @@ export default function BarChart({ data, }) {
       },
       title: {
         display: true,
-        color: "#00ff9f",
+        color: theme.palette.primary.main,
         text: "Combo Bar Line Chart of this Forum",
         font: function (context) {
           var width = context.chart.width;
@@ -106,6 +106,11 @@ export default function BarChart({ data, }) {
         },
       },
       tooltip: {
+        titleColor: theme.palette.error.main,
+        bodyColor: theme.palette.text.primary,
+        borderColor: theme.palette.success.main,
+        borderWidth:1,
+        backgroundColor: "rgba(0,0,0,0)",
         callbacks: {
           label: (tooltipItem, data) => {
             if (tooltipItem.datasetIndex === 2) {
@@ -147,16 +152,25 @@ export default function BarChart({ data, }) {
       {
         label: "Average Salary",
         data: data.averagesalary,
+        backgroundColor: `rgba(${theme.palette.barColor.main},1)`,
+        borderColor: theme.palette.text.primary,
+        borderWidth:1,
       },
       {
         label: "Number of Internships",
         data: data.counts,
+        backgroundColor: `rgba(${theme.palette.barColor.light},1)`,
+        borderColor: theme.palette.text.primary,
+        borderWidth:1,
       },
       {
         label: "Average Rating",
         data: data.averageReview,
         type: "line",
+
+        borderColor: `rgba(${theme.palette.barColor.dark},1)`,
         order: 0,
+        borderWidth:2,
       },
     ],
   };

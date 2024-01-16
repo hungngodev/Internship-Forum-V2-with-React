@@ -1,9 +1,13 @@
-export {default as Navbar} from './NavBar';
+export {default as NavBar} from './NavBar';
 export {default as Footer} from './Footer';
 export {default as CustomForm} from './CustomForm';
-export {default as Theme} from './Palette';
 export {default as InternshipContainer} from './InternshipContainer';
 export {default as ClusterMap} from './ClusterMap';
 export {default as ShowSingleMap} from './ShowSingleMap';
 export {default as ReviewContainer} from './ReviewContainer';
 export {default as CreateReview} from './CreateReview';
+export {default as DeleteButton} from './DeleteButton';
+export {default as EditButton} from './EditButton';
+export {default as SwitchButton} from './SwitchButton';
+export {default as UserInfoPage} from './UserInfoPage';
+export {default as Loading} from './Loading';

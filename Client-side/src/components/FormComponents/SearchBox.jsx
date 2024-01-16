@@ -10,16 +10,15 @@ import { FormSelect } from "../FormComponents";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.primary.dark, 1),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.primary.light, 1),
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "50%",
+
+    height: "100%",
+    width: "100%",
   },
 }));
 
@@ -34,7 +33,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
+  color: "#fef7de",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -42,13 +41,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "20ch",
+      width: "80%",
     },
   },
 }));
 
-const SearchBox = ({searchValues}) => {
-  const { search, sort, option ,order} = searchValues;
+const SearchBox = ({ searchValues }) => {
+  const { search, sort, option, order } = searchValues;
   const submit = useSubmit();
 
   const debounce = (onChange) => {
@@ -62,33 +61,41 @@ const SearchBox = ({searchValues}) => {
     };
   };
 
-  const OnChangeSelect=(e)=>{
-    submit(e.currentTarget.form)
-  }
+  const OnChangeSelect = (e) => {
+    submit(e.currentTarget.form);
+  };
 
   const Sort = [
     ["Date", "lastModified"],
     ["Salary", "salary"],
     ["Location", "location"],
-    ["Rating", "rating"]
+    ["Rating", "rating"],
   ];
-  
+
   const Options = [
     ["Relevant", false],
     ["Exactly", true],
   ];
-  const Order=[
+  const Order = [
     ["Ascending", "asc"],
-    ["Descending", "desc"]
-  ]
-  
+    ["Descending", "desc"],
+  ];
+
   return (
     <Form>
-      <Grid container alignItems="center" sx={{width : "100vw"}}>
-        <Grid item md={6}>
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="center"
+        display="flex"
+        sx={{ width: "90vw" }}
+        rowSpacing={3}
+        columnSpacing={4}
+      >
+        <Grid item xs={12} md={3}>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon color="secondary" />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
@@ -99,20 +106,43 @@ const SearchBox = ({searchValues}) => {
                 id: "search",
                 type: "text",
               }}
-              onChange= {debounce((form) => {
+              required
+              onChange={debounce((form) => {
                 submit(form);
               })}
+              fullWidth
             />
           </Search>
         </Grid>
-        <Grid item md={2} sx ={{width: "100%"}}>
-          <FormSelect  label="Sort by" name= "sort" options= {Sort} defaultValue={sort} onChange={OnChangeSelect} submit={submit} />
+        <Grid item xs={12} md={3} sx={{ width: "80%" }}>
+          <FormSelect
+            label="Sort by"
+            name="sort"
+            options={Sort}
+            defaultValue={sort}
+            onChange={OnChangeSelect}
+            submit={submit}
+          />
         </Grid>
-        <Grid item md={2} sx ={{width: "100%"}}>
-            <FormSelect  label="Search Accuracy" name= "option" options= {Options} defaultValue={option} onChange={OnChangeSelect} submit={submit} />
+        <Grid item  xs={12} md={3} sx={{ width: "80%" }}>
+          <FormSelect
+            label="Search Accuracy"
+            name="option"
+            options={Options}
+            defaultValue={option}
+            onChange={OnChangeSelect}
+            submit={submit}
+          />
         </Grid>
-        <Grid item md={2} sx ={{width: "100%"}}>
-            <FormSelect  label="Order" name= "order" options= {Order} defaultValue={order} onChange={OnChangeSelect} submit={submit} />
+        <Grid item xs={12} md={3} sx={{ width: "80%" }}>
+          <FormSelect
+            label="Order"
+            name="order"
+            options={Order}
+            defaultValue={order}
+            onChange={OnChangeSelect}
+            submit={submit}
+          />
         </Grid>
       </Grid>
     </Form>

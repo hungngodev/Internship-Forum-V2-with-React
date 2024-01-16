@@ -10,35 +10,31 @@ function Copyright() {
   return (
     <Typography>
       {"Copyright © "}
-        Hung Ngo  {new Date().getFullYear()}
+      Hung Ngo {new Date().getFullYear()}
       {"."}
     </Typography>
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
-
 export default function StickyFooter() {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box
-        component="footer"
-        sx={{
-          marginTop: "auto",
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor:"transparent",
-          opacity:1
-        }}
+    <Box
+      component="footer"
+      sx={{
+        marginTop: "auto",
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: "transparent",
+        opacity: 1,
+        color: "info.main",
+      }}
+    >
+      <Container
+        maxWidth="sm"
+        sx={{ display: "flex", justifyContent: "center" }}
       >
-        <Container
-          maxWidth="sm"
-          sx={{ display: "flex", justifyContent: "center" ,color: 'white'}}
-        >
-          <Copyright />
-        </Container>
-      </Box>
-    </ThemeProvider>
+        <Copyright />
+      </Container>
+    </Box>
   );
 }

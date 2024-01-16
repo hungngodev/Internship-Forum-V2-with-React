@@ -27,8 +27,13 @@ const createReview = async (req, res) => {
 const deleteReview = async (req, res) => {
     const { id, reviewId } = req.params;
     console.log(id, reviewId)
-    await Internship.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
+    try {
+        await Internship.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+        await Review.findByIdAndDelete(reviewId);
+    }
+    catch (e) {
+        throw new ExpressError('Invalid ID', 400)
+    }
     res.status(StatusCodes.OK).json({ msg: "Deleted" });
 }
 const reviews = {

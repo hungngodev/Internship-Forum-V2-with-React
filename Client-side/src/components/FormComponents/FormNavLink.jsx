@@ -4,14 +4,13 @@ import LinkIcon from "@mui/icons-material/Link";
 
 const FormNavLink = ({ link, text }) => {
   return (
-    <NavLink to={link}>
+    <NavLink to={link}  style={{textDecoration:'none'}}>
       <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
-        <LinkIcon size ="large"/>
-        <Typography variant="h5" color="inherit">
+        <LinkIcon size ="large" sx= {{color: "secondary.dark"}}/>
+        <Typography variant="h5" color="secondary" sx={{textDecoration:"none"}}>
           {text}
         </Typography>
-        <LinkIcon size ="large"/>
-      </Stack>
+        <LinkIcon size ="large" sx= {{color: "secondary.dark"}}/>      </Stack>
     </NavLink>
   );
 };

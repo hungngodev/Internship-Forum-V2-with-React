@@ -28,6 +28,7 @@ const FormSelect = ({label,name,options, defaultValue,errors,onChange,submit,req
           type: "text",
         }}
         onChange={onChange}
+          
       >
        {options.map((option)=>(
         <option key={option[0]} value={option[1]}>{option[0]}</option>

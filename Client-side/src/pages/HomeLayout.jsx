@@ -1,17 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import {
   Outlet,
   redirect,
-  useLocation,
-  useNavigate
+  useNavigate,
+  useNavigation
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import NavBar from "../components/NavBar.jsx";
+import { Loading, NavBar } from "../components";
 
-import { resetBodyStyle, titleObject } from "../utils";
 import customFetch from "../utils/customFetch";
 
 import "./HomeLayout.css";
@@ -35,22 +34,16 @@ export const loader = (queryClient) => async () => {
 const HomeLayoutContext = createContext();
 
 const HomeLayout = ({ queryClient }) => {
-
-  const datauser = useQuery(userQuery).data;
   const navigate = useNavigate();
-  const location = useLocation();
-  const [Title, changeTitle] = useState("Home Page");
   // const [isAuthError, setIsAuthError] = useState(false);
-  
-  const user = datauser? true : false;
+  const datauser = useQuery(userQuery).data;
+  const navigation = useNavigation();
+  const isPageLoading = navigation.state === "loading";
+  let user = datauser? true : false;
 
   useEffect(() => {
-    let path = location.pathname.includes("profile")? '/profile': location.pathname;
-    path = path.includes("internships/")? '/internships/': path;
+    user = datauser? true : false;
     queryClient.invalidateQueries(["user"]);
-    resetBodyStyle(path);
-    changeTitle(titleObject[path]);
-    console.log(datauser)
   }, [location]);
 
   const logOutUser = async () => {
@@ -87,11 +80,9 @@ const HomeLayout = ({ queryClient }) => {
         datauser,
         user,
         logOutUser,
-        Title,
-        changeTitle,
       }}
     >
-      <NavBar main={<Outlet />} />
+      <NavBar main={isPageLoading? <Loading/> : <Outlet />} />
     </HomeLayoutContext.Provider>
   );
 };

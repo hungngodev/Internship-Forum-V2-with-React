@@ -8,6 +8,7 @@ export {default as SearchBox} from './SearchBox';
 export {default as FormSelect} from './FormSelect';
 export {default as FormRating} from './FormRating';
 export {default as FormCheckBox} from './FormCheckBox';
+export {default as FormFile} from './FormFile';
 // export {default as FormError} from './FormError';
 // export {default as FormError} from './FormError';
 // export {default as FormError} from './FormError';

@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-dotenv.config();
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -27,8 +26,8 @@ import reviewRoutes from './routes/reviews.js';
 import statisticsRoutes from './routes/statistics.js';
 import ExpressError from './utils/ExpressError.js';
 
-const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
-const __dirname = path.dirname(__filename); // get the name of the directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); 
 const MongoDBStore = connectMongo(session);
 
 
@@ -47,14 +46,7 @@ db.once("open", () => {
     console.log("Database connected");
 });
 const app = express();
-
-app.engine('ejs', ejsMate)
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'))
-
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize({
     replaceWith: '_'
 }))
@@ -65,7 +57,7 @@ const store = new MongoDBStore({
     secret,
     touchAfter: 24 * 60 * 60
 });
-
+const a665c63a69a6491e9a7c88d53b82ced47= process.env.MAPBOX_TOKEN;
 store.on("error", function (e) {
     console.log("SESSION STORE ERROR", e)
 })
@@ -98,26 +90,17 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/', userRoutes);
-app.use('/internships', internshipRoutes)
-app.use('/internships/:id/reviews', reviewRoutes)
-app.use('/statistics', statisticsRoutes)
-
-
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/api', (req, res) => {
+    const user = req.user;
+    res.status(200).json(user);
 });
-
+app.get('/api/e0dca1652c5245168699e24a57e3a8d8',(req,res)=>{
+    res.status(200).json({"b3c44b59965a12148f4e3a12757d4e2bc": a665c63a69a6491e9a7c88d53b82ced47 })
+});
 app.use('/api', userRoutes);
 app.use('/api/internships', internshipRoutes)
 app.use('/api/internships/:id/reviews', reviewRoutes)
 app.use('/api/statistics', statisticsRoutes)
-
-
-app.get('/api', (req, res) => {
-    const user = req.user;
-    res.json(user);
-});
 
 app.post('/testing', (req, res) => {
     console.log(req.body)

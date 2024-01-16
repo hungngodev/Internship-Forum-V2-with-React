@@ -1,16 +1,20 @@
 import * as React from "react";
-import {Footer} from '..';
+import { useNavigation } from "react-router-dom";
+import { Footer } from "..";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CircularProgress from '@mui/material/CircularProgress';
 
-
-const MainComponent = ({open, main,drawerWidth,theme, Main}) => {
-
-    return <Main open= {open}>
-        {main}
-        <footer className="mt-5 ">
-            <Footer />
-        </footer>
-        </Main>
-}
+const MainComponent = ({ open, main, drawerWidth, theme, Main }) => {
+  const navigation = useNavigation();
+  const isPageLoading = navigation.state === "loading";
+  return (
+    <Main open={open}>
+      {main}
+      <footer className="mt-4 ">
+        <Footer />
+      </footer>
+    </Main>
+  );
+};
 
 export default MainComponent;

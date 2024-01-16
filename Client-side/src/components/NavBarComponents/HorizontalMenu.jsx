@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import * as React from "react";
 
 import { useHomeLayoutContext } from "../../pages/HomeLayout";
+import Typography from "@mui/material/Typography";
 
 const HorizontalMenu = ({
   anchorEl,
@@ -19,7 +20,7 @@ const HorizontalMenu = ({
   mobileMoreAnchorEl,
   setMobileMoreAnchorEl,
 }) => {
-  const {datauser, user, logOutUser } = useHomeLayoutContext();
+  const { datauser, user, logOutUser } = useHomeLayoutContext();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -58,18 +59,35 @@ const HorizontalMenu = ({
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <NavLink to= {`/profile/${datauser? datauser._id : ""}`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
-        <MenuItem onClick={handleMenuClose}>Your Posts</MenuItem>
+      <NavLink
+        to={`/profile/${datauser ? datauser._id : ""}`}
+        style={{ backgroundColor: "transparent", textDecoration: "none" }}
+      >
+        <MenuItem onClick={handleMenuClose}>
+          <Typography variant="subtitle" color="primary">
+            Your Posts
+          </Typography>
+        </MenuItem>
       </NavLink>
-      <NavLink  to= {`/setting`}  style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <NavLink
+        to={`/setting`}
+        style={{
+          backgroundColor: "transparent",
+          textDecoration: "none",
+        }}
+      >
+        <MenuItem onClick={handleMenuClose}>
+          <Typography variant="subtitle" color="secondary">
+            Account Setting
+          </Typography>
+        </MenuItem>
       </NavLink>
     </Menu>
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const MenuComponent = (
-    <div style={{display:'flex'}}>
+    <div style={{ display: "flex" }}>
       {user ? (
         <>
           <MenuItem>
@@ -77,10 +95,13 @@ const HorizontalMenu = ({
               onClick={logOutUser}
               size="large"
               aria-label="logout"
-              color="inherit"
+              sx={{ color: "text.primary" }}
             >
               <LogoutIcon />
-            <p style= {{textTransform: 'none', marginLeft: '1vw'}}>   LogOut</p>
+              <p style={{ textTransform: "none", marginLeft: "1vw" }}>
+                {" "}
+                LogOut
+              </p>
             </Button>
           </MenuItem>
           <MenuItem onClick={handleProfileMenuOpen}>
@@ -89,31 +110,36 @@ const HorizontalMenu = ({
               aria-label="account of current user"
               aria-controls="primary-search-account-menu"
               aria-haspopup="true"
-              color="inherit"
             >
-              <AccountCircle />
+              <AccountCircle color="text.primary" />
             </IconButton>
-            <p>Profile</p>
+            <Typography variant="subtitle" color="text.primary">
+              Profile
+            </Typography>
           </MenuItem>
         </>
       ) : (
         <>
-        <NavLink  to={'login'}   style={{textDecoration:'none'}}>
-        <MenuItem >
-            <IconButton size="large" aria-label="login" color="inherit">
-              <LoginIcon   sx={{ color: "#F8F8F2"}} />
-            </IconButton>
-            <p style= {{color: "#F8F8F2"}}>Login</p>
-          </MenuItem>
-        </NavLink>
-        <NavLink  to={'register'}   style={{textDecoration:'none'}}>
-          <MenuItem>
-            <IconButton size="large" aria-label="register" color="inherit">
-              <LoginIcon sx={{ color: "#F8F8F2"}} />
-            </IconButton>
-            <p style= {{color: "#F8F8F2"}}>Register</p>
-          </MenuItem>
-        </NavLink>
+          <NavLink to={"login"} style={{ textDecoration: "none" }}>
+            <MenuItem>
+              <IconButton size="large" aria-label="login" color="inherit">
+                <LoginIcon sx={{ color: "text.primary" }} />
+              </IconButton>
+              <Typography variant="subtitle" color="text.primary">
+                Login
+              </Typography>
+            </MenuItem>
+          </NavLink>
+          <NavLink to={"register"} style={{ textDecoration: "none" }}>
+            <MenuItem>
+              <IconButton size="large" aria-label="register" color="inherit">
+                <LoginIcon sx={{ color: "text.primary" }} />
+              </IconButton>
+              <Typography variant="subtitle" color="text.primary">
+                Register
+              </Typography>
+            </MenuItem>
+          </NavLink>
         </>
       )}
     </div>
@@ -139,7 +165,7 @@ const HorizontalMenu = ({
   );
   return (
     <>
-      <Box sx= {{display:'flex', justifyContent: 'end'}} >{MenuComponent}</Box>
+      <Box sx={{ display: "flex", justifyContent: "end" }}>{MenuComponent}</Box>
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <IconButton
           size="large"

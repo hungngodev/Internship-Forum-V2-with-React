@@ -56,9 +56,9 @@ const InternshipSchema = new Schema({
 
 
 InternshipSchema.virtual('properties.popUpMarkup').get(function () {
-    const {title, salary, company, images, imagesURL} = this;
+    const {title, salary, company, images, imagesURL,_id} = this;
     const urlImage = images.length? images[0].url : (imagesURL.length? imagesURL[[Math.floor(Math.random() * (5 - 1 + 1)) + 1]] :         "https://files.nc.gov/dhhs/styles/event_image/public/images/2023-04/Internship1.jpg?VersionId=wj4ZEZG.nM0C8BQ9a2PZLY0_Bk_PFjuC&itok=bFGXPWTV");
-    return {title,salary,company, urlImage};
+    return {title,salary,company, urlImage,_id};
 });
 
 

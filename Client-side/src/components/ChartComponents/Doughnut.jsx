@@ -5,7 +5,7 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function DoughnutChart({ data }) {
+export default function DoughnutChart({ data,theme }) {
   const backgroundColor1 = [
     "rgb(255, 0, 0)", // Red
     "rgb(255, 3, 33)",
@@ -54,6 +54,7 @@ export default function DoughnutChart({ data }) {
         label: "Number of Internships",
         data: data.data1,
         backgroundColor: backgroundColor1,
+        borderColor: theme.palette.text.primary,
       },
     ],
   };
@@ -67,10 +68,8 @@ export default function DoughnutChart({ data }) {
       ctx.save();
       const number = data.data1.length;
       ctx.textAlign = "center";
-      ctx.fillStyle = "#00ff9f";
-
+      ctx.fillStyle = theme.palette.secondary.main;
       let size = Math.round(width / 32);
-
       ctx.font = `bold ${0.4 * size + 12}px Arial`;
       ctx.fillText("#Internships: " + number, width / 2, height / 2 + top);
       ctx.restore();
@@ -80,13 +79,13 @@ export default function DoughnutChart({ data }) {
     aspectRatio: function (context) {
         var width = context.chart.width;
         if (width > 800) {
-            return 1.5
+            return 1.4
         }
         if (width <800 && width > 400) {
-            return 1.3
+            return 1
         }
         if (width < 400) {
-            return 1
+            return 0.8
         }
     },
     plugins: {
@@ -101,7 +100,7 @@ export default function DoughnutChart({ data }) {
         align: " end",
         padding: 100,
         labels: {
-          color: "#F8F8F2",
+          color: theme.palette.text.primary,
           font: function (context) {
             var width = context.chart.width;
             var size = Math.round(width / 35);
@@ -114,7 +113,7 @@ export default function DoughnutChart({ data }) {
       title: {
         display: true,
         text: "Doughnut Chart of this Forum",
-        color: "#00ff9f",
+        color: theme.palette.primary.main,
         font: function (context) {
           var width = context.chart.width;
           var size = Math.round(width / 32);
@@ -123,6 +122,13 @@ export default function DoughnutChart({ data }) {
             weight: "bold",
           };
         },
+      },
+      tooltip: {
+        titleColor: "#fff",
+        bodyColor: theme.palette.text.primary,
+        borderColor: theme.palette.success.main,
+        borderWidth:1,
+        backgroundColor: "rgba(1,1,1,0.5)",
       },
       deferred: {
         xOffset: 150, // defer until 150px of the canvas width are inside the viewport

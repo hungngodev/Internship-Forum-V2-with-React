@@ -1,40 +1,32 @@
+import Stack from "@mui/material/Stack";
 import * as React from "react";
 import { useRef, useState } from "react";
-import { createRoot } from "react-dom/client";
 import {
-  Map,
-  Source,
-  Layer,
-  Marker,
-  Popup,
-  NavigationControl,
   FullscreenControl,
-  ScaleControl,
   GeolocateControl,
+  Layer,
+  Map,
+  NavigationControl,
+  Popup,
+  ScaleControl,
+  Source,
 } from "react-map-gl";
-import { NavLink } from "react-router-dom";
-import Stack from "@mui/material/Stack";
-import { customFetch } from "../utils";
-
 
 import {
-  clusterLayer,
   clusterCountLayer,
+  clusterLayer,
   unclusteredPointLayer,
 } from "./MapComponents/layers";
 import MapCard from "./MapComponents/MapCard";
 
-const MAPBOX_TOKEN ="pk.eyJ1IjoiaHVuZ25nb2NzIiwiYSI6ImNscWZ4YjhwdTEzdnUyanBycTFkMzl4Y2oifQ.rnPCLhr8QSM5WMsN7pvg7g"; // Set your mapbox token here
-
-export default function ClusterMap({ internship, token }) {
-    
+export default function ClusterMap({ internship, c9db5c7a7d7755f4560c3f9fae9968b1 }) {
   const mapRef = useRef(null);
   const [popupInfo, setPopupInfo] = useState(null);
   const [pin, setPin] = useState(false);
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
-
+  const c13cfc645b73bd5a00ec181c30a56379= c9db5c7a7d7755f4560c3f9fae9968b1
   const geojson = {
     type: "FeatureCollection",
     crs: {
@@ -43,7 +35,6 @@ export default function ClusterMap({ internship, token }) {
     },
     features: [...internship],
   };
-
 
   const onClick = (event) => {
     const Clusterfeatures = mapRef.current.queryRenderedFeatures(event.point, {
@@ -55,17 +46,17 @@ export default function ClusterMap({ internship, token }) {
       const clusterId = Clusterfeature.properties.cluster_id;
 
       const mapboxSource = mapRef.current.getSource("internships");
-    //   mapboxSource.getClusterLeaves(clusterId, 100, 0,
-    //     function (err, leafFeatures) {
-    //       if (err) {
-    //         return console.error(
-    //           "error while getting leaves of a cluster",
-    //           err
-    //         );
-    //       }
-    //     console.log(leafFeatures)
-    //     }
-    //   );
+      //   mapboxSource.getClusterLeaves(clusterId, 100, 0,
+      //     function (err, leafFeatures) {
+      //       if (err) {
+      //         return console.error(
+      //           "error while getting leaves of a cluster",
+      //           err
+      //         );
+      //       }
+      //     console.log(leafFeatures)
+      //     }
+      //   );
       setPopupInfo(null);
       mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
         if (err) {
@@ -101,6 +92,7 @@ export default function ClusterMap({ internship, token }) {
         company: JSONdata.company,
         salary: JSONdata.salary,
         urlImage: JSONdata.urlImage,
+        id: JSONdata._id,
       });
     }
   };
@@ -117,7 +109,6 @@ export default function ClusterMap({ internship, token }) {
       { layers: ["unclustered-point"] }
     );
     if (UnClusterfeatures) {
-      console.log("heyeey");
     }
   };
 
@@ -129,9 +120,18 @@ export default function ClusterMap({ internship, token }) {
     setLng(mapRef.current.getCenter().lng.toFixed(4));
     setLat(mapRef.current.getCenter().lat.toFixed(4));
     setZoom(mapRef.current.getZoom().toFixed(2));
-    console.log("hey")
-
   };
+  // const onLoad = (e) => {
+  //   if (mapRef.current) {
+  //     const pinImage = new Image();
+  //     pinImage.onload = () => {
+  //       if (!mapRef.current.hasImage('pin')) {
+  //         mapRef.current.addImage('pin', pinImage, { sdf: true });
+  //       }
+  //     }
+  //     pinImage.src = pin; // pin is your svg import
+  //   }
+  // }
   return (
     <Stack>
       <div className="sidebar">
@@ -148,12 +148,13 @@ export default function ClusterMap({ internship, token }) {
           }}
           reuseMaps
           mapStyle="mapbox://styles/mapbox/streets-v12"
-          mapboxAccessToken={MAPBOX_TOKEN}
+          mapboxAccessToken={c13cfc645b73bd5a00ec181c30a56379}
           interactiveLayerIds={[clusterLayer.id]}
           onClick={onClick}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          onMove={onMove}
+          // onLoad={onLoad}
+          // onMove={onMove}
           ref={mapRef}
         >
           <GeolocateControl position="top-left" />
@@ -188,6 +189,7 @@ export default function ClusterMap({ internship, token }) {
                 urlImage={popupInfo.urlImage}
                 width={100}
                 height={80}
+                id={popupInfo.id}
               />
             </Popup>
           )}

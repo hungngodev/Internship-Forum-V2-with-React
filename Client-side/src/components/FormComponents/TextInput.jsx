@@ -2,16 +2,18 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PhotoIcon from "@mui/icons-material/Photo";
-import { Box, Stack, Typography } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import { Box, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
+import { styled } from "@mui/material/styles";
 import * as React from "react";
-import { MuiFileInput } from "mui-file-input";
-import CloseIcon from "@mui/icons-material/Close";
 
-import { FormRating, FormSelect, FormCheckBox } from "../FormComponents";
+import {
+  FormCheckBox,
+  FormFile,
+  FormRating,
+  FormSelect,
+} from "../FormComponents";
 
 const statesArray = [
   ["", ""],
@@ -77,7 +79,9 @@ const FormRow = ({
   width,
   specialType,
   defaultValue,
+  notRequired,
 }) => {
+
   const textInputModified = (
     <TextField
       margin="normal"
@@ -85,28 +89,22 @@ const FormRow = ({
       error={errors ? true : false}
       helperText={errors ? errors : null}
       InputProps={
+      
         specialType == "currency"
-          ? {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <MonetizationOnIcon />
-                </InputAdornment>
-              ),
-            }
-          : specialType == "file"
-          ? {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AddPhotoAlternateIcon />
-                </InputAdornment>
-              ),
-              multiple: "true",
-            }
-          : null
+        ? {
+            startAdornment: (
+              <InputAdornment position="start">
+                <MonetizationOnIcon />
+              </InputAdornment>
+            ),
+          }
+        : {
+        }
+      
       }
       multiline={specialType == "textarea" ? true : false}
       rows={4}
-      required
+      required={!notRequired}
       onChange={handleSave}
       fullWidth={true}
       name={name}
@@ -132,7 +130,7 @@ const FormRow = ({
   const checkBoxModified = (
     <FormCheckBox
       LabelComponent={
-        <Typography variant="subtitle1" color="inherit">
+        <Typography variant="subtitle1" color="text.primary">
           Do you want to generate AI Images? Check the box
         </Typography>
       }
@@ -143,47 +141,12 @@ const FormRow = ({
     />
   );
 
-  const [file, setFile] = React.useState(null);
-
-  const handleChange = (newFile) => {
-    setFile(newFile);
-  };
-
-  const fileUpload = (
-    <MuiFileInput
-      placeholder="Upload Your Image: PNG, JPG and JPEG only"
-      value={file}
-      fullWidth={true}
-      onChange={(newFile) => {
-        setFile(newFile);
-      }}
-      label={name.charAt(0).toUpperCase() + name.slice(1)}
-      getInputText={(value) => {
-        return value ? value.name + "   Thanks!" : "";
-      }}
-      name="image"
-      InputProps={{
-        inputProps: {
-          accept: ".png,.jpg,.jpeg",
-        },
-        startAdornment: (
-          <InputAdornment position="start">
-            <AddPhotoAlternateIcon />
-          </InputAdornment>
-        ),
-      }}
-      clearIconButtonProps={{
-        title: "Remove",
-        children: <CloseIcon fontSize="small" />,
-      }}
-    />
-  );
+  const fileUpload = <FormFile name={name} inputName={name} />;
 
   return (
     <Box
       sx={{
-        backgroundColor: "white",
-        color: "white",
+        background: "transparent",
         textAlign: "center",
         minWidth: width,
       }}

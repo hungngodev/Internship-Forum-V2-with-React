@@ -13,3 +13,8 @@ create Hovereffect for image
 queryClient
 toast customization
 change the mapbox key
+the link 
+the author 
+the author link
+fixing the login button
+delete unuse route

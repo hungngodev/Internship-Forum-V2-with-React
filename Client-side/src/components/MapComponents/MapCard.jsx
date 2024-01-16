@@ -17,6 +17,8 @@ export default function MultiActionAreaCard({
   urlImage,
   height,
   width,
+  link,
+  id
 }) {
   let salaryDisplay = salary ? salary : "Unspecified Pay";
   return (
@@ -29,7 +31,7 @@ export default function MultiActionAreaCard({
           alt={company}
         />
         <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography gutterBottom variant="h6" component="div" color = "primary">
             {title}
           </Typography>
           <InternshipInfo
@@ -45,8 +47,8 @@ export default function MultiActionAreaCard({
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <NavLink to="/login">
-        See more
+      <NavLink to={`/internships/${id}`}>
+        <Typography variant="h5" color="info.main">See more</Typography>
       </NavLink>
       </CardActions>
     </Card>

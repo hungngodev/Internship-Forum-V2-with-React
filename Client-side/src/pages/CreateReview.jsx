@@ -1,6 +1,7 @@
-import { toast } from "react-toastify";
-import customFetch from "../utils/customFetch";
 import { redirect } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import customFetch from "../utils/customFetch";
 
 export const action =
   (queryClient) =>
@@ -13,8 +14,8 @@ export const action =
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      queryClient.invalidateQueries(["SingleInternship"]);
-      toast.info('Reviews Created!', {
+      queryClient.invalidateQueries(["SingleInternship", params.id]);
+      toast.info("Reviews Created!", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -23,10 +24,13 @@ export const action =
         draggable: true,
         progress: undefined,
         theme: "colored",
-        });
+      });
       return redirect("..");
-    } catch (error) {
-      console.log(error);
+    } catch (error) { 
+      toast.error(error?.response?.data?.messageError);
       return redirect("..");
     }
   };
+
+export default function CreateReview() {
+}

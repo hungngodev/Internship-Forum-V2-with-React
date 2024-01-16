@@ -15,6 +15,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { NavLink } from "react-router-dom";
+import Typography from '@mui/material/Typography'
 
 
 const SideBar = ({ open, setOpen, drawerWidth, theme }) => {
@@ -30,12 +31,12 @@ const SideBar = ({ open, setOpen, drawerWidth, theme }) => {
     setOpen(false);
   };
   const menuItems = [
-    { name: "Home", icon: <HomeIcon />, path: "" },
-    { name: "Internships", icon: <AllInboxIcon />, path: "internships" },
-    { name: "Statistics", icon: <AutoGraphIcon />, path: "statistics" },
+    { name: "Home", icon: <HomeIcon color="BarIcon"/>, path: "" },
+    { name: "Internships", icon: <AllInboxIcon color="BarIcon"/>, path: "internships" },
+    { name: "Statistics", icon: <AutoGraphIcon color="BarIcon"/>, path: "statistics" },
     {
       name: "New Internship",
-      icon: <CreateNewFolderIcon />,
+      icon: <CreateNewFolderIcon color="BarIcon"/>,
       path: "internships/new",
     },
   ];
@@ -49,7 +50,7 @@ const SideBar = ({ open, setOpen, drawerWidth, theme }) => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            backgroundColor: "#6272A4",
+            backgroundColor: "sideBar.main",
           },
         }}
         variant="persistent"
@@ -70,16 +71,14 @@ const SideBar = ({ open, setOpen, drawerWidth, theme }) => {
             const { path, name, icon } = obj;
             return (
               <ListItem key={name}>
-                <NavLink to={path}   style={{backgroundColor:'transparent', color:'fff',textDecoration:'none'}}>
+                <NavLink to={path}   style={{backgroundColor:'transparent', color: "text.primary",textDecoration:'none'}}>
                   <ListItemButton
-                    sx={{ color: "#F8F8F2"}}
                   >
-                    <ListItemIcon sx={{ color: "#FF79C6" }}>
+                    <ListItemIcon>
                       {icon}
                     </ListItemIcon>
                     <ListItemText
-                      sx={{ color: "#F8F8F2"}}
-                      primary={name}
+                      primary={<Typography variant="body1" color="text.primary" >{name}</Typography>}
                     />
                   </ListItemButton>
                 </NavLink>

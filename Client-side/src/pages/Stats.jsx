@@ -1,16 +1,13 @@
-import { toast } from "react-toastify";
-import customFetch from "../utils/customFetch";
-import { useLoaderData } from "react-router-dom";
-import { useContext, createContext, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import Tab from "@mui/material/Tab";
+import { useTheme } from "@mui/material/styles";
 import { Box, Stack } from "@mui/system";
-import { Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import customFetch from "../utils/customFetch";
 
-import { InternshipContainer, ClusterMap } from "../components";
-import { resetBodyStyle } from "../utils";
-import { useHomeLayoutContext } from "./HomeLayout";
-import { SearchBox } from "../components/FormComponents";
-import Wrapper from "../css/AllInternships.js";
 import {
   Bar,
   Doughnut,
@@ -37,13 +34,37 @@ export const loader =
 
 export default function Stats() {
   const data = useQuery(statisticQuery()).data;
-  console.log(data);
+  const theme = useTheme();
+  const [value, setValue] = useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <Stack direction="column" alignItems="center">
-      <Radar data={data.radar} />
-      <Bar data={data.bar} />
-      <Doughnut data={data.doughnut} />
-      <LineStacked data={data.line} />
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider", width:"100%", display:"flex", justifyContent:"center" }}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <Tab label="Radar" value="1" />
+            <Tab label="Bar" value="2" />
+            <Tab label="LineStacked" value="3" />
+            <Tab label="Doughnut" value="4" />
+          </TabList>
+        </Box>
+        <TabPanel sx={{width:"70%"}} value="1">
+          <Radar data={data.radar} theme={theme} />
+        </TabPanel>
+        <TabPanel sx={{width:"100%"}} value="2">
+          <Bar data={data.bar} theme={theme} />
+        </TabPanel>
+        <TabPanel sx={{width:"100%"}} value="3">
+          <LineStacked data={data.line} theme={theme} />
+        </TabPanel>
+        <TabPanel sx={{width:"100%", display:"flex", justifyContent:"center"}}  value="4">
+          <Doughnut data={data.doughnut} theme={theme} />{" "}
+        </TabPanel>
+      </TabContext>
     </Stack>
   );
 }

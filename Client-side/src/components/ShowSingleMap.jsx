@@ -24,25 +24,22 @@ import {
 import MapCard from "./MapComponents/MapCard";
 import Wrapper from "../css/AllInternships";
 
-
-const MAPBOX_TOKEN =
-  "pk.eyJ1IjoiaHVuZ25nb2NzIiwiYSI6ImNscWZ4YjhwdTEzdnUyanBycTFkMzl4Y2oifQ.rnPCLhr8QSM5WMsN7pvg7g"; // Set your mapbox token here
-
-export default function ShowSingleMap({ internship }) {
+export default function ShowSingleMap({ internship,d8ba971ee917cbe15a969fb624b5b207 }) {
   const longtitude = Number(internship.geometry.coordinates[0]);
   const latitude = Number(internship.geometry.coordinates[1]);
   const { title, company, salary, imagesURL } = internship;
 
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+  const fb6f121648eed99bc9bcd4bcece99962 = d8ba971ee917cbe15a969fb624b5b207;
   const popup = useMemo(() => {
     return new mapboxgl.Popup({ offset: 25 }).setHTML(
         `  <h1>${title.slice(0, 50)}... at ${company}</h1>
-    <img src=${imagesURL[0]} width="100%" height="30%"/>`);
+    <img src=${imagesURL[0]} width="100%" height="20%"/>`);
   });
   const togglePopup = useCallback(() => {
     // markerRef.current?.togglePopup();
-    console.log(markerRef.current.togglePopup);
+    // console.log(markerRef.current.togglePopup);
   }, []);
 
   return (
@@ -56,7 +53,7 @@ export default function ShowSingleMap({ internship }) {
           }}
           reuseMaps
           mapStyle="mapbox://styles/mapbox/streets-v12"
-          mapboxAccessToken={MAPBOX_TOKEN}
+          mapboxAccessToken={fb6f121648eed99bc9bcd4bcece99962}
           ref={mapRef}
         >
           <GeolocateControl position="top-left" />

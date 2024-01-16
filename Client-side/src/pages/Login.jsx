@@ -1,13 +1,12 @@
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import { Box } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import * as React from "react";
 import { redirect } from "react-router-dom";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import { toast } from "react-toastify";
-import { Box } from "@mui/material";
 
 import { LogInSchema } from "../../../schemas.js";
 import { CustomForm } from "../components";
-import Wrapper from "../css/Login.js";
 import customFetch from "../utils/customFetch";
 
 export const action =
@@ -26,13 +25,20 @@ export const action =
       toast(`Welcome back ${data.username}`);
       return redirect("/internships");
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.messageError);
       return redirect("/login");
     }
   };
 
-const defaultTheme = createTheme({});
+export const loader = (queryClient) => async () => {
+  try {
+    await customFetch.get("/login");
+    return null;
+  } catch (error) {
+    toast.error(error?.response?.data?.messageError);
+    return redirect("/internships");
+  }
+};
 
 const LoginState = {
   username: {
@@ -46,20 +52,17 @@ const LoginState = {
 };
 export default function Login() {
   return (
-    <Wrapper>
-      <Box
-      >
-        <CustomForm
-          initialState={LoginState}
-          Schema={LogInSchema}
-          title="Sign In"
-          Icon={<VpnKeyIcon />}
-          navInfo={{
-            text: "Don't have an account? Sign Up",
-            link: "/register",
-          }}
-        />
-      </Box>
-    </Wrapper>
+    <Box>
+      <CustomForm
+        initialState={LoginState}
+        Schema={LogInSchema}
+        title="Sign In"
+        Icon={<VpnKeyIcon />}
+        navInfo={{
+          text: "Don't have an account? Sign Up",
+          link: "/register",
+        }}
+      />
+    </Box>
   );
 }
