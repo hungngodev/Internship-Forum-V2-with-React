@@ -12,6 +12,7 @@ import {
   MouseParallaxChild,
   MouseParallaxContainer,
 } from "react-parallax-mouse";
+import { ScrollParallax } from "react-just-parallax";
 
 import Font from "../utils/FontConfiguration";
 
@@ -54,11 +55,11 @@ const InternshipContainer = ({ internshipData }) => {
         <Grid item xs={12}>
           <Grid
             container
-            rowSpacing={1}
+            rowSpacing={4}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
             {internships.slice(prev, next).map((internship) => (
-              <Grid key={internship._id} item md={6} xxl={4}>
+              <Grid key={internship._id} item md={6} xxl={4} sx={{marginTop:"10vh"}}>
                 <NavLink
                   to={`/internships/${internship._id}`}
                   style={{
@@ -67,30 +68,32 @@ const InternshipContainer = ({ internshipData }) => {
                     textDecoration: "none",
                   }}
                 >
-                  <MouseParallaxContainer className="parallax" resetOnLeave>
-                    <MouseParallaxChild factorX={0.03} factorY={0.03}>
-                      <InternshipCard
-                        title={internship.title}
-                        salary={internship.salary}
-                        area={internship.area}
-                        description={internship.description}
-                        location={internship.location}
-                        state={internship.state}
-                        company={internship.company}
-                        link={internship.link}
-                        images={internship.images}
-                        imagesUrl={internship.imagesURL}
-                        lastModified={internship.lastModified}
-                        key={internship._id}
-                      />
-                    </MouseParallaxChild>
-                  </MouseParallaxContainer>
+                  <ScrollParallax shouldPause enableOnTouchDevice strength={0.14}>
+                    <MouseParallaxContainer className="parallax" resetOnLeave>
+                      <MouseParallaxChild factorX={0.03} factorY={0.03}>
+                        <InternshipCard
+                          title={internship.title}
+                          salary={internship.salary}
+                          area={internship.area}
+                          description={internship.description}
+                          location={internship.location}
+                          state={internship.state}
+                          company={internship.company}
+                          link={internship.link}
+                          images={internship.images}
+                          imagesUrl={internship.imagesURL}
+                          lastModified={internship.lastModified}
+                          key={internship._id}
+                        />
+                      </MouseParallaxChild>
+                    </MouseParallaxContainer>
+                  </ScrollParallax>
                 </NavLink>
               </Grid>
             ))}
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{marginTop:"2vh"}}>
           {count > 1 && (
             <Stack spacing={2} sx={{ zIndex: 10 }}>
               <Pagination

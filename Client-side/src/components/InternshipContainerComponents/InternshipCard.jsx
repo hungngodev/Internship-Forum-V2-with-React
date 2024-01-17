@@ -1,21 +1,18 @@
-import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from "react-icons/fa";
-import { Link, Form } from "react-router-dom";
-import { Image } from "mui-image";
-import { Box, Grid } from "@mui/material";
-import styled from "@mui/system/styled";
-import TitleIcon from "@mui/icons-material/Title";
-import DescriptionIcon from "@mui/icons-material/Description";
-import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
-import WorkIcon from "@mui/icons-material/Work";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import AttachMoneySharpIcon from "@mui/icons-material/AttachMoneySharp";
+import DescriptionIcon from "@mui/icons-material/Description";
+import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
 import ScheduleSharpIcon from "@mui/icons-material/ScheduleSharp";
 import TerrainIcon from "@mui/icons-material/Terrain";
+import TitleIcon from "@mui/icons-material/Title";
+import WorkIcon from "@mui/icons-material/Work";
+import { Box, Grid } from "@mui/material";
+import styled from "@mui/system/styled";
+import { Image } from "mui-image";
 
-import InternshipInfo from "./InternshipInfo";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
-import { Title } from "@mui/icons-material";
+import InternshipInfo from "./InternshipInfo";
 day.extend(advancedFormat);
 
 const Item = styled("div")(({ theme }) => ({
@@ -86,7 +83,7 @@ const InternshipCard = ({
               <InternshipInfo
                 icon={<TitleIcon color="primary" />}
                 variant="h6"
-                type = "title"
+                type="title"
                 text={title.slice(0, 50) + "..."}
               />
             </Grid>

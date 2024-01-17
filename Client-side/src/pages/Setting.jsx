@@ -117,6 +117,7 @@ export default function Setting() {
         justifyContent="center"
         alignItems="center"
         rowSpacing={3}
+        sx={{padding:"20px"}}
       >
         <Grid
           item
