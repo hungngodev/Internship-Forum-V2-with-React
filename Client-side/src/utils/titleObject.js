@@ -5,7 +5,7 @@ const a = (path) => {
 
   const pageTitles={
     "/": "Landing Nexus",
-    "/register": "Creation Haven",
+    "/register": "Creation Station",
     "/login": "Gateway of Entry",
     "/profile": "User Dashboard",
     "/setting": "Configuration Center",

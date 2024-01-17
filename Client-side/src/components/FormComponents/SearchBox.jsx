@@ -12,7 +12,7 @@ const Search = styled("div")(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.primary.dark, 1),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.primary.light, 1),
+    backgroundColor: alpha(theme.palette.primary.main, 0.5),
   },
   width: "100%",
   [theme.breakpoints.up("sm")]: {
@@ -57,7 +57,7 @@ const SearchBox = ({ searchValues }) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         onChange(form);
-      }, 1000);
+      }, 5000);
     };
   };
 
@@ -88,7 +88,7 @@ const SearchBox = ({ searchValues }) => {
         alignItems="center"
         justifyContent="center"
         display="flex"
-        sx={{ width: "90vw" }}
+        sx={{ maxWidth: "80vw", width:"70vw" }}
         rowSpacing={3}
         columnSpacing={4}
       >
@@ -114,7 +114,7 @@ const SearchBox = ({ searchValues }) => {
             />
           </Search>
         </Grid>
-        <Grid item xs={12} md={3} sx={{ width: "80%" }}>
+        <Grid item xs={12} md={3} >
           <FormSelect
             label="Sort by"
             name="sort"
@@ -124,7 +124,7 @@ const SearchBox = ({ searchValues }) => {
             submit={submit}
           />
         </Grid>
-        <Grid item  xs={12} md={3} sx={{ width: "80%" }}>
+        <Grid item  xs={12} md={3} >
           <FormSelect
             label="Search Accuracy"
             name="option"
@@ -134,7 +134,7 @@ const SearchBox = ({ searchValues }) => {
             submit={submit}
           />
         </Grid>
-        <Grid item xs={12} md={3} sx={{ width: "80%" }}>
+        <Grid item xs={12} md={3}>
           <FormSelect
             label="Order"
             name="order"

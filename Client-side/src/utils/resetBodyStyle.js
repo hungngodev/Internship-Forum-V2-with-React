@@ -8,7 +8,7 @@ export default function resetBodyStyle(path,color) {
   const LandingBodyConfig = {
     all: "unset",
     width: "100vw",
-    height: "200vh",
+    height: "100vh",
     backgroundImage:
       'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)), url("https://images.unsplash.com/photo-1476445704028-a36e0c798192?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
     backgroundSize: "fill",
@@ -53,6 +53,7 @@ export default function resetBodyStyle(path,color) {
   }
   const AllInternshipConfig = {
     all:"unset",
+    overflowX: "hidden",
     backgroundColor: color,
   }
 

@@ -5,57 +5,81 @@ import Badge from "@mui/material/Badge";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 
-import { EditButton } from "../components";
 import Font from "../utils/FontConfiguration";
 
-
-export default function UserInfoPage({image,email,username,description,location,phoneNumber,proNoun}){
-    return (
-        <Grid
+export default function UserInfoPage({
+  image,
+  email,
+  username,
+  description,
+  location,
+  phoneNumber,
+  proNoun,
+}) {
+  return (
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      rowSpacing={1}
+    >
+      <Grid
+        item
         container
+        rowSpacing={2}
         direction="column"
         justifyContent="center"
         alignItems="center"
-        rowSpacing={1}
+        sx={{ position: "static" }}
       >
-        <Grid item container rowSpacing={2} direction="column"
-        justifyContent="center"
-        alignItems="center">
-          <Badge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent={
-              <PhotoCameraIcon
-                sx={{
-                  padding: ".1rem",
-                  width: 35,
-                  height: 35,
-                }}
-                color="secondary"
-              ></PhotoCameraIcon>
-            }
-          >
-            <Avatar
+        <Badge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          badgeContent={
+            <PhotoCameraIcon
               sx={{
-                width: 200,
-                height: 200,
-                mb: 1.5,
-                border: "5px solid",
-                borderColor: "third.main",
+                padding: ".1rem",
+                width: 35,
+                height: 35,
               }}
-              src={image}
-            ></Avatar>
-          </Badge>
-          <Grid item xs={12}>
-            <Typography variant="h3" color="primary" fontWeight="bold">
-              {username}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography color="text.secondary" variant="h4" fontStyle="italic">-{email}-</Typography>
-          </Grid>
+              color="secondary"
+            ></PhotoCameraIcon>
+          }
+        >
+          <Avatar
+            sx={{
+              width: 200,
+              height: 200,
+              mb: 1.5,
+              border: "5px solid",
+              borderColor: "third.main",
+            }}
+            src={image}
+          ></Avatar>
+        </Badge>
+        <Grid item xs={12}>
+          <Typography variant="h3" color="primary" fontWeight="bold">
+            {username}
+          </Typography>
         </Grid>
-        <Grid container width="100%" rowSpacing={3} sx={{marginTop:"10px"}}>
+        <Grid item xs={12}>
+          <Typography color="text.secondary" variant="h4" fontStyle="italic">
+            -{email}-
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        width="100%"
+        rowSpacing={4}
+        sx={{ marginTop: "10px", position: "static" }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid container item xs={12}>
           <Grid item xs={6}>
             <Typography
               variant="h5"
@@ -65,7 +89,6 @@ export default function UserInfoPage({image,email,username,description,location,
               Location
             </Typography>
           </Grid>
-
           <Grid item xs={6} sx={{ textAlign: "end" }}>
             <Typography
               variant="h5"
@@ -75,7 +98,8 @@ export default function UserInfoPage({image,email,username,description,location,
               {location != "" ? location : "No location provided"}
             </Typography>
           </Grid>
-
+        </Grid>
+        <Grid container item xs={12}>
           <Grid item xs={6}>
             <Typography
               variant="h5"
@@ -85,17 +109,17 @@ export default function UserInfoPage({image,email,username,description,location,
               Phone Number
             </Typography>
           </Grid>
-
           <Grid item xs={6} sx={{ textAlign: "end" }}>
             <Typography
               variant="h5"
               color="secondary.main"
               fontFamily={Font.title}
             >
-              {phoneNumber != "" ? phoneNumber : "No phoneNumber provided"}{" "}
+              {phoneNumber != "" ? phoneNumber : "No phone number provided"}
             </Typography>
           </Grid>
-
+        </Grid>
+        <Grid container item xs={12}>
           <Grid item xs={6}>
             <Typography
               variant="h5"
@@ -105,7 +129,6 @@ export default function UserInfoPage({image,email,username,description,location,
               ProNoun
             </Typography>
           </Grid>
-
           <Grid item xs={6} sx={{ textAlign: "end" }}>
             <Typography
               variant="h5"
@@ -115,21 +138,19 @@ export default function UserInfoPage({image,email,username,description,location,
               {proNoun != "" ? proNoun : "No pronoun provided"}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Typography
-              variant="h5"
-              color="primary.main"
-              fontFamily={Font.title}
-            >
-              Description
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" color="text.primary">
-              {description != "" ? description : "No description provided"}
-            </Typography>
-          </Grid>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="h3" color="primary.main" fontFamily={Font.title}>
+            Description
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h6" color="text.primary">
+            {description != "" ? description : "No description provided"}
+          </Typography>
         </Grid>
       </Grid>
-    )
+    </Grid>
+  );
 }

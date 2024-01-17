@@ -122,7 +122,7 @@ const FormRow = ({
       errors={errors}
       onChange={handleSave}
       options={statesArray}
-      defaultValue={defaultValue}
+      value= {data}
       required={true}
     />
   );

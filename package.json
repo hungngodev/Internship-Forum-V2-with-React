@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd Client-side && npm run build",
     "start": "node app.js",
     "server": "npx nodemon app.js",
     "client": "npm run dev --prefix Client-side",

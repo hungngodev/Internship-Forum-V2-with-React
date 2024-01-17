@@ -42,9 +42,9 @@ export default function Stats() {
   };
 
   return (
-    <Stack direction="column" alignItems="center">
+    <Stack direction="column" alignItems="center" sx={{padding:"20px"}}>
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider", width:"100%", display:"flex", justifyContent:"center" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider", width:"100vw", display:"flex", justifyContent:"center" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Radar" value="1" />
             <Tab label="Bar" value="2" />

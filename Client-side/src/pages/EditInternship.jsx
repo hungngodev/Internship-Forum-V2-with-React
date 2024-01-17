@@ -1,30 +1,25 @@
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { Form, redirect } from "react-router-dom";
-import { toast } from "react-toastify";
-import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import EditIcon from "@mui/icons-material/Edit";
-import { useLoaderData } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
-import Image from "mui-image";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useTheme } from "@mui/material/styles";
+import Image from "mui-image";
+import { useRef, useState } from "react";
+import { redirect, useLoaderData } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import customFetch from "../utils/customFetch";
+import { Box, Grid, Typography, Button } from "@mui/material";
+import { internshipSchema } from "../../../schemas";
 import { CustomForm } from "../components";
 import { FormCheckBox } from "../components/FormComponents";
-import { internshipSchema } from "../../../schemas";
-import { Box, Typography } from "@mui/material";
-import { useHomeLayoutContext } from "./HomeLayout";
-
+import customFetch from "../utils/customFetch";
+import Font from "../utils/FontConfiguration";
 
 export const loader =
   (queryClient) =>
   async ({ params }) => {
     try {
-      const {data} = await customFetch.get(`/internships/${params.id}/edit`);
-      return data.internship
+      const { data } = await customFetch.get(`/internships/${params.id}/edit`);
+      return data.internship;
     } catch (error) {
       toast.error(error?.response?.data?.messageError);
       return redirect("..");
@@ -138,83 +133,137 @@ const EditInternship = () => {
     },
   };
   const imagesRef = useRef([]);
+  const deletingImageRef= useRef([]);
   const imagesURLRef = useRef([]);
+  const [checked, setChecked] = useState({});
+  const handleCheck = (event) => {
+    setChecked({ ...checked, [event.target.name]: event.target.checked });
+    if (event.target.checked){
+      deletingImageRef.current[event.target.name].style.border = "20px solid";
+      deletingImageRef.current[event.target.name].style.borderColor =theme.palette.primary.main;
+    }
+    else{
+      deletingImageRef.current[event.target.name].style.border = "";
+    }
+  };
   const ImageURl = (
-    <ImageList
-      sx={{ width: 1000, height: 450 }}
-      variant="masonary"
-      cols={3}
-      gap={2}
+    <Grid
+      container
+      display="flex"
+      alignItems="center"
+      flexDirection="column"
+      rowSpacing={4}
+      sx={{ marginTop: "10px", padding:"20px"}}
     >
-      {images.map((item, i) => (
-        <FormCheckBox
-          key={i}
-          LabelComponent={
-            <ImageListItem key={i}>
-              <Box
-                ref={(el) => {
-                  imagesRef.current[i] = el;
-                }}
-                onClick={(e) => {
-                  if (imagesRef.current[i].style.border != "")
-                    imagesRef.current[i].style.border = "";
-                  else {
-                    imagesRef.current[i].style.border = "20px solid";
-                    imagesRef.current[i].style.borderColor = theme.palette.primary.main;
-                  }
-                }}
-              >
-                <Image
-                  src={item.url}
-                  alt="Image Delete Selection"
-                  fit="contain"
-                  height="100%"
-                  width="100%"
-                />
-              </Box>
-            </ImageListItem>
+      <Grid item xs={12} display="flex" justifyContent="center">
+        <Typography variant="h5" color="info.light" fontFamily={Font.subtitle}>
+          Select Images to Delete
+        </Typography>
+      </Grid>
+      <Grid item xs={12} display="flex" justifyContent="center">
+        <ImageList
+          sx={{ width: 1000, height: 450 }}
+          variant="masonary"
+          cols={3}
+          gap={2}
+        >
+          {images.map((item, i) => {
+            const itemName = `imagesNotURL.` + i;
+            return (
+            <FormCheckBox
+              key={i}
+              checked={checked[itemName]}
+              onChange={handleCheck}
+              LabelComponent={
+                <ImageListItem key={i}>
+                  <Box
+                    ref={(el) => {
+                      deletingImageRef.current[itemName] = el;
+                    }}
+                  >
+                    <Image
+                      src={item.url}
+                      alt="Image Delete Selection"
+                      fit="contain"
+                      height="100%"
+                      width="100%"
+                    />
+                  </Box>
+                </ImageListItem>
+              }
+              value={item.filename}
+              name={itemName}
+              color="inherit"
+              display="none"
+            />
+          )})}
+          {imagesURL.map((item, i) => {
+            const item2Name= `imagesURL.` + i;
+            return (
+            <FormCheckBox
+              key={i + images.length}
+              checked={checked[item2Name]}
+              onChange={handleCheck}
+              LabelComponent={
+                <ImageListItem key={i}>
+                  <Box
+                    ref={(el) => {
+                      deletingImageRef.current[item2Name] = el;
+                    }}
+                    // onClick={(e) => {
+                    //   if (imagesURLRef.current[i].style.border != "")
+                    //     imagesURLRef.current[i].style.border = "";
+                    //   else {
+                    //     imagesURLRef.current[i].style.border =
+                    //       "20px solid black";
+                    //     imagesURLRef.current[i].style.borderColor =
+                    //       theme.palette.text.primary;
+                    //   }
+                    // }}
+                  >
+                    <Image
+                      src={item}
+                      alt="Image Delete Selection"
+                      fit="contain"
+                      height="100%"
+                      width="100%"
+                    />
+                  </Box>
+                </ImageListItem>
+              }
+              value={item}
+              name={item2Name}
+              color="inherit"
+              display="none"
+            />
+          )})}
+        </ImageList>
+      </Grid>
+
+      <Button
+        variant="outlined"
+        sx={{ width: "100%", marginTop: "10px" }}
+        color="error"
+        onClick={() => {
+          const newChecked = {};
+          for (let i=0; i< images.length; i++){
+            const name = `imagesNotURL.` + i;
+            newChecked[name]=true;
+            deletingImageRef.current[name].style.border = "20px solid";
+            deletingImageRef.current[name].style.borderColor =theme.palette.primary.main;
           }
-          value={item.filename}
-          name={`imagesNotURL.` + i}
-          color="inherit"
-          display="none"
-        />
-      ))}
-      {imagesURL.map((item, i) => (
-        <FormCheckBox
-          key={i}
-          LabelComponent={
-            <ImageListItem key={i}>
-              <Box
-                ref={(el) => {
-                  imagesURLRef.current[i] = el;
-                }}
-                onClick={(e) => {
-                  if (imagesURLRef.current[i].style.border != "")
-                    imagesURLRef.current[i].style.border = "";
-                  else {
-                    imagesURLRef.current[i].style.border = "20px solid black";
-                    imagesURLRef.current[i].style.borderColor = theme.palette.text.primary;
-                  }
-                }}
-              >
-                <Image
-                  src={item}
-                  alt="Image Delete Selection"
-                  fit="contain"
-                  height="100%"
-                  width="100%"
-                />
-              </Box>
-            </ImageListItem>
+          for (let i = 0; i < imagesURL.length; i++) {
+            const name = `imagesURL.` + i;
+            newChecked[name] = true;
+            deletingImageRef.current[name].style.border = "20px solid";
+            deletingImageRef.current[name].style.borderColor =theme.palette.primary.main;
           }
-          value={item}
-          name={`imagesURL.` + i}
-          color="inherit"
-          display="none"
-        />
-      ))}
-    </ImageList>
+          setChecked(newChecked);
+        }}
+      >
+        Delete All
+      </Button>
+    </Grid>
   );
   return (
     <>
@@ -230,7 +279,9 @@ const EditInternship = () => {
         encrypt={true}
         method="post"
         width="50vw"
-        OptionalFormComponent={ImageURl}
+        OptionalFormComponent={
+          images.length + imagesURL.length > 0 ? ImageURl : null
+        }
       />
     </>
   );

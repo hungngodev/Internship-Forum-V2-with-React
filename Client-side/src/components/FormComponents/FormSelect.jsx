@@ -9,7 +9,7 @@ import * as React from "react";
 import { Form, useSubmit } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 
-const FormSelect = ({label,name,options, defaultValue,errors,onChange,submit,require}) => {
+const FormSelect = ({label,name,options,value, defaultValue,errors,onChange,submit,require}) => {
   return (
     <FormControl sx={{ width: "100%"}} error= {errors ? true : false}>
       <InputLabel htmlFor={`selectLabelFor${name}`}>{label}</InputLabel>
@@ -17,16 +17,16 @@ const FormSelect = ({label,name,options, defaultValue,errors,onChange,submit,req
         native
         fullWidth
         required={require}
-        defaultValue={defaultValue}
+        value={value}
         id={`selectLabelFor${name}`}
         label="option"
         inputProps={{
           "aria-label": name,
           name: name,
-          defaultValue: defaultValue,
           id: name,
           type: "text",
         }}
+        defaultValue={defaultValue}
         onChange={onChange}
           
       >

@@ -47,10 +47,15 @@ export const loader =
   (queryClient) =>
   async ({ params }) => {
     try {
-      const {data}= await customFetch.get("/e0dca1652c5245168699e24a57e3a8d8");
-      const {b3c44b59965a12148f4e3a12757d4e2bc}=data;
+      const { data } = await customFetch.get(
+        "/e0dca1652c5245168699e24a57e3a8d8"
+      );
+      const { b3c44b59965a12148f4e3a12757d4e2bc } = data;
       await queryClient.ensureQueryData(SingleInternshipQuery(params.id));
-      return {id:params.id, d715c73521a31edead4500a14d5e391b: b3c44b59965a12148f4e3a12757d4e2bc };
+      return {
+        id: params.id,
+        d715c73521a31edead4500a14d5e391b: b3c44b59965a12148f4e3a12757d4e2bc,
+      };
     } catch (error) {
       toast.error(error?.response?.data?.messageError);
       return redirect("/internships");
@@ -58,7 +63,7 @@ export const loader =
   };
 const ShowInternship = () => {
   const data = useLoaderData();
-  const {id}=data;
+  const { id } = data;
   const { user, datauser } = useHomeLayoutContext();
   const SingleInternship = useQuery(SingleInternshipQuery(id)).data.internship;
   const imageArray = [
@@ -66,6 +71,10 @@ const ShowInternship = () => {
     ...SingleInternship.imagesURL,
     "https://files.nc.gov/dhhs/styles/event_image/public/images/2023-04/Internship1.jpg?VersionId=wj4ZEZG.nM0C8BQ9a2PZLY0_Bk_PFjuC&itok=bFGXPWTV",
   ];
+  const imagesTrue =
+    SingleInternship.images.length + SingleInternship.imagesURL.length > 0
+      ? true
+      : false;
   const {
     title,
     description,
@@ -83,13 +92,13 @@ const ShowInternship = () => {
   let salaryDisplay = salary ? salary + "/h" : "Unspecified Pay";
   let dateDisplay = day(lastModified).format("MMM Do, YYYY");
   return (
-    <Box display="flex" alignItems="center" flexDirection="column">
+    <Box display="flex" alignItems="center" flexDirection="column" sx={{padding: "20px"}}>
       <Grid container alignItems="start" justifyContent="center" spacing={1}>
         <Grid item container xs={12} md={6} rowSpacing={2}>
           <Grid item xs={12}>
             <Carousel
-              NextIcon={<ArrowForwardIosIcon />}
-              PrevIcon={<ArrowBackIosNewIcon />}
+              NextIcon={imagesTrue ? <ArrowForwardIosIcon /> : null}
+              PrevIcon={imagesTrue ? <ArrowBackIosNewIcon /> : null}
               interval={10000}
               animation="slide"
               duration={1000}
@@ -168,7 +177,7 @@ const ShowInternship = () => {
                 type="link"
                 text={
                   <NavLink
-                  to={`/profile/${author._id}`}
+                    to={`/profile/${author._id}`}
                     style={{
                       backgroundColor: "transparent",
                       textDecoration: "none",
@@ -184,8 +193,8 @@ const ShowInternship = () => {
                 icon={<OpenInNewIcon color="error" />}
                 variant="h6"
                 text={
-                  <Link href={link} sx={{color:"info.main"}}>
-                      Link to apply
+                  <Link href={link} sx={{ color: "info.main" }}>
+                    Link to apply
                   </Link>
                 }
               />
@@ -212,7 +221,7 @@ const ShowInternship = () => {
                       textDecoration: "none",
                     }}
                   >
-                    <EditButton />
+                    <EditButton insideComponent="Edit"/>
                   </NavLink>
                 </Stack>
               )}
@@ -242,7 +251,12 @@ const ShowInternship = () => {
           rowSpacing={2}
         >
           <Grid item xs={12}>
-            <ShowSingleMap internship={SingleInternship} d8ba971ee917cbe15a969fb624b5b207={data.d715c73521a31edead4500a14d5e391b} />
+            <ShowSingleMap
+              internship={SingleInternship}
+              d8ba971ee917cbe15a969fb624b5b207={
+                data.d715c73521a31edead4500a14d5e391b
+              }
+            />
           </Grid>
           <Grid item xs={12} justifyContent="center" display="flex">
             <Typography variant="h4" color="third.main" fontFamily={Font.title}>

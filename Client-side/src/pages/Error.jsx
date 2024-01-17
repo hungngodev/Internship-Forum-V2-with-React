@@ -1,6 +1,6 @@
 import { Link, useRouteError } from "react-router-dom";
 const number = Math.floor(Math.random()*35)
-import img from "../assets/images/1.svg";
+import img from "../assets/images/error/1.svg";
 import { useTheme } from "@mui/material/styles";
 import { Grid, Typography } from "@mui/material";
 import Button from "@mui/material/Button";

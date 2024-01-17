@@ -21,13 +21,20 @@ import SwitchButton from "./SwitchButton";
 import "./NavBar.css";
 import { HorizontalMenu, MainComponent, SideBar } from "./NavBarComponents";
 import { resetBodyStyle,titleObject, Palette} from "../utils";
+import Font from "../utils/FontConfiguration";
 
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
+    overflowX:"hidden",
+    height:"100%",
     padding: theme.spacing(3),
+    display: "flex",
+    justifyContent:"center",
+    alignItems:"center",
+    flexDirection:"column",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -93,17 +100,15 @@ const NavBar = ({ main}) => {
   const [Title, changeTitle] = useState("Home Page");
   const location = useLocation();
   useEffect(() => {
-    resetBodyStyle(location.pathname, Palette(mode).CustomBackGround);
+    document.body.style.backgroundColor = Palette(mode).CustomBackGround;
   }, [mode]);
   useEffect(() => {
-    resetBodyStyle(location.pathname,  Palette(mode).CustomBackGround);
     changeTitle(titleObject(location.pathname));
   }, [location]);
-
   return (
     <ThemeProvider theme={ModeTheme}>
       <Box
-        sx={{ flexGrow: 1, marginTop: 0, marginBottom: 0 }}
+        sx={{ flexGrow: 1, marginTop: 0, marginBottom: 0, width: "100%",height:"100%"}}
         position="static"
       >
         <AppBar
@@ -132,8 +137,8 @@ const NavBar = ({ main}) => {
                   }}
                 />
               </Grid>
-              <Grid item md={6} sx={{ textAlign: "center" }}>
-                <Typography variant="h5" color="text.primary">{Title}</Typography>
+              <Grid item md={6} display="flex" justifyContent="center" alignItems="center" sx={{paddingTop:'10px'}}>
+                <Typography variant="h3" color="text.primary" fontFamily={Font.subtitle}>{Title}</Typography>
               </Grid>
               <Grid item md={3} sx={{ display: "flex", justifyContent: "end" }}>
                 <HorizontalMenu

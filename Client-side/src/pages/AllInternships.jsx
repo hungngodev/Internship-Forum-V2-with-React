@@ -67,14 +67,13 @@ const AllInternships = () => {
         alignItems="center"
         flexDirection="column"
         rowSpacing={4}
+        sx={{padding: "20px"}}
       >
         <Grid item xs={12} display="flex" justifyContent="center">
-          <Wrapper>
             <ClusterMap
               internship={internshipData ? internshipData.internships : []}
               c9db5c7a7d7755f4560c3f9fae9968b1={data.c534293dc4f4fa6054da377839afcf408}
             />
-          </Wrapper>
         </Grid>
         <Grid item xs={12} display="flex" justifyContent="center">
           <Typography
@@ -86,7 +85,7 @@ const AllInternships = () => {
             All Internships of this Forum
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{maxWidth: "30rem"}}>
           <SearchBox searchValues={searchValues} />
         </Grid>
         <Grid

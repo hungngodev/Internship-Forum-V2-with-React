@@ -1,26 +1,21 @@
-import { useEffect } from "react";
-import { useNavigate, useLoaderData } from "react-router-dom";
-import { createTheme } from "@mui/material/styles";
-import * as React from "react";
-import { redirect } from "react-router-dom";
-import { toast } from "react-toastify";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import Card from "@mui/material/Card";
-import Typography from "@mui/material/Typography";
-import { Grid, Box } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import Badge from "@mui/material/Badge";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import { CssBaseline } from "@mui/material";
+import { Grid } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Image } from "mui-image";
+import * as React from "react";
+import {
+  MouseParallaxChild,
+  MouseParallaxContainer,
+} from "react-parallax-mouse";
+import { redirect, useLoaderData } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { customFetch } from "../utils";
-import { useHomeLayoutContext } from "./HomeLayout";
-import { CustomForm, EditButton, UserInfoPage } from "../components";
 import { SettingSchema } from "../../../schemas";
-import Font from "../utils/FontConfiguration";
+import settingDark from "../assets/images/setting/settingDark.svg";
+import settingLight from "../assets/images/setting/settingLight.svg";
+import { CustomForm, EditButton, UserInfoPage } from "../components";
+import Wrapper from "../css/Setting";
+import { customFetch } from "../utils";
 
 export const loader =
   (queryClient) =>
@@ -79,7 +74,7 @@ export default function Setting() {
     },
     phoneNumber: {
       type: "text",
-      autoComplete: "phoneNumber",
+      autoComplete: "phone number",
       defaultValue: phoneNumber,
       notRequired: true,
     },
@@ -106,14 +101,16 @@ export default function Setting() {
     },
     generate: {
       type: "text",
-      specialType:"checkbox",
+      specialType: "checkbox",
       autoComplete: "generate",
       notRequired: true,
     },
   };
   const [showForm, setShowForm] = React.useState(false);
+  const theme = useTheme();
+  const darkTheme = theme.palette.mode === "dark";
   return (
-    <>
+    <Wrapper>
       <Grid
         container
         direction="column"
@@ -121,31 +118,65 @@ export default function Setting() {
         alignItems="center"
         rowSpacing={3}
       >
-        <Grid item xs={12} sx={{width:"80rem"}}>
-          <UserInfoPage {...user} />
+        <Grid
+          item
+          xs={12}
+          sx={{ width: "60vw" }}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {!showForm && <UserInfoPage {...user} />}
         </Grid>
-        <Grid item xs={12}>
-          <EditButton onClick={() => setShowForm(!showForm)} />
-        </Grid>
-        {showForm && (
-        <Grid item xs={12}>
-          <CustomForm
-            initialState={SettingState}
-            Schema={SettingSchema}
-            title="Manage"
-            Icon={<ManageAccountsIcon />}
-            navInfo={{
-              text: "Back To Internships",
-              link: "/internships",
-            }}
-            encrypt={true}
-            method="post"
-            width="50vw"
-            action="/setting/edit"
+        <Grid item xs={12} sx={{ position: "relative" }}>
+          <EditButton
+            onClick={() => setShowForm(!showForm)}
+            insideComponent={showForm ? "Cancel" : "Edit"}
           />
         </Grid>
-      )}
+        {showForm && (
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <CustomForm
+                initialState={SettingState}
+                Schema={SettingSchema}
+                title="Manage"
+                Icon={<ManageAccountsIcon />}
+                navInfo={{
+                  text: "Back to Setting",
+                  link: "/setting",
+                }}
+                encrypt={true}
+                method="post"
+                width="40vw"
+                action="/setting/edit"
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="start"
+            >
+              <MouseParallaxContainer className="parallax" resetOnLeave>
+                <MouseParallaxChild factorX={0.02} factorY={0.02}>
+                  <Image
+                    src={darkTheme ? settingDark : settingLight}
+                    alt="register"
+                    height="auto"
+                    width="45vw"
+                    easing="cubic-bezier(0.25, 0.1, 0.25, 1.0)"
+                  />
+                </MouseParallaxChild>
+              </MouseParallaxContainer>
+            </Grid>
+          </Grid>
+        )}
       </Grid>
-    </>
+    </Wrapper>
   );
 }

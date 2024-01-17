@@ -2,6 +2,7 @@ import { useNavigation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 import Font from "../../utils/FontConfiguration"
+import LinearProgress from '@mui/material/LinearProgress';
 
 const SubmitBtn = ({ handleSubmit, text }) => {
   const navigation = useNavigation();

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.section`
 #map {
-  width: 95vw;
+  width: 100%;
   height: 80vh;
 }
  
@@ -11,7 +11,7 @@ const Wrapper = styled.section`
   justify-content: center;
   align-items:center ;
   text-align: center;
-  width:95vw;
+  width:100%;
   height: 5vh;
   background-color: rgb(35 55 75 / 90%);
   color: #fff;

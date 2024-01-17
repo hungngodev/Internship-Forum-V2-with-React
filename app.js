@@ -46,7 +46,13 @@ db.once("open", () => {
     console.log("Database connected");
 });
 const app = express();
+
+// app.engine('ejs', ejsMate)
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'))
+
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.resolve(__dirname, './Client-side/dist')));
 app.use(mongoSanitize({
     replaceWith: '_'
 }))
@@ -106,6 +112,10 @@ app.post('/testing', (req, res) => {
     console.log(req.body)
     res.json(req.body);
 })
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './Client-side/dist', 'index.html'));
+  });
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))

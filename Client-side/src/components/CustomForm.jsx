@@ -4,6 +4,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { Form } from "react-router-dom";
 import { toast } from "react-toastify";
+import {Button} from "@mui/material";
 
 import {
   FormHeader,
@@ -27,6 +28,7 @@ export default function CustonForm({
   encrypt,
   method,
   OptionalFormComponent,
+  functionFillData,
   color,
 }) {
   const [errors, setErrors] = useState({});
@@ -67,11 +69,11 @@ export default function CustonForm({
   };
 
   useEffect(() => {
-    const { error } = Schema.validate(formData, { abortEarly: false});
+    const { error } = Schema.validate(formData, { abortEarly: false });
     let errorData = {};
     if (error) {
       error.details.forEach((err) => {
-        if (!firstTime[err.context.key] ) {
+        if (!firstTime[err.context.key]) {
           errorData[err.context.key] = err.message;
         }
       });
@@ -99,11 +101,11 @@ export default function CustonForm({
         type={initialState[key].type}
         width={width ? width : "100%"}
         specialType={initialState[key].specialType}
-        defaultValue={initialState[key].defaultValue}
         notRequired={initialState[key].notRequired}
       />
     );
   }
+
   return (
     <Stack
       spacing={2}
@@ -120,7 +122,46 @@ export default function CustonForm({
       >
         {textInput}
         {OptionalFormComponent ? OptionalFormComponent : null}
-        <SubmitButton handleSubmit={validateForm} text={title}   />
+        {functionFillData ? (
+          <Grid container display="flex" justifyContent="center">
+            <Grid item xs={12} md={6}>
+              <Button
+                variant="outlined"
+                sx={{ width: "100%" }}
+                color="info"
+                onClick={() => {
+                  const data = functionFillData();
+                  setFormData({ ...formData, ...data });
+                }}
+              >
+                Prefill Data
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button
+                variant="outlined"
+                sx={{ width: "100%" }}
+                color="error"
+                onClick={() => {
+                  const data = {
+                    title: "",
+                    salary: 0,
+                    area: "",
+                    location: "",
+                    company: "",
+                    link: "",
+                    description: "",
+                    state: ""
+                  }
+                  setFormData({ ...formData, ...data });
+                }}
+              >
+                RefreshData
+              </Button>
+            </Grid>
+          </Grid>
+        ) : null}
+        <SubmitButton handleSubmit={validateForm} text={title} />
         <FormNavLink text={navInfo.text} link={navInfo.link} />
       </Form>
     </Stack>

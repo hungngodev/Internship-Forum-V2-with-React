@@ -31,14 +31,14 @@ let searchSchema = Joi.object({
     id: Joi.any().allow("").allow(null),
 })
 let internshipSchema = Joi.object({
-    title: Joi.string().required().max(50).escapeHTML(),
+    title: Joi.string().required().max(120).escapeHTML(),
     salary: Joi.number().required().min(0).max(150),
     area: Joi.string().required().max(35).escapeHTML(),
-    location: Joi.string().max(25).required().escapeHTML(),
-    company: Joi.string().max(20).required().escapeHTML(),
+    location: Joi.string().max(35).required().escapeHTML(),
+    company: Joi.string().max(35).required().escapeHTML(),
     link: Joi.string().max(200).required(),
     description: Joi.string().max(300).required().escapeHTML(),
-    state: Joi.string().required().max(20).escapeHTML(),
+    state: Joi.string().required().max(30).escapeHTML(),
     image: Joi.any(),
     deleteImages: Joi.array(),
     deleteImagesURL: Joi.array(),

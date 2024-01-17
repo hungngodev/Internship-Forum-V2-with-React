@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function FormCheckBox({ name, icon, checkedIcon, LabelComponent, value,display }) {
+export default function FormCheckBox({ name, icon, checkedIcon, LabelComponent, value,display,checked,onChange }) {
   return (
     <Stack
       direction="row"
@@ -14,6 +14,8 @@ export default function FormCheckBox({ name, icon, checkedIcon, LabelComponent, 
         control={
           <Checkbox
             size="medium"
+            checked={checked}
+            onChange={onChange}
             sx= {{display: display}}
             icon={icon}
             checkedIcon={checkedIcon}

@@ -1,10 +1,10 @@
 import {Button} from "@mui/material";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 
-export default function EditButton({onClick}) {
+export default function EditButton({onClick, insideComponent}) {
   return (
     <Button variant="outlined" startIcon={<BorderColorIcon />} color="third" onClick = {onClick}>
-      Edit
+      {insideComponent}
     </Button>
   );
 }

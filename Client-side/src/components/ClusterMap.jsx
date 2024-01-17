@@ -18,15 +18,23 @@ import {
   unclusteredPointLayer,
 } from "./MapComponents/layers";
 import MapCard from "./MapComponents/MapCard";
+import Typography from "@mui/material/Typography";
+import {useTheme} from "@mui/material/styles";
 
-export default function ClusterMap({ internship, c9db5c7a7d7755f4560c3f9fae9968b1 }) {
+import Font from "../utils/FontConfiguration";
+
+export default function ClusterMap({
+  internship,
+  c9db5c7a7d7755f4560c3f9fae9968b1,
+}) {
+  const theme=useTheme();
   const mapRef = useRef(null);
   const [popupInfo, setPopupInfo] = useState(null);
   const [pin, setPin] = useState(false);
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
-  const c13cfc645b73bd5a00ec181c30a56379= c9db5c7a7d7755f4560c3f9fae9968b1
+  const c13cfc645b73bd5a00ec181c30a56379 = c9db5c7a7d7755f4560c3f9fae9968b1;
   const geojson = {
     type: "FeatureCollection",
     crs: {
@@ -134,12 +142,32 @@ export default function ClusterMap({ internship, c9db5c7a7d7755f4560c3f9fae9968b
   // }
   return (
     <Stack>
-      <div className="sidebar">
-        <span>
+      <div
+        className="sidebar"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          width: "90vw",
+          height: "8vh",
+          color: "#fff",
+          fontFamily: "monospace",
+          fontSize: "2rem",
+          zIndex: 1,
+          position: "static",
+          top: 0,
+          left: 0,
+          border:"3px solid",
+          borderColor:theme.palette.secondary.main,
+          borderRadius: "4px",
+        }}
+      >
+        <Typography variant="h4" color="primary" fontFamily={Font.subtitle}>
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </span>
+        </Typography>
       </div>
-      <div id="map">
+      <div id="map" style={{ width: "90vw", height: "70vh"}}>
         <Map
           initialViewState={{
             latitude: 39.8283,
