@@ -3,42 +3,79 @@ const Palette = (mode) => {
     mode,
     ...(mode === "light"
       ? {
-        BarIcon: { main: "#9c27b0" },
-        sideBar: { main: "#80cbc4" },
-        navBar: { main: "#4db6ac" },
-        CustomBackGround: "#e0f7fa",
+        // BarIcon: { main: "#9c27b0" },
+        // sideBar: { main: "#80cbc4" },
+        // navBar: { main: "#4db6ac" },
+        // CustomBackGround: "#e0f7fa",
+        // primary: {
+        //   main: "#673ab7",
+        // },
+        // secondary: {
+        //   main: "#ffa000",
+        // },
+        // third: {
+        //   main: "#536dfe",
+        //   secondary: "#7e57c2",
+        // },
+        // error: {
+        //   main: "#c51162",
+        // },
+        // warning: {
+        //   main: "#e65100",
+        // },
+        // info: {
+        //   main: "#9e0059",
+        //   light: "#ffa000"
+        // },
+        // success: {
+        //   main: "#4caf50",
+        // },
+        // text: {
+        //   primary: "#000",
+        //   secondary: "#000",
+        // },
+        // barColor:{
+        //   secondary: "#0097a7",
+        //   primary: "#ffa000",
+        //   main2:"#1de9b6",
+        //   light2:"#9c27b0",
+        // }
+        BarIcon: { main: "#000" },
+        sideBar: { main: "#cfd8dc" },
+        navBar: { main: "#cfd8dc" },
+        CustomBackGround: "#eceff1",
         primary: {
-          main: "#673ab7",
+          main: "#009397",
         },
         secondary: {
-          main: "#ffa000",
+          main: "#880e4f",
         },
         third: {
-          main: "#536dfe",
+          main: "#b71c1c",
           secondary: "#7e57c2",
         },
         error: {
           main: "#c51162",
         },
         warning: {
-          main: "#e65100",
+          main: "#ff8f00",
         },
         info: {
-          main: "#9e0059",
-          light: "#ffa000"
+          main: "#00838f",
+          light: "#00acc1"
         },
         success: {
-          main: "#4caf50",
+          main: "#1de9b6",
         },
         text: {
-          primary: "#000",
-          secondary: "#000",
+          primary: "#607d8b",
+          secondary: "#263238",
         },
         barColor:{
-          secondary: "#0097a7",
-          primary: "#ffa000",
-          main2:"#1de9b6",
-          light2:"#9c27b0",
+          secondary: "#880e4f",
+          primary: "#78909c",
+          main2:"#0097a7",
+          light2:"#009688",
         }
       }
       : {
