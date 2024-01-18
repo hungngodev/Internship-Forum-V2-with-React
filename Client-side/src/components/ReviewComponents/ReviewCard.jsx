@@ -24,19 +24,19 @@ const StyledRating = styled(Rating)(({ theme }) => ({
 
 const customIcons = {
   1: {
-    icon: <SentimentVeryDissatisfiedIcon color="error" />,
+    icon: <SentimentVeryDissatisfiedIcon color="secondary" />,
     label: "Very Dissatisfied",
   },
   2: {
-    icon: <SentimentDissatisfiedIcon color="third" />,
+    icon: <SentimentDissatisfiedIcon color="warning" />,
     label: "Dissatisfied",
   },
   3: {
-    icon: <SentimentSatisfiedIcon color="warning" />,
+    icon: <SentimentSatisfiedIcon color="error" />,
     label: "Neutral",
   },
   4: {
-    icon: <SentimentSatisfiedAltIcon color="success" />,
+    icon: <SentimentSatisfiedAltIcon color="third" />,
     label: "Satisfied",
   },
   5: {

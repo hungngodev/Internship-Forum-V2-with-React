@@ -22,11 +22,15 @@ ChartJS.register(
   Legend
 );
 
-export default function BarChart({ data ,theme, titleSize, tickSize, labelSize }) {
+export default function BarChart({
+  data,
+  theme,
+  titleSize,
+  tickSize,
+  labelSize,
+}) {
   const chartRef = useRef();
-  const [width, setWidth] = React.useState(0);
-  const onClick = (event) => {
-  };
+  const onClick = (event) => {};
   const options = {
     aspectRatio: function (context) {
       var width = context.chart.width;
@@ -111,7 +115,7 @@ export default function BarChart({ data ,theme, titleSize, tickSize, labelSize }
           var width = context.chart.width;
           var size = Math.round(width / 35);
           return {
-            size: titleSize* size,
+            size: titleSize * size,
             weight: "bold",
           };
         },
@@ -120,7 +124,7 @@ export default function BarChart({ data ,theme, titleSize, tickSize, labelSize }
         titleColor: theme.palette.error.main,
         bodyColor: theme.palette.text.primary,
         borderColor: theme.palette.success.main,
-        borderWidth:1,
+        borderWidth: 1,
         backgroundColor: "rgba(0,0,0,0)",
         callbacks: {
           label: (tooltipItem, data) => {
@@ -156,41 +160,62 @@ export default function BarChart({ data ,theme, titleSize, tickSize, labelSize }
       },
     },
   };
+  let width, height, gradient;
+  function getGradient(ctx, chartArea) {
+    const chartWidth = chartArea.right - chartArea.left;
+    const chartHeight = chartArea.bottom - chartArea.top;
+    if (!gradient || width !== chartWidth || height !== chartHeight) {
+      // Create the gradient because this is either the first render
+      // or the size of the chart has changed
+      width = chartWidth;
+      height = chartHeight;
+      gradient = ctx.createLinearGradient(
+        0,
+        chartArea.bottom,
+        0,
+        chartArea.top
+      );
+        gradient.addColorStop(0, theme.palette.barColor[`main2`]);
+        gradient.addColorStop(0.5, theme.palette.barColor[`light2`]);
+    }
 
+    return gradient;
+  }
   const Bardata = {
     labels: data.keys,
     datasets: [
       {
         label: "Average Salary",
         data: data.averagesalary,
-        backgroundColor: `rgba(${theme.palette.barColor.main},1)`,
-        borderColor: theme.palette.text.primary,
-        borderWidth:1,
+        borderColor: function (context) {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+
+          if (!chartArea) {
+            return;
+          }
+          return getGradient(ctx, chartArea);
+        },
+        borderWidth: 3,
       },
       {
         label: "Number of Internships",
         data: data.counts,
-        backgroundColor: `rgba(${theme.palette.barColor.light},1)`,
-        borderColor: theme.palette.text.primary,
-        borderWidth:1,
+        borderColor: theme.palette.barColor.secondary,
+        borderWidth: 3,
       },
       {
         label: "Average Rating",
         data: data.averageReview,
         type: "line",
 
-        borderColor: `rgba(${theme.palette.barColor.dark},1)`,
+        borderColor: theme.palette.barColor.primary,
         order: 0,
-        borderWidth:2,
+        borderWidth: 2,
       },
     ],
   };
   return (
-    <Bar
-      ref={chartRef}
-      onClick={onClick}
-      options={options}
-      data={Bardata}
-    />
+    <Bar ref={chartRef} onClick={onClick} options={options} data={Bardata} />
   );
 }

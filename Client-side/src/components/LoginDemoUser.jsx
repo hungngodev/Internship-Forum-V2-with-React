@@ -30,7 +30,7 @@ export default function LoginDemoUser({reloadFunction}) {
     <Button
       variant="outlined"
       startIcon={<ExploreIcon/>}
-      color="third"
+      color="error"
       onClick={loginDemoUser}
       fullWidth
     >

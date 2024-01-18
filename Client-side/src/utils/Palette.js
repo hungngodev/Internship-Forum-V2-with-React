@@ -35,9 +35,10 @@ const Palette = (mode) => {
           secondary: "#000",
         },
         barColor:{
-          main: "156, 39, 176",
-          light: "38, 166, 154",
-          dark: "239, 108, 0"
+          secondary: "#0097a7",
+          primary: "#ffa000",
+          main2:"#1de9b6",
+          light2:"#9c27b0",
         }
       }
       : {
@@ -90,9 +91,10 @@ const Palette = (mode) => {
           secondary: "#fff",
         },
         barColor:{
-          main: "63, 81, 181",
-          light: "156, 39, 176",
-          dark: "237, 174, 73"
+          secondary: "#009688",
+          primary: "#ff4081",
+          main2:"#00bcd4",
+          light2:"#673ab7",
         }
       }),
   }
