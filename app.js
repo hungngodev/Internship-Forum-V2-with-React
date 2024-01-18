@@ -88,7 +88,6 @@ app.use(helmet());
 
 app.use(config);
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -107,11 +106,6 @@ app.use('/api', userRoutes);
 app.use('/api/internships', internshipRoutes)
 app.use('/api/internships/:id/reviews', reviewRoutes)
 app.use('/api/statistics', statisticsRoutes)
-
-app.post('/testing', (req, res) => {
-    console.log(req.body)
-    res.json(req.body);
-})
 
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, './Client-side/dist', 'index.html'));
