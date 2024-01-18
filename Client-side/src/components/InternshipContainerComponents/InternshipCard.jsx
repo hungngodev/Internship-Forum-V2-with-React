@@ -99,28 +99,28 @@ const InternshipCard = ({
               <InternshipInfo
                 icon={<LocationOnSharpIcon color="error" />}
                 variant="overline"
-                text={location}
+                text={location.slice(0,17)}
               />
             </Grid>
             <Grid item xs={12}>
               <InternshipInfo
                 icon={<TerrainIcon color="error" />}
                 variant="overline"
-                text={state}
+                text={state.slice(0,5)}
               />
             </Grid>
             <Grid item xs={12}>
               <InternshipInfo
                 icon={<WorkIcon color="error" />}
                 variant="overline"
-                text={area}
+                text={area.slice(0,23)}
               />
             </Grid>
             <Grid item xs={12}>
               <InternshipInfo
                 icon={<ApartmentIcon color="error" />}
                 variant="overline"
-                text={company}
+                text={company.slice(0,17)}
               />
             </Grid>
             <Grid item xs={12}>
