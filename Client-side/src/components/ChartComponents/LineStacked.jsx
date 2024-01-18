@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-export default function LineChart({ data,theme }) {
+export default function LineChart({ data, theme,titleSize, tickSize, labelSize}) {
   const options = {
     aspectRatio: function (context) {
       var width = context.chart.width;
@@ -35,13 +35,19 @@ export default function LineChart({ data,theme }) {
         return 1;
       }
     },
+    responsive: true,
     plugins: {
       legend: {
         position: "top",
         labels: {
-          color:theme.palette.third.main,
-          font: {
-            family: "Georgia, serif",
+          color: theme.palette.third.main,
+          font: function (context) {
+            var width = context.chart.width;
+            var size = Math.round(width / 35);
+            return {
+              size: labelSize * size,
+              family: "Georgia, serif",
+            };
           },
         },
       },
@@ -51,9 +57,9 @@ export default function LineChart({ data,theme }) {
         color: theme.palette.primary.main,
         font: function (context) {
           var width = context.chart.width;
-          var size = Math.round(width / 32);
+          var size = Math.round(width / 35);
           return {
-            size: size,
+            size: titleSize* size,
             weight: "bold",
           };
         },
@@ -62,7 +68,7 @@ export default function LineChart({ data,theme }) {
         titleColor: theme.palette.primary.main,
         bodyColor: theme.palette.text.primary,
         borderColor: theme.palette.success.main,
-        borderWidth:1,
+        borderWidth: 1,
         backgroundColor: "rgba(0,0,0,0)",
         mode: "index",
         callbacks: {
@@ -110,8 +116,13 @@ export default function LineChart({ data,theme }) {
         },
         ticks: {
           color: theme.palette.error.main,
-          font: {
-            family: "Georgia, serif",
+          font: function (context) {
+            var width = context.chart.width;
+            var size = Math.round(width / 35);
+            return {
+              size: tickSize * size,
+              family: "Georgia, serif",
+            };
           },
         },
         title: {
@@ -121,7 +132,7 @@ export default function LineChart({ data,theme }) {
             var width = context.chart.width;
             var size = Math.round(width / 32);
             return {
-              size: 0.7 * size,
+              size: labelSize * size,
               weight: "bold",
             };
           },

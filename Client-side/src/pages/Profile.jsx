@@ -75,7 +75,7 @@ const Profiles = () => {
       alignItems="center"
       flexDirection="column"
       rowSpacing={4}
-      sx={{ padding: "20px" }}
+      sx={{ marginTop: "5vh" }}
     >
       {!user && (<Grid item xs={12} sx={{width: "80vw"}}>
         <UserInfoPage {...author} />

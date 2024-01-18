@@ -165,7 +165,7 @@ const HorizontalMenu = ({
   );
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "end" }}>{MenuComponent}</Box>
+      <Box sx={{ display: { xs: 'none', md: 'flex' } , justifyContent: "end" }}>{MenuComponent}</Box>
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <IconButton
           size="large"

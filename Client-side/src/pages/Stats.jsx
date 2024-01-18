@@ -36,11 +36,14 @@ export default function Stats() {
   const data = useQuery(statisticQuery()).data;
   const theme = useTheme();
   const [value, setValue] = useState("1");
+  const titleSize= 1.1;
+  const tickSize= 0.4;
+  const labelSize= 0.7;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+   
   return (
     <Stack direction="column" alignItems="center" sx={{padding:"20px"}}>
       <TabContext value={value}>
@@ -53,16 +56,16 @@ export default function Stats() {
           </TabList>
         </Box>
         <TabPanel sx={{width:"70%"}} value="1">
-          <Radar data={data.radar} theme={theme} />
+          <Radar data={data.radar} theme={theme}   tickSize={tickSize} titleSize={titleSize} labelSize={labelSize}/>
         </TabPanel>
-        <TabPanel sx={{width:"100%"}} value="2">
-          <Bar data={data.bar} theme={theme} />
+        <TabPanel sx={{width:"100vw", height: "100vh"}} value="2">
+          <Bar data={data.bar} theme={theme}   tickSize={tickSize} titleSize={titleSize} labelSize={labelSize}/>
         </TabPanel>
-        <TabPanel sx={{width:"100%"}} value="3">
-          <LineStacked data={data.line} theme={theme} />
+        <TabPanel sx={{width:"100vw", height:"100vh"}} value="3">
+          <LineStacked data={data.line} theme={theme}  tickSize={tickSize} titleSize={titleSize} labelSize={labelSize} />
         </TabPanel>
-        <TabPanel sx={{width:"100%", display:"flex", justifyContent:"center"}}  value="4">
-          <Doughnut data={data.doughnut} theme={theme} />{" "}
+        <TabPanel sx={{width:"100vw", height:"100vh",display:"flex", justifyContent:"center"}}  value="4">
+          <Doughnut data={data.doughnut} theme={theme}  tickSize={tickSize} titleSize={titleSize} labelSize={labelSize} />{" "}
         </TabPanel>
       </TabContext>
     </Stack>

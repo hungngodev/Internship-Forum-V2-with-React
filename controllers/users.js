@@ -17,6 +17,7 @@ const renderRegister = (req, res) => {
     res.status(200).json({ message: "Render the register in React side" })
 }
 
+
 const register = async (req, res, next) => {
     try {
         const { email, username, password, location } = req.body;

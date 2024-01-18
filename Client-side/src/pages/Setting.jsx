@@ -116,8 +116,8 @@ export default function Setting() {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        rowSpacing={3}
-        sx={{padding:"20px"}}
+        rowSpacing={4}
+        sx={{ padding: "5vh" }}
       >
         <Grid
           item
@@ -137,7 +137,10 @@ export default function Setting() {
           />
         </Grid>
         {showForm && (
-          <Grid container>
+          <Grid
+            container
+            sx={{marginTop:"5vh"}}
+          >
             <Grid item xs={12} md={6}>
               <CustomForm
                 initialState={SettingState}
@@ -157,11 +160,8 @@ export default function Setting() {
             <Grid
               item
               xs={12}
+              sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
               md={6}
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="start"
             >
               <MouseParallaxContainer className="parallax" resetOnLeave>
                 <MouseParallaxChild factorX={0.02} factorY={0.02}>

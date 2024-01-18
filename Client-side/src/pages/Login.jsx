@@ -17,6 +17,7 @@ import logoLight from "../assets/images/logo/logoLight.svg";
 import { CustomForm } from "../components";
 import customFetch from "../utils/customFetch";
 import Font from "../utils/FontConfiguration";
+import { LoginDemoUser } from "../components";
 
 export const action =
   (queryClient) =>
@@ -58,7 +59,7 @@ const LoginState = {
     autoComplete: "current-password",
   },
 };
-export default function Login() {
+export default function Login({ queryClient }) {
   const theme = useTheme();
   const darkTheme = theme.palette.mode === "dark";
   return (
@@ -90,6 +91,7 @@ export default function Login() {
             link: "/register",
           }}
           width="30vw"
+          OptionalFormComponent={<LoginDemoUser reloadFunction={queryClient} />}
         />
       </Grid>
       <Grid

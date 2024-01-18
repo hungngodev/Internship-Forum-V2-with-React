@@ -68,13 +68,13 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register />,
+        element: <Register queryClient={queryClient}/>,
         action: registerAction(queryClient),
         loader: registerLoader(queryClient),
       },
       {
         path: "login",
-        element: <Login />,
+        element: <Login queryClient={queryClient} />,
         action: loginAction(queryClient),
         loader: loginLoader(queryClient),
       },

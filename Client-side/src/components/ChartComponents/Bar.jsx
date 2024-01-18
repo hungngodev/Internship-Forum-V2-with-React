@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-export default function BarChart({ data ,theme }) {
+export default function BarChart({ data ,theme, titleSize, tickSize, labelSize }) {
   const chartRef = useRef();
   const [width, setWidth] = React.useState(0);
   const onClick = (event) => {
@@ -40,11 +40,7 @@ export default function BarChart({ data ,theme }) {
         return 1;
       }
     },
-    onResize : function (chart, size) {
-        var width = size.width;
-        var Fontsize = Math.round(width / 60);
-        defaults.font.size = Fontsize;
-    },
+    responsive: true,
     scales: {
       x: {
         grid: {
@@ -52,8 +48,13 @@ export default function BarChart({ data ,theme }) {
         },
         ticks: {
           color: theme.palette.error.main,
-          font: {
-            family: "Georgia, serif",
+          font: function (context) {
+            var width = context.chart.width;
+            var size = Math.round(width / 35);
+            return {
+              size: tickSize * size,
+              family: "Georgia, serif",
+            };
           },
         },
         title: {
@@ -61,9 +62,9 @@ export default function BarChart({ data ,theme }) {
           color: theme.palette.secondary.main,
           font: function (context) {
             var width = context.chart.width;
-            var size = Math.round(width / 32);
+            var size = Math.round(width / 35);
             return {
-              size: 0.7 * size,
+              size: labelSize * size,
               weight: "bold",
             };
           },
@@ -76,8 +77,13 @@ export default function BarChart({ data ,theme }) {
         },
         ticks: {
           color: theme.palette.error.main,
-          font: {
-            family: "Georgia, serif",
+          font: function (context) {
+            var width = context.chart.width;
+            var size = Math.round(width / 35);
+            return {
+              size: tickSize * size,
+              family: "Georgia, serif",
+            };
           },
         },
       },
@@ -87,8 +93,13 @@ export default function BarChart({ data ,theme }) {
         position: "top",
         labels: {
           color: theme.palette.third.main,
-          font: {
-            family: "Georgia, serif",
+          font: function (context) {
+            var width = context.chart.width;
+            var size = Math.round(width / 35);
+            return {
+              size: labelSize * size,
+              family: "Georgia, serif",
+            };
           },
         },
       },
@@ -98,9 +109,9 @@ export default function BarChart({ data ,theme }) {
         text: "Combo Bar Line Chart of this Forum",
         font: function (context) {
           var width = context.chart.width;
-          var size = Math.round(width / 32);
+          var size = Math.round(width / 35);
           return {
-            size: size,
+            size: titleSize* size,
             weight: "bold",
           };
         },

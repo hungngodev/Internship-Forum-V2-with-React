@@ -12,7 +12,7 @@ import { Grid,Typography } from "@mui/material";
 import { Image } from "mui-image";
 
 import { RegisterSchema } from "../../../schemas.js";
-import { CustomForm } from "../components";
+import { CustomForm, LoginDemoUser } from "../components";
 import { customFetch } from "../utils";
 import registerDark from "../assets/images/register/registerDark.svg";
 import registerLight from "../assets/images/register/registerLight.svg";
@@ -69,7 +69,7 @@ const RegisterState = {
 
 const defaultTheme = createTheme({});
 
-export default function Register() {
+export default function Register({queryClient}) {
   const theme = useTheme();
   const darkTheme = theme.palette.mode === "dark";
   return (
@@ -101,6 +101,7 @@ export default function Register() {
               link: "/login",
             }}
             width="30vw"
+            OptionalFormComponent={<LoginDemoUser reloadFunction={queryClient} />}
           />
       </Grid>
       <Grid

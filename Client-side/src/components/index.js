@@ -11,3 +11,4 @@ export {default as EditButton} from './EditButton';
 export {default as SwitchButton} from './SwitchButton';
 export {default as UserInfoPage} from './UserInfoPage';
 export {default as Loading} from './Loading';
+export {default as LoginDemoUser} from './LoginDemoUser';

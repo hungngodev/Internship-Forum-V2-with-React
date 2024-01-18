@@ -29,7 +29,7 @@ ChartJS.register(
   Legend
 );
 
-export default function RadarChart({ data,theme }) {
+export default function RadarChart({ data,theme,  titleSize, tickSize, labelSize }) {
   const companies = data.keys;
   const fixedoptions = [];
   const [value, setValue] = React.useState([companies[0], companies[1]]);
@@ -110,9 +110,9 @@ export default function RadarChart({ data,theme }) {
           color: theme.palette.error.main,
           font: function (context) {
             var width = context.chart.width;
-            var size = Math.round(width / 32);
+            var size = Math.round(width / 35);
             return {
-              size: 0.8 * size,
+              size: labelSize * size,
               family: Font.subtitle,
             };
           },
@@ -125,9 +125,9 @@ export default function RadarChart({ data,theme }) {
           backdropColor: "rgba(0, 0, 0, 0)",
           font: function (context) {
             var width = context.chart.width;
-            var size = Math.round(width / 32);
+            var size = Math.round(width / 35);
             return {
-              size: 0.7* size,
+              size: tickSize* size,
               family: Font.text,
             };
           },
@@ -145,9 +145,9 @@ export default function RadarChart({ data,theme }) {
           color: theme.palette.third.main,
           font: function (context) {
             var width = context.chart.width;
-            var size = Math.round(width / 32);
+            var size = Math.round(width / 35);
             return {
-              size: 0.7 * size,
+              size: labelSize * size,
               family: Font.text,
             };
           },
@@ -160,7 +160,7 @@ export default function RadarChart({ data,theme }) {
         family: "Playfair Display",
         font: function (context) {
           var width = context.chart.width;
-          var size = Math.round(width / 32);
+          var size = Math.round(width / 35);
           return {
             size: size,
             weight: "bold",

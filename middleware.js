@@ -23,6 +23,12 @@ const deletingImages = async (files) => {
 }
 
 const validateLogIn = (req, res, next) => {
+    if (req.body.demo  === "true" || req.body.demo === true) {
+        req.body.username= process.env.DEMO_USERNAME;
+        req.body.password= process.env.DEMO_PASSWORD;
+        next();
+        return; 
+    }
     const { error } = LogInSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')

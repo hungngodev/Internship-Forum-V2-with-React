@@ -153,7 +153,7 @@ const EditInternship = () => {
       alignItems="center"
       flexDirection="column"
       rowSpacing={4}
-      sx={{ marginTop: "10px", padding:"20px"}}
+      sx={{ marginTop: "5vh"}}
     >
       <Grid item xs={12} display="flex" justifyContent="center">
         <Typography variant="h5" color="info.light" fontFamily={Font.subtitle}>

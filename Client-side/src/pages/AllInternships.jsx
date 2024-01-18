@@ -67,7 +67,7 @@ const AllInternships = () => {
         alignItems="center"
         flexDirection="column"
         rowSpacing={4}
-        sx={{padding: "20px"}}
+        sx={{marginTop:"5vh"}}
       >
         <Grid item xs={12} display="flex" justifyContent="center">
             <ClusterMap

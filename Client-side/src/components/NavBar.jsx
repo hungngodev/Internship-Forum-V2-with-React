@@ -13,14 +13,14 @@ import {
   useTheme,
 } from "@mui/material/styles";
 import * as React from "react";
-import { useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useHomeLayoutContext } from "../pages/HomeLayout";
 import SwitchButton from "./SwitchButton";
 import "./NavBar.css";
 import { HorizontalMenu, MainComponent, SideBar } from "./NavBarComponents";
-import { resetBodyStyle,titleObject, Palette} from "../utils";
+import { resetBodyStyle, titleObject, Palette } from "../utils";
 import Font from "../utils/FontConfiguration";
 
 const drawerWidth = 240;
@@ -28,13 +28,12 @@ const drawerWidth = 240;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    overflowX:"hidden",
-    height:"100%",
-    padding: theme.spacing(3),
+    overflowX: "hidden",
+    height: "100%",
     display: "flex",
-    justifyContent:"center",
-    alignItems:"center",
-    flexDirection:"column",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -67,7 +66,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const NavBar = ({ main}) => {
+const NavBar = ({ main }) => {
   let { setTheme, Theme } = useHomeLayoutContext();
 
   const [anchorEl1, setAnchorEl1] = useState(null);
@@ -108,7 +107,13 @@ const NavBar = ({ main}) => {
   return (
     <ThemeProvider theme={ModeTheme}>
       <Box
-        sx={{ flexGrow: 1, marginTop: 0, marginBottom: 0, width: "100%",height:"100%"}}
+        sx={{
+          flexGrow: 1,
+          marginTop: 0,
+          marginBottom: 0,
+          width: "100%",
+          height: "100%",
+        }}
         position="static"
       >
         <AppBar
@@ -120,27 +125,41 @@ const NavBar = ({ main}) => {
         >
           <Toolbar>
             <Grid container alignItems="center">
-              <Grid item md={2}>
+              <Grid item xs={2}>
                 <IconButton
                   aria-label="open drawer"
                   onClick={handleDrawerOpen}
                   edge="start"
                   sx={{ mr: 2, ...(open && { display: "none" }) }}
                 >
-                  <MenuIcon sx={{color:"text.primary"}} />
+                  <MenuIcon sx={{ color: "text.primary" }} />
                 </IconButton>
               </Grid>
-              <Grid item md={1} sx={{ display: "flex", justifyContent: "end" }}>
+              <Grid item xs={1} sx={{ display: "flex", justifyContent: "end" }}>
                 <SwitchButton
                   onChange={() => {
                     colorMode.toggleColorMode();
                   }}
                 />
               </Grid>
-              <Grid item md={6} display="flex" justifyContent="center" alignItems="center" sx={{paddingTop:'10px'}}>
-                <Typography variant="h3" color="text.primary" fontFamily={Font.subtitle}>{Title}</Typography>
+              <Grid
+                item
+                xs={6}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ paddingTop: "10px" }}
+              >
+                <Typography
+                  variant="h4"
+                  color="text.primary"
+                  fontFamily={Font.subtitle}
+                  textAlign={"center"}
+                >
+                  {Title}
+                </Typography>
               </Grid>
-              <Grid item md={3} sx={{ display: "flex", justifyContent: "end" }}>
+              <Grid item xs={3} sx={{ display: "flex", justifyContent: "end" }}>
                 <HorizontalMenu
                   anchorEl={anchorEl1}
                   setAnchorEl={setAnchorEl1}

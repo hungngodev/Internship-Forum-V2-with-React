@@ -10,9 +10,9 @@ const MainComponent = ({ open, main, drawerWidth, theme, Main }) => {
   return (
     <Main open={open}>
       {main}
-      {/* <footer className="mt-4 ">
+      <footer className="mt-3 ">
         <Footer />
-      </footer> */}
+      </footer>
     </Main>
   );
 };

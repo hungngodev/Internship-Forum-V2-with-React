@@ -5,7 +5,7 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function DoughnutChart({ data,theme }) {
+export default function DoughnutChart({ data,theme,titleSize, tickSize, labelSize }) {
   const backgroundColor1 = [
     "rgb(255, 0, 0)", // Red
     "rgb(255, 3, 33)",
@@ -88,11 +88,12 @@ export default function DoughnutChart({ data,theme }) {
             return 0.8
         }
     },
+    responsive: true,
     plugins: {
       legend: {
         display: function (context) {
           var width = context.chart.width;
-          if (width > 480) {
+          if (width > 600) {
             return true;
           } else return false;
         },
@@ -105,7 +106,7 @@ export default function DoughnutChart({ data,theme }) {
             var width = context.chart.width;
             var size = Math.round(width / 35);
             return {
-              size: 0.4 * size,
+              size: tickSize * size,
             };
           },
         },
@@ -116,9 +117,9 @@ export default function DoughnutChart({ data,theme }) {
         color: theme.palette.primary.main,
         font: function (context) {
           var width = context.chart.width;
-          var size = Math.round(width / 32);
+          var size = Math.round(width / 35);
           return {
-            size: size,
+            size: titleSize* size,
             weight: "bold",
           };
         },
