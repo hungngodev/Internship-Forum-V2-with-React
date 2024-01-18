@@ -46,6 +46,7 @@ const InternshipContainer = ({ internshipData }) => {
         justifyContent="center"
         rowSpacing={2}
         container
+        sx={{padding:"40px"}}
       >
         <Grid item xs={12}>
           <Typography variant="h4" color="info.main" fontFamily={Font.text}>

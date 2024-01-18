@@ -15,7 +15,7 @@ const Landing = () => {
     <Wrapper>
       <Grid
         container
-        rowSpacing={10}
+        rowSpacing={15}
         display="flex"
         justifyContent="center"
         sx={{ padding: "10px" }}
@@ -28,12 +28,12 @@ const Landing = () => {
               display: "flex",
               flexDirection: "column",
             }}
-            globalFactorX={0.3}
-            globalFactorY={0.3}
+            globalFactorX={0.2}
+            globalFactorY={0.2}
             resetOnLeave
           >
             <MouseParallaxChild
-              factorX={0.7}
+              factorX={0.3}
               factorY={0.7}
               style={{
                 display: "flex",
@@ -42,7 +42,7 @@ const Landing = () => {
                 width: "auto",
                 color: "#fff",
                 height: "100%",
-                margin: "1.5rem auto",
+                margin: "5vh auto",
               }}
             >
               <Typography variant="h1" color="#fff" fontFamily={Font.title} textAlign="center">
@@ -51,7 +51,7 @@ const Landing = () => {
             </MouseParallaxChild>
             <MouseParallaxChild
               factorX={0.3}
-              factorY={0.2}
+              factorY={0.5}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -66,8 +66,8 @@ const Landing = () => {
               </Typography>
             </MouseParallaxChild>
             <MouseParallaxChild
-              factorX={0.3}
-              factorY={0.2}
+              factorX={0.1}
+              factorY={0.3}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -83,7 +83,7 @@ const Landing = () => {
               </Typography>
             </MouseParallaxChild>
             <MouseParallaxChild
-              factorX={0.3}
+              factorX={0.7}
               factorY={0.2}
               style={{
                 display: "flex",
