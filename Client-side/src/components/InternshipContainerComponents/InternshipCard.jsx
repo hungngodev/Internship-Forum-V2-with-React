@@ -73,8 +73,9 @@ const InternshipCard = ({
           <Image
             src={imageDisplay}
             alt={title}
-            sx={{height:{xs:"10rem",sm:"27rem",md:"26rem",lg:"25rem"},  borderRadius: `${borderRadius-2}px`}}
-            width="100%"
+            sx={{borderRadius: `${borderRadius-2}px`}}
+          height="26rem"
+          width="auto"
           />
         </Grid>
         <Grid item xs={12} sm={8} md={7} lg={6} sx={{padding: "1rem"}}>
