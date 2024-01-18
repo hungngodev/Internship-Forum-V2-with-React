@@ -48,7 +48,9 @@ export default function ClusterMap({
     const Clusterfeatures = mapRef.current.queryRenderedFeatures(event.point, {
       layers: ["clusters"],
     });
-
+    setLng(mapRef.current.getCenter().lng.toFixed(4));
+    setLat(mapRef.current.getCenter().lat.toFixed(4));
+    setZoom(mapRef.current.getZoom().toFixed(2));
     const Clusterfeature = Clusterfeatures[0];
     if (Clusterfeature) {
       const clusterId = Clusterfeature.properties.cluster_id;
@@ -123,12 +125,6 @@ export default function ClusterMap({
   const onMouseLeave = (event) => {
     mapRef.current.getCanvas().style.cursor = "";
   };
-
-  const onMove = (event) => {
-    setLng(mapRef.current.getCenter().lng.toFixed(4));
-    setLat(mapRef.current.getCenter().lat.toFixed(4));
-    setZoom(mapRef.current.getZoom().toFixed(2));
-  };
   // const onLoad = (e) => {
   //   if (mapRef.current) {
   //     const pinImage = new Image();
@@ -182,7 +178,7 @@ export default function ClusterMap({
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           // onLoad={onLoad}
-          // onMove={onMove}
+  
           ref={mapRef}
         >
           <GeolocateControl position="top-left" />
