@@ -78,8 +78,18 @@ const NavBar = ({ main }) => {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
+  
   const [mode, setMode] = React.useState("dark");
+  useEffect(() => {
+    const localMode = localStorage.getItem("mode");
+    if (localMode) {
+      setMode(localMode);
+    }
+  }, []);
+
+  useEffect(() => {
+      localStorage.setItem("mode", mode);
+  });
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
