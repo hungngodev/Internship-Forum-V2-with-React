@@ -55,9 +55,9 @@ let LogInSchema = Joi.object({
         .min(3)
         .max(30)
         .required().escapeHTML(),
-    password: Joi.string().min(5).max(20).required().pattern(new RegExp('^[a-zA-Z0-9]{0,30}$')).message({
+    password: Joi.string().min(3).max(20).required().pattern(new RegExp('^[a-zA-Z0-9]{0,30}$')).message({
         "string.pattern.base": ' \"password\"doesn\'t allow special characters, spaces, or symbols other than letters and numbers',
-        "string.min": "minimum 5 character required",
+        "string.min": "minimum 3 character required",
         "string.max": "maximum 20 characters allowed"
     }).escapeHTML(),
 })
@@ -68,9 +68,9 @@ let RegisterSchema = Joi.object({
         .max(20)
         .required().escapeHTML(),
     email: Joi.string().max(30).email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu',] } }).required().escapeHTML(),
-    password: Joi.string().min(5).max(20).required().pattern(new RegExp('^[a-zA-Z0-9]{0,30}$')).message({
+    password: Joi.string().min(3).max(20).required().pattern(new RegExp('^[a-zA-Z0-9]{0,30}$')).message({
         "string.pattern.base": ' \"password\"doesn\'t allow special characters, spaces, or symbols other than letters and numbers',
-        "string.min": "minimum 5 character required",
+        "string.min": "minimum 3 character required",
         "string.max": "maximum 20 characters allowed"
     }).escapeHTML(),
 })
@@ -80,8 +80,8 @@ let SettingSchema = Joi.object({
         .min(3)
         .max(30)
         .required().escapeHTML(),
-    NewPassword: Joi.string().optional().min(5).max(20).pattern(new RegExp('^[a-zA-Z0-9]{0,30}$')).message({
-        "string.min": "minimum 5 character required",
+    NewPassword: Joi.string().optional().min(3).max(20).pattern(new RegExp('^[a-zA-Z0-9]{0,30}$')).message({
+        "string.min": "minimum 3 character required",
         "string.max": "maximum 20 characters allowed",
         "string.pattern.base": ' \"password\"doesn\'t allow special characters, spaces, or symbols other than letters and numbers',
     }).allow("").escapeHTML(),
