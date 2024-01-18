@@ -234,9 +234,8 @@ const ShowInternship = () => {
                   variant="h4"
                   color="secondary.main"
                   fontFamily={Font.subtitle}
-                >
-                  Login to leave a review!
-                </Typography>
+                  textAlign="center"
+                >Login to leave a review!</Typography>
               )}
             </Grid>
           </Grid>

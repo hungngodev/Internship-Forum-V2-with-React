@@ -60,9 +60,12 @@ const seedDBInternship = async () => {
     await User.deleteMany({});
     await Review.deleteMany({});
     await db.dropCollection('sessions');
+    const demoUser = new User({ email: process.env.DEMO_EMAIL, username: process.env.DEMO_USERNAME, description: process.env.DEMO_DESCRIPTION, location: process.env.DEMO_LOCATION, phoneNumber: process.env.DEMO_PHONENUMBER, proNoun: process.env.DEMO_PRONOUN });
+    const demoPassword = process.env.DEMO_PASSWORD;
+    const registeredDemoUser = await User.register(demoUser, demoPassword);
     for (let i = 0; i < userData.length; i++) {//
-        const { email, username, password,description, location,phoneNumber,proNoun,image } = userData[i];
-        const user = new User({ email, username,description,location,phoneNumber,proNoun,image });
+        const { email, username, password, description, location, phoneNumber, proNoun, image } = userData[i];
+        const user = new User({ email, username, description, location, phoneNumber, proNoun, image });
         const registeredUser = await User.register(user, password);
         userData[i].id = registeredUser._id;
     }
