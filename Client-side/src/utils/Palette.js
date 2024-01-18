@@ -43,7 +43,7 @@ const Palette = (mode) => {
         BarIcon: { main: "#000" },
         sideBar: { main: "#cfd8dc" },
         navBar: { main: "#cfd8dc" },
-        CustomBackGround: "#eceff1",
+        CustomBackGround: "#000",
         primary: {
           main: "#009397",
         },
