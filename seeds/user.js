@@ -657,7 +657,6 @@ const description = [
     "Venturing into the gaming universe, I recently wrapped up an internship as a game developer, sculpting interactive experiences that blur the lines between reality and virtual realms. Pursuing a degree in Computer Science with a focus on game design, my passion lies in creating engaging and memorable gaming adventures.",
     "Greetings from the hiring realm! Leading recruitment efforts for tech giants, I understand the importance of finding the right talent to drive innovation. As a hiring manager, I'm eager to connect with tech enthusiasts ready to embark on exciting career journeys."
 ]
-console.log(description.length)
 function generateUsers(numberOfUsers) {
     let users = [];
     const random10 = Math.floor(Math.random() * 10);

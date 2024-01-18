@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();//remember if it does not work 
 }
+dotenv.config();
 import mongoose from 'mongoose';
 import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding.js";
 import Fakerator from "fakerator";
@@ -59,7 +60,6 @@ const seedDBInternship = async () => {
     await Internship.deleteMany({});
     await User.deleteMany({});
     await Review.deleteMany({});
-    await db.dropCollection('sessions');
     const demoUser = new User({ email: process.env.DEMO_EMAIL, username: process.env.DEMO_USERNAME, description: process.env.DEMO_DESCRIPTION, location: process.env.DEMO_LOCATION, phoneNumber: process.env.DEMO_PHONENUMBER, proNoun: process.env.DEMO_PRONOUN });
     const demoPassword = process.env.DEMO_PASSWORD;
     const registeredDemoUser = await User.register(demoUser, demoPassword);
@@ -132,10 +132,13 @@ const seedDBInternship = async () => {
             }
         }
     }
+    try{
+        await db.dropCollection('sessions');
+    }
+    catch{
+        console.log('no sessions collection');
+    }
 }
-
-
-
 seedDBInternship().then(() => {
     mongoose.connection.close();
 })
