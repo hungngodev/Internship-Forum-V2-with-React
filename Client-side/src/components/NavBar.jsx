@@ -78,7 +78,7 @@ const NavBar = ({ main }) => {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  
+
   const [mode, setMode] = React.useState("dark");
   useEffect(() => {
     const localMode = localStorage.getItem("mode");
@@ -88,7 +88,7 @@ const NavBar = ({ main }) => {
   }, []);
 
   useEffect(() => {
-      localStorage.setItem("mode", mode);
+    localStorage.setItem("mode", mode);
   });
   const colorMode = React.useMemo(
     () => ({
@@ -147,6 +147,7 @@ const NavBar = ({ main }) => {
               </Grid>
               <Grid item xs={1} sx={{ display: "flex", justifyContent: "end" }}>
                 <SwitchButton
+                  checked={mode === "dark"}
                   onChange={() => {
                     colorMode.toggleColorMode();
                   }}

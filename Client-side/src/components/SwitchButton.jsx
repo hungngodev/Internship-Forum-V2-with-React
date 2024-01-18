@@ -86,20 +86,13 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function ControlledSwitches({ onChange }) {
-  const [checked, setChecked] = React.useState(true);
-
-  const handleChange = (event) => {
-    onChange();
-    setChecked(event.target.checked);
-  };
-
+export default function ControlledSwitches({ onChange,checked}) {
   return (
     <FormControlLabel
       control={
         <MaterialUISwitch
           checked={checked}
-          onChange={handleChange}
+          onChange={onChange}
           inputProps={{ "aria-label": "controlled" }}
         />
       }
