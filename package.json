@@ -11,7 +11,7 @@
     "start": "node app.js",
     "server": "npx nodemon app.js",
     "client": "npm run dev --prefix Client-side",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm i && cd Client-side && npm i && npm run build ",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix Client-side && npm run build --prefix Client-side",
     "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "keywords": [],
