@@ -9,17 +9,17 @@ import {
   NavigationControl,
   Popup,
   ScaleControl,
-  Source,
+  Source
 } from "react-map-gl";
 
+import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
+import MapCard from "./MapComponents/MapCard";
 import {
   clusterCountLayer,
   clusterLayer,
   unclusteredPointLayer,
 } from "./MapComponents/layers";
-import MapCard from "./MapComponents/MapCard";
-import Typography from "@mui/material/Typography";
-import {useTheme} from "@mui/material/styles";
 
 import Font from "../utils/FontConfiguration";
 
@@ -27,7 +27,7 @@ export default function ClusterMap({
   internship,
   c9db5c7a7d7755f4560c3f9fae9968b1,
 }) {
-  const theme=useTheme();
+  const theme = useTheme();
   const mapRef = useRef(null);
   const [popupInfo, setPopupInfo] = useState(null);
   const [pin, setPin] = useState(false);
@@ -43,14 +43,14 @@ export default function ClusterMap({
     },
     features: [...internship],
   };
-
+ 
   const onClick = (event) => {
-    const Clusterfeatures = mapRef.current.queryRenderedFeatures(event.point, {
-      layers: ["clusters"],
-    });
     setLng(mapRef.current.getCenter().lng.toFixed(4));
     setLat(mapRef.current.getCenter().lat.toFixed(4));
     setZoom(mapRef.current.getZoom().toFixed(2));
+    const Clusterfeatures = mapRef.current.queryRenderedFeatures(event.point, {
+      layers: ["clusters"],
+    });
     const Clusterfeature = Clusterfeatures[0];
     if (Clusterfeature) {
       const clusterId = Clusterfeature.properties.cluster_id;
@@ -67,12 +67,10 @@ export default function ClusterMap({
       //     console.log(leafFeatures)
       //     }
       //   );
-      setPopupInfo(null);
       mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
         if (err) {
           return;
         }
-
         mapRef.current.easeTo({
           center: Clusterfeature.geometry.coordinates,
           zoom,
@@ -85,7 +83,9 @@ export default function ClusterMap({
       event.point,
       { layers: ["unclustered-point"] }
     );
-    if (UnClusterfeatures.length > 0) {
+    console.log(UnClusterfeatures);
+    if (UnClusterfeatures.length >= 0) {
+      mapRef.current.getCanvas().style.cursor = "pointer";
       const feature2 = UnClusterfeatures[0];
       const { popUpMarkup } = feature2.properties;
       const JSONdata = JSON.parse(popUpMarkup);
@@ -105,6 +105,7 @@ export default function ClusterMap({
         id: JSONdata._id,
       });
     }
+    console.log(popupInfo);
   };
 
   const onMouseEnter = (event) => {
@@ -119,6 +120,7 @@ export default function ClusterMap({
       { layers: ["unclustered-point"] }
     );
     if (UnClusterfeatures) {
+      mapRef.current.getCanvas().style.cursor = "pointer";
     }
   };
 
@@ -154,8 +156,8 @@ export default function ClusterMap({
           position: "static",
           top: 0,
           left: 0,
-          border:"3px solid",
-          borderColor:theme.palette.secondary.main,
+          border: "3px solid",
+          borderColor: theme.palette.secondary.main,
           borderRadius: "4px",
         }}
       >
@@ -163,7 +165,7 @@ export default function ClusterMap({
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </Typography>
       </div>
-      <div id="map" style={{ width: "90vw", height: "70vh"}}>
+      <div id="map" style={{ width: "90vw", height: "70vh" }}>
         <Map
           initialViewState={{
             latitude: 39.8283,
@@ -178,9 +180,29 @@ export default function ClusterMap({
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           // onLoad={onLoad}
-  
+
           ref={mapRef}
         >
+          {popupInfo != null && (
+            <Popup
+              anchor="top"
+              // closeOnClick={false}
+              key= {popupInfo.longitude + popupInfo.latitude}
+              longitude={Number(popupInfo.longitude)}
+              latitude={Number(popupInfo.latitude)}
+              onClose={() => setPopupInfo(null)}
+            >
+              <MapCard
+                title={popupInfo.title}
+                company={popupInfo.company}
+                salary={popupInfo.salary}
+                urlImage={popupInfo.urlImage}
+                width={100}
+                height={80}
+                id={popupInfo.id}
+              />
+            </Popup>
+          )}
           <GeolocateControl position="top-left" />
           <FullscreenControl position="top-left" />
           <NavigationControl position="top-left" />
@@ -198,25 +220,6 @@ export default function ClusterMap({
             <Layer {...clusterCountLayer} />
             <Layer {...unclusteredPointLayer} />
           </Source>
-
-          {popupInfo && (
-            <Popup
-              anchor="top"
-              longitude={Number(popupInfo.longitude)}
-              latitude={Number(popupInfo.latitude)}
-              onClose={() => setPopupInfo(null)}
-            >
-              <MapCard
-                title={popupInfo.title}
-                company={popupInfo.company}
-                salary={popupInfo.salary}
-                urlImage={popupInfo.urlImage}
-                width={100}
-                height={80}
-                id={popupInfo.id}
-              />
-            </Popup>
-          )}
         </Map>
       </div>
     </Stack>

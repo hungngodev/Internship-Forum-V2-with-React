@@ -33,8 +33,8 @@ const Landing = () => {
             resetOnLeave
           >
             <MouseParallaxChild
-              factorX={1.5}
-              factorY={1.5}
+              factorX={0.7}
+              factorY={0.7}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -50,8 +50,8 @@ const Landing = () => {
               </Typography>
             </MouseParallaxChild>
             <MouseParallaxChild
-              factorX={0.7}
-              factorY={0.5}
+              factorX={0.3}
+              factorY={0.2}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -66,8 +66,8 @@ const Landing = () => {
               </Typography>
             </MouseParallaxChild>
             <MouseParallaxChild
-              factorX={0.9}
-              factorY={0.5}
+              factorX={0.3}
+              factorY={0.2}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -83,8 +83,8 @@ const Landing = () => {
               </Typography>
             </MouseParallaxChild>
             <MouseParallaxChild
-              factorX={0.7}
-              factorY={0.5}
+              factorX={0.3}
+              factorY={0.2}
               style={{
                 display: "flex",
                 alignItems: "center",
