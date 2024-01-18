@@ -72,7 +72,7 @@ const InternshipCard = ({
           <Image
             src={imageDisplay}
             alt={title}
-            height="30rem"
+            height="24rem"
             width="auto"
             sx={{ borderRadius: `${"28px"} 0 0 ${"28px"}` }}
           />
@@ -84,7 +84,7 @@ const InternshipCard = ({
                 icon={<TitleIcon color="primary" />}
                 variant="h6"
                 type="title"
-                text={title.slice(0, 50) + "..."}
+                text={title.slice(0, 40) + "..."}
               />
             </Grid>
             <Grid item xs={12}>
