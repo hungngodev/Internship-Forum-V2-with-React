@@ -22,7 +22,6 @@ import "./NavBar.css";
 import { HorizontalMenu, MainComponent, SideBar } from "./NavBarComponents";
 import { resetBodyStyle, titleObject, Palette } from "../utils";
 import Font from "../utils/FontConfiguration";
-import { use } from "passport";
 
 const drawerWidth = 240;
 
@@ -87,9 +86,10 @@ const NavBar = ({ main }) => {
       setMode(localMode);
     }
   }, []);
+
   useEffect(() => {
     localStorage.setItem("mode", mode);
-  })
+  });
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -147,6 +147,7 @@ const NavBar = ({ main }) => {
               </Grid>
               <Grid item xs={1} sx={{ display: "flex", justifyContent: "end" }}>
                 <SwitchButton
+                  checked={mode === "dark"}
                   onChange={() => {
                     colorMode.toggleColorMode();
                   }}
