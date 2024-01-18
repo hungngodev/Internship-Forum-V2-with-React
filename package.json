@@ -7,9 +7,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd Client-side && npm run build",
+    "install-client": "cd client && npm install",
     "start": "node app.js",
     "server": "npx nodemon app.js",
     "client": "npm run dev --prefix Client-side",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm i && cd Client-side && npm i && npm run build ",
     "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "keywords": [],
