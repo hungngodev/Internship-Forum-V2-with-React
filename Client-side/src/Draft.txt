@@ -1,0 +1,8 @@
+"'self'",
+"blob:",
+"data:",
+"https://res.cloudinary.com/dj6dtuqnr/", 
+"https://images.unsplash.com/",
+"https://cdn3.vectorstock.com/",
+"https://www.shutterstock.com/",
+"https:",

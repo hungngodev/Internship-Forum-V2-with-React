@@ -22,6 +22,7 @@ import "./NavBar.css";
 import { HorizontalMenu, MainComponent, SideBar } from "./NavBarComponents";
 import { resetBodyStyle, titleObject, Palette } from "../utils";
 import Font from "../utils/FontConfiguration";
+import { use } from "passport";
 
 const drawerWidth = 240;
 
@@ -80,6 +81,15 @@ const NavBar = ({ main }) => {
   };
 
   const [mode, setMode] = React.useState("dark");
+  useEffect(() => {
+    const localMode = localStorage.getItem("mode");
+    if (localMode) {
+      setMode(localMode);
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("mode", mode);
+  })
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
