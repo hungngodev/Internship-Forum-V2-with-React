@@ -51,7 +51,7 @@ const InternshipCard = ({
 
   let salaryDisplay = salary ? salary + "/h" : "Unspecified Pay";
   let dateDisplay = day(lastModified).format("MMM Do, YYYY");
-  const borderRadius = "30px";
+  const borderRadius = "30";
   return (
     <Box
       display="flex"
@@ -60,24 +60,24 @@ const InternshipCard = ({
       sx={{
         border: "2px solid",
         borderColor: "info.main",
-        borderRadius: borderRadius,
+        borderRadius:`${borderRadius}px`,
         "&:hover": {
           border: "7px solid",
           borderColor: "info.main",
         },
+        height:"100%"
       }}
     >
       <Grid container columnSpacing={1}>
-        <Grid item md={5} lg={6}>
+        <Grid item xs={12} sm={4} md={5} lg={6}>
           <Image
             src={imageDisplay}
             alt={title}
-            height="24.5rem"
-            width="auto"
-            sx={{ borderRadius: `${"28px"} 0 0 ${"28px"}` }}
+            sx={{height:{xs:"10rem",sm:"27rem",md:"26rem",lg:"25rem"},  borderRadius: `${borderRadius-2}px`}}
+            width="100%"
           />
         </Grid>
-        <Grid item md={7} lg={6}>
+        <Grid item xs={12} sm={8} md={7} lg={6} sx={{padding: "1rem"}}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <InternshipInfo
@@ -92,7 +92,7 @@ const InternshipCard = ({
                 icon={<DescriptionIcon color="info" />}
                 variant="body2"
                 type="description"
-                text={description.slice(0, 100) + "..."}
+                text={description.slice(0, 80) + "..."}
               />
             </Grid>
             <Grid item xs={12}>

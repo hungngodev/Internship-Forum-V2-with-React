@@ -25,6 +25,7 @@ const InternshipInfo = ({ icon, text, variant, type }) => {
         color={color}
         paragraph={type == "description" ? true : false}
         fontFamily={Font.text}
+        textAlign="start"
       >
         {text}
       </Typography>
