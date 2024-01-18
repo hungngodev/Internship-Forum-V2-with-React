@@ -92,7 +92,7 @@ const ShowInternship = () => {
   let salaryDisplay = salary ? salary + "/h" : "Unspecified Pay";
   let dateDisplay = day(lastModified).format("MMM Do, YYYY");
   return (
-    <Box display="flex" alignItems="center" flexDirection="column" sx={{marginTop:"5vh"}}>
+    <Box display="flex" alignItems="center" flexDirection="column" sx={{marginTop:"5vh", padding:"30px"}}>
       <Grid container alignItems="start" justifyContent="center" spacing={1}>
         <Grid item container xs={12} md={6} rowSpacing={2}>
           <Grid item xs={12}>
