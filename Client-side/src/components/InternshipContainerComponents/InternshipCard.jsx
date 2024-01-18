@@ -72,7 +72,7 @@ const InternshipCard = ({
           <Image
             src={imageDisplay}
             alt={title}
-            height="24rem"
+            height="24.5rem"
             width="auto"
             sx={{ borderRadius: `${"28px"} 0 0 ${"28px"}` }}
           />
