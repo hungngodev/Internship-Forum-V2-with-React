@@ -15,13 +15,13 @@ Key Technologies
 
 Internship Forum integrates an array of robust technologies and tools to ensure a seamless and secure user experience:
 
-- Frontend: HTML, CSS, JavaScript
+- Frontend: React
+- UI Framework: Bootstrap, Material UI
 - Backend: Node.js, Express.js
 - Database: MongoDB
 - User Authentication: Passport.js
 - Data Visualization: Mapbox, Chart.js
 - Validation: JOI Schema
-- UI Framework: Bootstrap
 - Image Processing: Cloudinary
 - Deployment: Heroku
 
