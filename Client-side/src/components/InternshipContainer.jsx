@@ -28,7 +28,12 @@ const InternshipContainer = ({ internshipData }) => {
     setPage(value);
   };
   useEffect(() => {
-    window.scrollTo(0, 900);
+    if (page==1){
+      window.scrollTo(0, 0);
+    }
+    else{
+      window.scrollTo(0, 900);
+    }
   }, [page]);
   if (!internshipData.hasOwnProperty("internships")) {
     return <h1>No internships available</h1>;
