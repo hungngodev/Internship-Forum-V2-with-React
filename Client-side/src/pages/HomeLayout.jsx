@@ -4,7 +4,8 @@ import {
   Outlet,
   redirect,
   useNavigate,
-  useNavigation
+  useNavigation,
+  useLocation,
 } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,10 +39,12 @@ const HomeLayout = ({ queryClient }) => {
   // const [isAuthError, setIsAuthError] = useState(false);
   const datauser = useQuery(userQuery).data;
   const navigation = useNavigation();
+  const location = useLocation();
   const isPageLoading = navigation.state === "loading";
   let user = datauser? true : false;
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     user = datauser? true : false;
     queryClient.invalidateQueries(["user"]);
   }, [location]);
