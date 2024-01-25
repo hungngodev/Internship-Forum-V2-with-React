@@ -3,7 +3,7 @@ import {
   InternshipCard,
   PaginationButton,
 } from "./InternshipContainerComponents";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
@@ -27,6 +27,9 @@ const InternshipContainer = ({ internshipData }) => {
   const handleChange = (event, value) => {
     setPage(value);
   };
+  useEffect(() => {
+    window.scrollTo(0, 900);
+  }, [page]);
   if (!internshipData.hasOwnProperty("internships")) {
     return <h1>No internships available</h1>;
   } else {
@@ -46,7 +49,7 @@ const InternshipContainer = ({ internshipData }) => {
         justifyContent="center"
         rowSpacing={2}
         container
-        sx={{padding:"40px"}}
+        sx={{ padding: "40px" }}
       >
         <Grid item xs={12}>
           <Typography variant="h4" color="info.main" fontFamily={Font.text}>
@@ -60,7 +63,13 @@ const InternshipContainer = ({ internshipData }) => {
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
             {internships.slice(prev, next).map((internship) => (
-              <Grid key={internship._id} item md={6} xxl={4} sx={{marginTop:"10vh"}}>
+              <Grid
+                key={internship._id}
+                item
+                md={6}
+                xxl={4}
+                sx={{ marginTop: "10vh" }}
+              >
                 <NavLink
                   to={`/internships/${internship._id}`}
                   style={{
@@ -69,7 +78,11 @@ const InternshipContainer = ({ internshipData }) => {
                     textDecoration: "none",
                   }}
                 >
-                  <ScrollParallax shouldPause enableOnTouchDevice strength={0.14}>
+                  <ScrollParallax
+                    shouldPause
+                    enableOnTouchDevice
+                    strength={0.14}
+                  >
                     <MouseParallaxContainer className="parallax" resetOnLeave>
                       <MouseParallaxChild factorX={0.03} factorY={0.03}>
                         <InternshipCard
@@ -94,7 +107,7 @@ const InternshipContainer = ({ internshipData }) => {
             ))}
           </Grid>
         </Grid>
-        <Grid item xs={12} sx={{marginTop:"2vh"}}>
+        <Grid item xs={12} sx={{ marginTop: "2vh" }}>
           {count > 1 && (
             <Stack spacing={2} sx={{ zIndex: 10 }}>
               <Pagination
