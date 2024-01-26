@@ -24,7 +24,7 @@ let extension = (joi) => ({
 
 let Joi = BaseJoi.extend(extension)
 let searchSchema = Joi.object({
-    search: Joi.string().max(100).escapeHTML().allow(""),
+    search: Joi.string().max(200).escapeHTML().allow(""),
     sort: Joi.string().max(15).escapeHTML().allow(""),
     option: Joi.string().max(15).escapeHTML().allow(""),
     order: Joi.string().max(15).escapeHTML().allow(""),
@@ -37,7 +37,7 @@ let internshipSchema = Joi.object({
     location: Joi.string().max(35).required().escapeHTML(),
     company: Joi.string().max(35).required().escapeHTML(),
     link: Joi.string().max(200).required(),
-    description: Joi.string().max(300).required().escapeHTML(),
+    description: Joi.string().max(500).required().escapeHTML(),
     state: Joi.string().required().max(30).escapeHTML(),
     image: Joi.any(),
     deleteImages: Joi.array(),
@@ -65,7 +65,7 @@ let RegisterSchema = Joi.object({
     username: Joi.string()
         .alphanum()
         .min(3)
-        .max(20)
+        .max(30)
         .required().escapeHTML(),
     email: Joi.string().max(30).email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu',] } }).required().escapeHTML(),
     password: Joi.string().min(3).max(20).required().pattern(new RegExp('^[a-zA-Z0-9]{0,30}$')).message({
@@ -87,8 +87,8 @@ let SettingSchema = Joi.object({
     }).allow("").escapeHTML(),
     email: Joi.string().max(30).email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu'] } }).required().escapeHTML(),
 
-    description: Joi.string().max(300).escapeHTML().allow(''),
-    location: Joi.string().max(30).escapeHTML().allow(''),
+    description: Joi.string().max(500).escapeHTML().allow(''),
+    location: Joi.string().max(50).escapeHTML().allow(''),
     phoneNumber: Joi.string().max(15).escapeHTML().allow(''),
     proNoun: Joi.string().max(15).escapeHTML().allow(''),
     generate: Joi.any(),
