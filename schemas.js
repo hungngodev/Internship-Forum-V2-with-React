@@ -31,13 +31,13 @@ let searchSchema = Joi.object({
     id: Joi.any().allow("").allow(null),
 })
 let internshipSchema = Joi.object({
-    title: Joi.string().required().max(120).escapeHTML(),
-    salary: Joi.number().required().min(0).max(150),
+    title: Joi.string().required().max(200).escapeHTML(),
+    salary: Joi.number().required().min(0).max(180),
     area: Joi.string().required().max(35).escapeHTML(),
     location: Joi.string().max(35).required().escapeHTML(),
     company: Joi.string().max(35).required().escapeHTML(),
-    link: Joi.string().max(200).required(),
-    description: Joi.string().max(500).required().escapeHTML(),
+    link: Joi.string().max(500).required(),
+    description: Joi.string().max(1000).required().escapeHTML(),
     state: Joi.string().required().max(30).escapeHTML(),
     image: Joi.any(),
     deleteImages: Joi.array(),
@@ -87,7 +87,7 @@ let SettingSchema = Joi.object({
     }).allow("").escapeHTML(),
     email: Joi.string().max(30).email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu'] } }).required().escapeHTML(),
 
-    description: Joi.string().max(500).escapeHTML().allow(''),
+    description: Joi.string().max(2000).escapeHTML().allow(''),
     location: Joi.string().max(50).escapeHTML().allow(''),
     phoneNumber: Joi.string().max(15).escapeHTML().allow(''),
     proNoun: Joi.string().max(15).escapeHTML().allow(''),
