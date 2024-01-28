@@ -1,6 +1,7 @@
 const a = (path) => {
   path = path.includes("profile")? '/profile': path;
   path = path.includes("edit")? '/edit': path;
+  path = path.includes("/new")? '/new': path;
   path = path.includes("internships/")? '/internships/': path;
 
   const pageTitles={
@@ -11,7 +12,7 @@ const a = (path) => {
     "/setting": "Configuration Center",
     "/statistics": "Data Analysis Chamber" ,
     "/internships": "Primary Portal",
-    "/internships/new": "Publishing Studio",
+    "/new": "Publishing Studio",
     "/internships/": "Post Showcase",
     "/edit": "Editing Workshop",
   }
