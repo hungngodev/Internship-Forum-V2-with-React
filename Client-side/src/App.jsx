@@ -68,7 +68,7 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register queryClient={queryClient}/>,
+        element: <Register queryClient={queryClient} />,
         action: registerAction(queryClient),
         loader: registerLoader(queryClient),
       },
@@ -161,7 +161,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 };

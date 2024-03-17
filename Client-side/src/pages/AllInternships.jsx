@@ -42,22 +42,28 @@ export const loader =
     const params = Object.fromEntries([
       ...new URL(request.url).searchParams.entries(),
     ]);
-    const {data}= await customFetch.get("/e0dca1652c5245168699e24a57e3a8d8");
-    const {b3c44b59965a12148f4e3a12757d4e2bc}=data;
+    const { data } = await customFetch.get("/e0dca1652c5245168699e24a57e3a8d8");
+    const { b3c44b59965a12148f4e3a12757d4e2bc } = data;
     const defaultParams = {
       search: params.search ? params.search : "",
       sort: params.sort ? params.sort : "lastModified",
       option: params.option ? params.option : true,
       order: params.order ? params.order : "desc",
     };
-    await queryClient.ensureQueryData(allInternshipsQuery());
-    return { searchValues: { ...defaultParams }, c534293dc4f4fa6054da377839afcf408: b3c44b59965a12148f4e3a12757d4e2bc };
+    const internshipData = await queryClient.ensureQueryData(
+      allInternshipsQuery(defaultParams)
+    );
+    return {
+      searchValues: { ...defaultParams },
+      c534293dc4f4fa6054da377839afcf408: b3c44b59965a12148f4e3a12757d4e2bc,
+      internshipData: internshipData,
+    };
   };
 
 const AllInternshipsContext = createContext();
 const AllInternships = () => {
-  const  data = useLoaderData();
-  const {searchValues}=data;
+  const data = useLoaderData();
+  const { searchValues } = data;
   let internshipData = useQuery(allInternshipsQuery(searchValues)).data;
   return (
     <AllInternshipsContext.Provider value={{ internshipData, searchValues }}>
@@ -67,13 +73,15 @@ const AllInternships = () => {
         alignItems="center"
         flexDirection="column"
         rowSpacing={4}
-        sx={{marginTop:"5vh"}}
+        sx={{ marginTop: "5vh" }}
       >
         <Grid item xs={12} display="flex" justifyContent="center">
-            <ClusterMap
-              internship={internshipData ? internshipData.internships : []}
-              c9db5c7a7d7755f4560c3f9fae9968b1={data.c534293dc4f4fa6054da377839afcf408}
-            />
+          <ClusterMap
+            internship={internshipData ? internshipData.internships : []}
+            c9db5c7a7d7755f4560c3f9fae9968b1={
+              data.c534293dc4f4fa6054da377839afcf408
+            }
+          />
         </Grid>
         <Grid item xs={12} display="flex" justifyContent="center">
           <Typography
@@ -85,7 +93,7 @@ const AllInternships = () => {
             All Internships of this Forum
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={{maxWidth: "30rem"}}>
+        <Grid item xs={12} sx={{ maxWidth: "30rem" }}>
           <SearchBox searchValues={searchValues} />
         </Grid>
         <Grid

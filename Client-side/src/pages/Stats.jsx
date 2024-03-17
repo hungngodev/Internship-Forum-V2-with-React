@@ -15,7 +15,7 @@ import {
   Radar,
 } from "../components/ChartComponents";
 
-const statisticQuery = (params) => {
+const statisticQuery = () => {
   return {
     queryKey: ["AllInternship"],
     queryFn: async () => {
@@ -36,18 +36,26 @@ export default function Stats() {
   const data = useQuery(statisticQuery()).data;
   const theme = useTheme();
   const [value, setValue] = useState("1");
-  const titleSize= 1.1;
-  const tickSize= 0.4;
-  const labelSize= 0.7;
+  const titleSize = 1.1;
+  const tickSize = 0.4;
+  const labelSize = 0.7;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-   
+
   return (
-    <Stack direction="column" alignItems="center" sx={{padding:"20px"}}>
+    <Stack direction="column" alignItems="center" sx={{ padding: "20px" }}>
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider", width:"100vw", display:"flex", justifyContent:"center" }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            width: "100vw",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Radar" value="1" />
             <Tab label="Bar" value="2" />
@@ -55,17 +63,49 @@ export default function Stats() {
             <Tab label="Doughnut" value="4" />
           </TabList>
         </Box>
-        <TabPanel sx={{width:"70%"}} value="1">
-          <Radar data={data.radar} theme={theme}   tickSize={tickSize} titleSize={titleSize} labelSize={labelSize}/>
+        <TabPanel sx={{ width: "70%" }} value="1">
+          <Radar
+            data={data.radar}
+            theme={theme}
+            tickSize={tickSize}
+            titleSize={titleSize}
+            labelSize={labelSize}
+          />
         </TabPanel>
-        <TabPanel sx={{width:"100vw", height: "100vh"}} value="2">
-          <Bar data={data.bar} theme={theme}   tickSize={tickSize} titleSize={titleSize} labelSize={labelSize}/>
+        <TabPanel sx={{ width: "100vw", height: "100vh" }} value="2">
+          <Bar
+            data={data.bar}
+            theme={theme}
+            tickSize={tickSize}
+            titleSize={titleSize}
+            labelSize={labelSize}
+          />
         </TabPanel>
-        <TabPanel sx={{width:"100vw", height:"100vh"}} value="3">
-          <LineStacked data={data.line} theme={theme}  tickSize={tickSize} titleSize={titleSize} labelSize={labelSize} />
+        <TabPanel sx={{ width: "100vw", height: "100vh" }} value="3">
+          <LineStacked
+            data={data.line}
+            theme={theme}
+            tickSize={tickSize}
+            titleSize={titleSize}
+            labelSize={labelSize}
+          />
         </TabPanel>
-        <TabPanel sx={{width:"100vw", height:"100vh",display:"flex", justifyContent:"center"}}  value="4">
-          <Doughnut data={data.doughnut} theme={theme}  tickSize={tickSize} titleSize={titleSize} labelSize={labelSize} />{" "}
+        <TabPanel
+          sx={{
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          value="4"
+        >
+          <Doughnut
+            data={data.doughnut}
+            theme={theme}
+            tickSize={tickSize}
+            titleSize={titleSize}
+            labelSize={labelSize}
+          />{" "}
         </TabPanel>
       </TabContext>
     </Stack>
